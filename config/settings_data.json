@@ -1,0 +1,11 @@
+{
+  "current": {
+    "checkout_heading_font": "Lato",
+    "checkout_body_font": "Roboto",
+    "checkout_button_color": "#b91818",
+    "content_for_index": []
+  },
+  "presets": {
+    "Default": {}
+  }
+}

@@ -1,0 +1,132 @@
+{{ "style-footer.css" | asset_url | stylesheet_tag }}
+
+<div class="footer">
+  <div class="footer__wrapper container">
+    <div class="footer__left">
+        <div class="footer__left-wrapper">
+            <h5 class="footer__heading">
+                {{section.settings.footer__heading_one}}
+            </h5>
+            {% form 'contact' %}
+                {{ form.errors | default_errors }}
+                <div class="footer__inputs">
+                    <input type="email" name="contact[email]" id="email" placeholder="Enter your email" class="footer__input">
+                    <button class="footer__arrow" type="submit">
+                        {% render 'arrow_right' %}
+                    </button>
+                </div>
+            {% endform %}
+            <div class="footer__links">
+                <a href="{{section.settings.facebook}}" class="footer__link">
+                    {% render 'facebook'%}
+                </a>
+                <a href="{{section.settings.instagram}}" class="footer__link">
+                    {% render 'instagram'%}
+                </a>
+                <a href="{{section.settings.mail}}" class="footer__link">
+                    {% render 'mail'%}
+                </a>
+            </div>
+        </div>
+            <img {% if section.settings.logo__big != blank %} src="{{section.settings.logo__big | image_url}}" {% else %}
+                src="{{"image-logo_big.png" | asset_url}}" {% endif %} class="footor__logo">
+    </div>
+    <div class="footer__center">
+        <h5 class="footer__heading">
+            {{section.settings.footer__heading_two}}
+        </h5>
+        {% for link in linklists.footer.links %} 
+        <div class="footer__navigation-first">
+        {% assign child_list_handle =link.title | handleize %} 
+         {% if linklists[child_list_handle].links != blank %}
+         <a class="footer-nav" href="{{ link.url }}">{{ link.title }}</a>
+       [{% for childlink in linklists[child_list_handle].links %}
+       <a class="header__center-nav" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+       {% endfor %}] 
+       {% else %}
+         <a class="footer-nav" href="{{ link.url }}">{{ link.title }}</a>
+       {% endif %}
+         </div>
+        {% endfor %}
+    </div>
+    <div class="footer__right">
+        <h5 class="footer__heading">
+            {{section.settings.footer__heading_three}}
+        </h5>
+        {% for link in linklists.footer-menu-two.links %} 
+        <div class="footer__navigation-second">
+        {% assign child_list_handle =link.title | handleize %} 
+         {% if linklists[child_list_handle].links != blank %}
+         <a class="footer-nav" href="{{ link.url }}">{{ link.title }}</a>
+       [{% for childlink in linklists[child_list_handle].links %}
+       <a class="footer-nav" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+       {% endfor %}] 
+       {% else %}
+       <a class="footer-nav" href="{{ link.url }}">{{ link.title }}</a>
+       {% endif %} 
+        </div>
+       {% endfor %}
+    </div>
+</div>
+  <p class="footer__bottom">
+      {{section.settings.footer__bottom}}
+  </p>
+</div>
+
+{% schema %} 
+  { "name": "Footer", 
+  "settings": 
+  [
+    {
+       "type": "image_picker",
+        "label": "Footer logo",
+        "id": "logo__big"
+    },
+    {
+        "type": "text",
+        "id": "footer__heading_one",
+        "label": "Footer Heading One",
+        "default": "Newsletter"
+    },
+    {
+        "type": "url",
+        "id": "facebook",
+        "label": "Facebook link"
+    },
+    {
+        "type": "url",
+        "id": "instagram",
+        "label": "Instagram link"
+    },
+    {
+        "type": "url",
+        "id": "mail",
+        "label": "Mail link"
+    },
+    {
+        "type": "text",
+        "id": "footer__heading_two",
+        "label": "Footer Heading Two",
+        "default": "Again Faster"
+    },
+    {
+        "type": "text",
+        "id": "footer__heading_three",
+        "label": "Footer Heading Three",
+        "default": "Get Help"
+    },
+    {
+        "type": "text",
+        "id": "footer__input",
+        "label": "Footer Input",
+        "default": "Enter your email"
+    },
+    {
+        "type": "text",
+        "id": "footer__bottom",
+        "label": "Footer text",
+        "default": "©2020 Again Faster. All Rights Reserved"
+    }
+  ] 
+}
+ {% endschema %}

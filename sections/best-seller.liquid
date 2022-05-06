@@ -1,0 +1,73 @@
+{{ "style-best-seller.css" | asset_url | stylesheet_tag }}
+
+<div class="best-seller__wrapper container">
+    <div class="best-seller__left">
+        <img {% if section.settings["best-seller__image-1"] != blank %} src="{{ section.settings["best-seller__image-1"] | image_url }}" {% else %} 
+        src="{{ 'image-men_1.jpg' | asset_url }}" {% endif %} alt="" class="best-seller__left-img">
+    </div>
+    <div class="best-seller__right">
+        <img {% if section.settings["best-seller__image-2"] != blank %} src="{{ section.settings["best-seller__image-2"] | image_url }}" {% else %} 
+        src="{{ 'image-men_2.jpg' | asset_url }}" {% endif %} alt="" class="best-seller__right-img">
+        <p class="best-seller__subheading">
+            {{section.settings["best-seller__subheading"]}}
+        </p>
+        <h3 class="best-seller__heading">
+            {{section.settings['best-seller__heading']}}
+        </h3>
+        <p class="best-seller__text">
+            {{section.settings['best-seller__text']}}
+        </p>
+        <a href="{{section.settings.galery__button_url}}" class="best-seller__button">
+            {{section.settings['best-seller__button']}}
+        </a>
+    </div>
+</div>
+
+{% schema %} 
+    { "name": "best-seller",
+     "class": "best-seller",
+     "settings": 
+    [ 
+        { 
+            "id":"best-seller__image-1",
+            "type":"image_picker",
+            "label":"Select an image" 
+        },
+        { 
+            "id":"best-seller__image-2",
+            "type":"image_picker",
+            "label":"Select an image" 
+        },
+        {
+            "type": "text",
+            "id": "best-seller__subheading",
+            "label": "best-seller subheading",
+            "default": "Best seller"
+        },
+        {
+            "type": "text",
+            "id": "best-seller__heading",
+            "label": "best-seller heading",
+            "default": "TRULY, AN ALL IN ONE BARBELL"
+        },
+        {
+            "type": "text",
+            "id": "best-seller__text",
+            "label": "best-seller desctiption",
+            "default": "Design that matches the performance and quality of other elite level competition bars"
+        },
+        {
+            "type": "text",
+            "id": "best-seller__button",
+            "label": "best-seller button name",
+            "default": "Shop weights"
+        },
+        {
+            "type": "url",
+            "id": "best-seller__button_url",
+            "label": "best-seller button url"
+        }
+
+    ] 
+    }
+ {% endschema %}

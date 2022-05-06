@@ -1,0 +1,11 @@
+.announcement-bar{
+    height: 4rem;
+    text-align: center;
+    padding: 1rem 0;
+    background: #FBFBFB;
+}
+.announcement-bar__link{
+    font-family: 'Oswald', sans-serif;
+    color: black;
+    text-decoration: none;
+}

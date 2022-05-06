@@ -1,0 +1,79 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "hero_background": "#000",
+        "hero__heading": "Team barbell",
+        "hero__text": "Team Barbell was to design a piece of equipment that matches the performance and quality of other elite level competition bars.",
+        "hero__button_text": "Explore",
+        "hero__button_url": ""
+      }
+    },
+    "products": {
+      "type": "homepage-products",
+      "blocks": {
+        "ff377b99-e379-4e10-8948-992ea44c0665": {
+          "type": "collection",
+          "settings": {
+            "collection": "frontpage"
+          }
+        },
+        "3b2e0da5-09c5-4a34-9834-e1c710cf2ac0": {
+          "type": "collection",
+          "settings": {
+            "collection": "squat-racks"
+          }
+        },
+        "38b8e92a-7b88-492a-aa2d-da85b7ff6812": {
+          "type": "collection",
+          "settings": {
+            "collection": "garage-package"
+          }
+        },
+        "d185e418-dc41-42c8-a4e9-c0052376d8c3": {
+          "type": "collection",
+          "settings": {
+            "collection": "affiliate-outfitting"
+          }
+        },
+        "2f42cce7-2fde-4f1f-a1df-bf131f6c8c3d": {
+          "type": "collection",
+          "settings": {
+            "collection": "gdc"
+          }
+        },
+        "165e6b67-9caa-4d2a-8296-58a527960f3e": {
+          "type": "collection",
+          "settings": {
+            "collection": "weights"
+          }
+        }
+      },
+      "block_order": [
+        "ff377b99-e379-4e10-8948-992ea44c0665",
+        "3b2e0da5-09c5-4a34-9834-e1c710cf2ac0",
+        "38b8e92a-7b88-492a-aa2d-da85b7ff6812",
+        "d185e418-dc41-42c8-a4e9-c0052376d8c3",
+        "2f42cce7-2fde-4f1f-a1df-bf131f6c8c3d",
+        "165e6b67-9caa-4d2a-8296-58a527960f3e"
+      ],
+      "settings": {}
+    },
+    "best-seller": {
+      "type": "best-seller",
+      "settings": {
+        "best-seller__subheading": "Best seller",
+        "best-seller__heading": "TRULY, AN ALL IN ONE BARBELL",
+        "best-seller__text": "Design that matches the performance and quality of other elite level competition bars",
+        "best-seller__button": "Shop weights",
+        "best-seller__button_url": ""
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "products",
+    "best-seller"
+  ]
+}

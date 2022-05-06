@@ -1,0 +1,64 @@
+{{ "style-hero.css" | asset_url | stylesheet_tag }}
+
+<div class="hero__wrapper container">
+    <h1 class="hero__heading">
+        {{section.settings.hero__heading}}
+    </h1>
+    <p class="hero__text">
+        {{section.settings.hero__text}}
+    </p>
+    <a href="{{section.settings.hero__button_url}}" class="hero__button">
+        {{section.settings.hero__button_text}}
+        {% render 'arrow_right' %}
+    </a>
+</div>
+
+{% schema %} 
+    { "name": "Hero",
+     "class": "hero",
+     "settings": 
+    [ 
+        { 
+            "id":"hero_bg",
+            "type":"image_picker",
+            "label":"Your Image" 
+        },
+        {
+            "type": "color_background",
+            "id": "hero_background",
+            "label": "Background color ",
+            "default": "#000"
+        },
+        {
+            "type": "text",
+            "id": "hero__heading",
+            "label": "Hero heading",
+            "default": "Team barbell"
+        },
+        {
+            "type": "text",
+            "id": "hero__text",
+            "label": "Hero text",
+            "default": "Team Barbell was to design a piece of equipment that matches the performance and quality of other elite level competition bars."
+        },
+        {
+            "type": "text",
+            "id": "hero__button_text",
+            "label": "Hero button name",
+            "default": "Explore"
+        },
+        {
+            "type": "url",
+            "id": "hero__button_url",
+            "label": "Hero button url"
+        }
+    ],
+    "presets":[
+    {
+      "name": "Hero",
+      "settings": {
+      }
+    }
+    ]
+    }
+ {% endschema %}

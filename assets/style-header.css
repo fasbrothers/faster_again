@@ -1,0 +1,45 @@
+.templete-index .header{
+    height: 5.2rem;
+    width: 100%;
+    position: absolute;
+    top: 6rem;
+    left: 0;
+    padding-bottom:3.9rem;
+}
+.header{
+    margin-bottom: 5rem;
+    margin-top: 1.7rem;
+}
+.header__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1440px;
+    margin: auto !important;
+    padding-left: 3.9rem;
+    padding-right: 4.2rem;
+}
+.header__center{
+    display: flex;
+}
+.header__center-nav{
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.175em;
+    font-size: 1.2rem;
+    margin-right: 4rem;
+}
+.header__center-black{
+    color: black;
+}
+.header__right-icon{
+    margin-left: 2rem;
+    text-decoration: none;
+}
+.header__left-logo-black svg *{
+    fill: black;
+}
+.header__right-black svg *{
+    stroke: black;
+}
