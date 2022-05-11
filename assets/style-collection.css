@@ -1,0 +1,132 @@
+.products__title {
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 2.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 2.4rem;
+}
+.products__list {
+  padding: 0 4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.goods {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1.6rem;
+  margin-bottom: 3.4rem;
+  height: 64.4rem;
+  width: 44.3rem;
+}
+.goods:last-child {
+  margin-right: 0;
+  margin-bottom: 0;
+}
+.goods__image img{
+  width: 100%;
+}
+.goods__tags {
+  display: flex;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+.goods__tag {
+  margin-right: 0.8rem;
+  height: 2.8rem;
+  width: 9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+.goods__best-seller {
+  background: #000;
+  color: white;
+}
+.goods__free-shipping {
+  color: #000;
+  background-color: white;
+}
+.goods__pre-order {
+  border: 1px solid #c4c4c4;
+}
+.goods__sale {
+  text-transform: uppercase;
+  background: #9e0404;
+  color: white;
+}
+.goods__title {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-family: "Oswald", sans-serif;
+  margin-bottom: 0.8rem;
+  color: #000;
+  text-decoration: none;
+}
+.goods__price {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #353535;
+  font-family: "Oswald", sans-serif;
+  margin-top: 0.8rem;
+}
+.goods__sold-out{
+  padding: 0.4rem 1.6rem;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 45%;
+  left: 47%;
+  width: 60%;
+  transform: translate(-45%, -47%);
+}
+.goods__opacity{
+  opacity: 0.5;
+}
+.products__navigation{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.products__item{
+  list-style: none;
+  display: flex;
+  margin-bottom: 4rem;
+  align-items: center;
+}
+.products__item::after{
+  content: "/";
+  display: flex;
+  position: relative;
+  padding: 0 0.6rem;
+  opacity: 0.5;
+}
+.products__nav{
+  color: black;
+  opacity: 0.5;
+  text-decoration: none;
+  letter-spacing: 0.175em;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+.products__nav--active{
+  opacity: 1;
+}
+.products__item:last-child::after{
+  content: "";
+}
+.goods__price--line{
+  text-decoration: line-through;
+}
+.goods__price--cross{
+  text-decoration: line-through;
+  opacity: 0.5;
+}

@@ -1,0 +1,74 @@
+{{ "style-collection.css" | asset_url | stylesheet_tag }}
+
+{% assign param = collection.handle %}
+
+<div class="products container">
+    {% paginate collection.products by 20 %}
+    <h1 class="products__title">{{ collection.title }}</h1>
+    <div class="products__navigation">
+      {% for collection in collections %}
+      {% if collection.handle != "metafields-collection" %}
+        <li class="products__item">
+            <a href="{{ collection.url }}" class="products__nav {% if param == collection.handle %}
+                products__nav--active
+            {% endif %}">{{ collection.title}}</a>    
+        </li>
+      {% endif %}
+      {% endfor %}
+
+    </div>
+    <div class="products__list">
+    {% for product in collection.products %}
+        <div class="goods">
+          <a class="goods__image {% unless product.available %} goods__opacity {% endunless %}" href="{{ product.url | within: collection }}">
+            <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+          </a>
+          
+          {% unless product.available %}
+          <p class="goods__sold-out">
+            Sold Out - Get notified when back in stock
+          </p>
+          {% endunless %}
+          <a class="goods__title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
+          <div class="goods__ratings">
+            {% assign rating = product.metafields.my_fields.ratings.value | split:"." %}
+            {% if rating %}
+              {% for item in (1..rating[0]) %}
+                {% render "star" %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          {% if product.price_varies and template == 'collection' %}
+          <p class="goods__price">{{ product.price_min | money }}-{{ product.price_max | money }}</p>
+          {% elsif product.compare_at_price %}
+          <p class="goods__price"> <span class="goods__price--cross">{{product.compare_at_price | money}}</span> {{product.price | money}}</p>
+          {% else %}
+          <p class="goods__price {% unless product.available %} goods__price--line {% endunless %}">{{ product.price | money }}</p>
+         {% endif %}
+          <div class="goods__tags">
+            {% for tag in product.tags %}
+              {% if tag contains 'sale' %}     
+                    <span class="goods__sale  goods__tag">Sale</span>    
+              {% endif %}
+              {% if tag contains 'free shipping' %}     
+                    <span class="goods__free-shipping goods__tag">free shipping</span>
+              {% endif %}
+              {% if tag contains 'best seller' %}
+                      <span class="goods__best-seller goods__tag">best seller</span>
+              {% endif %}
+              {% if tag contains 'pre-order' %}
+                      <span class="goods__pre-order goods__tag">pre-order</span>
+              {% endif %}
+            {% endfor %}  
+          </div>
+        </div>
+        {% else %}
+        <p>no matches</p>
+        {% endfor %}
+      </div>
+    {% if paginate.pages > 1 %}
+      {{ paginate | default_pagination }}
+    {% endif %}
+  {% endpaginate %}
+</div>
+
