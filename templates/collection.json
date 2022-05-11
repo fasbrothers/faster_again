@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "plp": {
+      "type": "plp",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "plp"
+  ]
+}
