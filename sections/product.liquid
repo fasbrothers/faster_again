@@ -1,0 +1,159 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+{{ "style-collection.css" | asset_url | stylesheet_tag }}
+{{ "style-product.css" | asset_url | stylesheet_tag }}
+
+<div class="product container">
+  <div class="product__left">
+      <div class="swiper pdpSwiper">
+        <div class="swiper-wrapper">
+          {% for image in product.images %}
+          <div class="swiper-slide">
+            <img
+              src="{{ image.src | img_url: 'large' }}"
+              alt="{{ image.alt | escape }}"
+            />
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+  </div>
+  <div class="product__right">
+    <div class="product__right-wrapper">
+      <h2 class="product__title">{{ product.title }}</h2>
+      <p class="product__price">{{ current_variant.price | money }}</p>
+      <div class="product__ratings">
+        {% assign rating = product.metafields.my_fields.ratings.value |
+        split:"." %} {% if rating %} {% for item in (1..rating[0]) %} {% render
+        "star" %} {% endfor %} {% endif %} {% assign review =
+        product.metafields.accentuate.review %} {% if review %}
+        <p class="product__review">{{ review }} reviews</p>
+        {% endif %}
+      </div>
+      <p class="product__description">{{ product.description }}</p>
+      <form
+        action="/cart/add"
+        method="post"
+        enctype="multipart/form-data"
+        id="AddToCartForm"
+      >
+        {% for variant in product.variants %} {% if variant.available %}
+        <p>{{ variant.title }} - {{ variant.price | money_with_currency }}</p>
+        {% else %}
+        <p>{{ variant.title }} - sold out</p>
+        {% endif %} {% endfor %}
+        <button class="product__button" type="submit" name="add" id="AddToCart">
+          Add to cart
+        </button>
+    </form>
+    {% assign frequently = product.metafields.accentuate.frequent | split: "|" %} 
+    <h2 class="product-frequent__title">{{section.settings.product-freq__title}}</h2>
+      <div class="product__frequents">
+          {% for productItem in frequently %}
+          <div class="product__frequent">
+            <div class="product__frequent-left">
+              <img
+                class="product__frequent-image"
+                src="{{ all_products[productItem].images[0].src | img_url }}"
+                alt="{{ all_products[productItem].image.alt | escape }}"
+              />
+            </div>
+            <div class="product__frequent-right">
+              <p class="product__frequent-heading">
+                {{ all_products[productItem].title }}
+              </p>
+              <a class="product__frequent-link" href="{{all_products[productItem].url}}">Add to cart</a>
+            </div>
+          </div>
+          {% endfor %}
+      </div>     
+    </div>
+  </div>
+</div>
+<div class="goods__recommendation container">
+  <p class="goods__recommendation-title">{{section.settings["goods__recommendation-title"]}}</p>
+  <div class="goods__recommendation-list">
+    {% for block in section.blocks %}
+    <div class="goods">
+      <a class="goods__image {% unless block.settings.product.available %} goods__opacity {% endunless %}" href="{{ block.settings.product.url | within: collection }}">
+        <img src="{{ block.settings.product.featured_image.src | image_url }}"  alt="{{ block.settings.product.alt | escape }}">
+      </a>
+      {% unless block.settings.product.available %}
+      <p class="goods__sold-out">
+        Sold Out - Get notified when back in stock
+      </p>
+      {% endunless %}
+      <a class="goods__title" href="{{ product.url | within: collection }}">{{ block.settings.product.title }}</a>
+      <div class="goods__ratings">
+        {% assign rating = block.settings.product.metafields.my_fields.ratings.value | split:"." %}
+        {% if rating %}
+          {% for item in (1..rating[0]) %}
+            {% render "star" %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      {% if product.price_varies and template == 'collection' %}
+      <p class="goods__price">{{ block.settings.product.price_min | money }}-{{ block.settings.product.price_max | money }}</p>
+      {% elsif product.compare_at_price %}
+      <p class="goods__price"> <span class="goods__price--cross">{{block.settings.product.compare_at_price | money}}</span> {{block.settings.product.price | money}}</p>
+      {% else %}
+      <p class="goods__price {% unless block.settings.product.available %} goods__price--line {% endunless %}">{{ block.settings.product.price | money }}</p>
+     {% endif %}
+      <div class="goods__tags">
+        {% for tag in block.settings.product.tags %}
+          {% if tag contains 'sale' %}     
+                <span class="goods__sale  goods__tag">Sale</span>    
+          {% endif %}
+          {% if tag contains 'free shipping' %}     
+                <span class="goods__free-shipping goods__tag">free shipping</span>
+          {% endif %}
+          {% if tag contains 'best seller' %}
+                  <span class="goods__best-seller goods__tag">best seller</span>
+          {% endif %}
+          {% if tag contains 'pre-order' %}
+                  <span class="goods__pre-order goods__tag">pre-order</span>
+          {% endif %}
+        {% endfor %}
+  
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{{ "script-pdp.js" | asset_url | script_tag }}
+
+{% schema %}
+{
+   "name": "product",
+   "max_blocks": 4,
+  "settings": [
+  {
+      "type": "text",
+      "id": "product-freq__title",
+      "label": "Title",
+      "default": "Frequently bought with"
+  },
+  {
+    "type": "text",
+    "id": "goods__recommendation-title",
+    "label": " Recommendation title",
+    "default": "You might also like"
+}    
+  ],
+  "blocks": [
+  {
+    "name": "Product",
+    "type": "product",
+    "settings": [
+      {
+        "type": "product",
+        "id": "product",
+        "label": "Products"
+      }
+    ]
+  }
+]
+}
+{% endschema %}
