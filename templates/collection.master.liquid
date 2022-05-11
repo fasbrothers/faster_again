@@ -2,48 +2,9 @@
 
 <div class="master container">
   <div class="master__content">
-    <div class="master__left">
-      <p class="master__left-subheading">
-        <span class="master__left--highlight">/</span>
-        {{ collection.metafields.accentuate.eyebrow }}
-      </p>
-      <h1 class="master__left-heading">
-        {{ collection.metafields.accentuate.title }}
-      </h1>
-      <a
-        href="{{ collection.metafields.accentuate.cta_url }}"
-        class="master__left-link"
-      >
-        {{ collection.metafields.accentuate.cta_label }}
-        {% render 'arrow_right' %}
-      </a>
-    </div>
-    <div class="master__right">
-      <img
-        src="{{ collection.metafields.accentuate.image_1[0].src }}"
-        class="master__big-image"
-      />
-      <img
-        src="{{ collection.metafields.accentuate.image_2[0].src }}"
-        class="master__small-image"
-      />
-    </div>
+    {% render "collection-master-1" %}
   </div>
   <div class="master__collections">
-    {% assign collectionArray = collection.metafields.accentuate.collections_wrapper | split: "|" %} 
-    {% for collectionItem in collectionArray %}
-    <div class="master__collection">
-        <a
-          href="{{ collections[collectionItem].url }}"
-          class="master__collection-link"
-        >
-          <img class="master__collection-image" src="{{ collections[collectionItem].image | img_url: "master" }}"
-          alt="{{ collections[collectionItem].image.alt | escape }}" />
-          <p class="master__collection-title">
-            {{ collections[collectionItem].title }}
-          </p>
-        </a>
-    </div>
-    {% endfor %}
+    {% render "collection-master-2" %}
   </div>
 </div>

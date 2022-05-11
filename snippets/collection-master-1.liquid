@@ -1,0 +1,26 @@
+<div class="master__left">
+  <p class="master__left-subheading">
+    <span class="master__left--highlight">/</span>
+    {{ collection.metafields.accentuate.eyebrow }}
+  </p>
+  <h1 class="master__left-heading">
+    {{ collection.metafields.accentuate.title }}
+  </h1>
+  <a
+    href="{{ collection.metafields.accentuate.cta_url }}"
+    class="master__left-link"
+  >
+    {{ collection.metafields.accentuate.cta_label }}
+    {% render 'arrow_right' %}
+  </a>
+</div>
+<div class="master__right">
+  <img
+    src="{{ collection.metafields.accentuate.image_1[0].src }}"
+    class="master__big-image"
+  />
+  <img
+    src="{{ collection.metafields.accentuate.image_2[0].src }}"
+    class="master__small-image"
+  />
+</div>
