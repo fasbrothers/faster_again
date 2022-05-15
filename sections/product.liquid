@@ -24,10 +24,14 @@
       <h2 class="product__title">{{ product.title }}</h2>
       <p class="product__price">{{ current_variant.price | money }}</p>
       <div class="product__ratings">
-        {% assign rating = product.metafields.my_fields.ratings.value |
-        split:"." %} {% if rating %} {% for item in (1..rating[0]) %} {% render
-        "star" %} {% endfor %} {% endif %} {% assign review =
-        product.metafields.accentuate.review %} {% if review %}
+        {% assign rating = product.metafields.my_fields.ratings.value |split:"." %} 
+          {% if rating %} 
+            {% for item in (1..rating[0]) %} 
+              {% render "star" %} 
+            {% endfor %} 
+          {% endif %} 
+        {% assign review = product.metafields.accentuate.review %} 
+        {% if review %}
         <p class="product__review">{{ review }} reviews</p>
         {% endif %}
       </div>
@@ -37,15 +41,23 @@
         method="post"
         enctype="multipart/form-data"
         id="AddToCartForm"
+        class="product__form"
       >
-        {% for variant in product.variants %} {% if variant.available %}
-        <p>{{ variant.title }} - {{ variant.price | money_with_currency }}</p>
-        {% else %}
-        <p>{{ variant.title }} - sold out</p>
-        {% endif %} {% endfor %}
-        <button class="product__button" type="submit" name="add" id="AddToCart">
-          Add to cart
-        </button>
+      <fieldset class="product-form__input">
+        {% for variant in product.variants %} 
+            <input type="radio" value="{{variant.id}}" id="{{variant.id}}" name="{{product.options[0]}}" price="{{variant.price}}">
+            <label for="{{variant.id}}"class="product-form__item {% unless variant.available%} product-form__sold-out {% endunless %}">{{ variant.title }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <!-- this is for form submit to work -->
+      
+      <input id="product_size_master" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" selected="selected">
+      <input id="product_qty_master" type="hidden" name="quantity" min="1" value="1">
+      <p class="free-shipping">{{ section.settings.free_shipping_text }}</p>
+      <button type="submit" name="add" class="product__button" {% if product.selected_or_first_available_variant.available==false %}disabled{% endif %}>
+        {{ section.settings.submit_btn_text }}
+      </button>
     </form>
     {% assign frequently = product.metafields.accentuate.frequent | split: "|" %} 
     <h2 class="product-frequent__title">{{section.settings.product-freq__title}}</h2>
@@ -63,14 +75,33 @@
               <p class="product__frequent-heading">
                 {{ all_products[productItem].title }}
               </p>
-              <a class="product__frequent-link" href="{{all_products[productItem].url}}">Add to cart</a>
+              <a class="product__frequent-link" href="{{all_products[productItem].url}}"> {{ section.settings.submit_btn_text }}</a>
             </div>
           </div>
           {% endfor %}
       </div>     
     </div>
+  </div> 
+</div>
+
+<div class="product__details">
+  <div class="product__details-wrapper container">
+    {% for html in product.metafields.accentuate.presentaion_text %}
+    <div class="product__detail">
+      <div class="product__detail-info">
+        {{ product.metafields.accentuate[html.metafield][html.index] }}
+      </div>
+      <div class="product__detail-image">
+        <img src="{{ product.metafields.accentuate.presentaion_image[forloop.index0][0].src }}" alt="">
+      </div>
+    </div>
+    {% endfor %}
+      <div class="product__detail-line product__detail-line-1"></div>
+      <div class="product__detail-line product__detail-line-2"></div>
+      <div class="product__detail-line product__detail-line-3"></div>
   </div>
 </div>
+
 <div class="goods__recommendation container">
   <p class="goods__recommendation-title">{{section.settings["goods__recommendation-title"]}}</p>
   <div class="goods__recommendation-list">
@@ -137,10 +168,22 @@
   },
   {
     "type": "text",
+    "id": "free_shipping_text",
+    "label": " Free shipping text",
+    "default": "Available for Free shipping!"
+  },    
+  {
+    "type": "text",
+    "id": "submit_btn_text",
+    "label": "Button text",
+    "default": "Add to Cart"
+  },    
+  {
+    "type": "text",
     "id": "goods__recommendation-title",
     "label": " Recommendation title",
     "default": "You might also like"
-}    
+  }    
   ],
   "blocks": [
   {

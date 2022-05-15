@@ -7,3 +7,10 @@ var swiper2 = new Swiper(".pdpSwiper", {
     clickable: true,
   },
 });
+
+// Form submit
+document.querySelector(".product__form").addEventListener("change", e => {
+  document.querySelector(".product__price").textContent = document.querySelector("input:checked").getAttribute("price");
+  document.querySelector("#product_size_master").value = document.querySelector("input:checked").value;
+  document.querySelector("#product_qty_master").value = 1;
+})
