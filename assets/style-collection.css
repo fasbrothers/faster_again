@@ -116,9 +116,11 @@
   letter-spacing: 0.175em;
   text-transform: uppercase;
   font-size: 1.2rem;
+  line-height: 140%;
 }
 .products__nav--active{
   opacity: 1;
+  border-bottom: 1px solid #C2A578;
 }
 .products__item:last-child::after{
   content: "";

@@ -48,16 +48,16 @@
           <div class="goods__tags">
             {% for tag in product.tags %}
               {% if tag contains 'sale' %}     
-                    <span class="goods__sale  goods__tag">Sale</span>    
+                    <span class="goods__sale  goods__tag">{{tag}}</span>    
               {% endif %}
               {% if tag contains 'free shipping' %}     
-                    <span class="goods__free-shipping goods__tag">free shipping</span>
+                    <span class="goods__free-shipping goods__tag">{{tag}}</span>
               {% endif %}
               {% if tag contains 'best seller' %}
-                      <span class="goods__best-seller goods__tag">best seller</span>
+                      <span class="goods__best-seller goods__tag">{{tag}}</span>
               {% endif %}
               {% if tag contains 'pre-order' %}
-                      <span class="goods__pre-order goods__tag">pre-order</span>
+                      <span class="goods__pre-order goods__tag">{{tag}}</span>
               {% endif %}
             {% endfor %}  
           </div>

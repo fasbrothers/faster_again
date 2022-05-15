@@ -10,6 +10,9 @@
     margin-bottom: 5rem;
     margin-top: 1.7rem;
 }
+.templete-product .header{
+    margin-bottom: 1rem;
+}
 .header__container{
     display: flex;
     justify-content: space-between;
