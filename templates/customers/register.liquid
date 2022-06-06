@@ -1,21 +1,49 @@
-<!-- /templates/customers/register.liquid -->
+{{ "style-account.css" | asset_url | stylesheet_tag }}
 
-{% form 'create_customer' %}
+<div class="login container">
 
-{{ form.errors | default_errors }}
+    <h5 class="login__heading">Create an Account</h5>
+    {% form 'create_customer' %}
+    
+    {{ form.errors | default_errors }}
+    <div class="register-two-inputs">
+        <div class="login__inputs">
+            <label class="login__label" for="first_name">First Name</label>
+            <input class="login__input" type="text" value="" name="customer[first_name]" size="30" />
+        </div>
+        
+        <div class="login__inputs">
+            <label class="login__label" for="last_name">Last Name</label>
+            <input class="login__input" type="text" value="" name="customer[last_name]" size="30" />
+        </div>
 
-<label for="first_name">First Name</label>
-<input type="text" value="" name="customer[first_name]" size="30" />
-
-<label for="last_name">Last Name</label>
-<input type="text" value="" name="customer[last_name]" size="30" />
-
-<label for="email">Email Address</label>
-<input type="email" value="" name="customer[email]" size="30" />
-
-<label for="password">Password</label>
-<input type="password" value="" name="customer[password]" size="30" />
-
-<input type="submit" value="Create" />
-
-{% endform %}
+    </div>
+    
+    <div class="login__inputs">
+        <label class="login__label" for="email">Email Address</label>
+        <input class="login__input" type="email" value="" name="customer[email]" size="30" />
+    </div>
+    
+    <div class="login__inputs">
+        <label class="login__label" for="password">Password</label>
+        <input class="login__input" type="password" value="" name="customer[password]" size="30" />
+    </div>
+    
+    <div class="login__inputs">
+    <label class="login__label" for="password_confirmation">Confirm Password</label>
+    <input
+    type="password"
+    value=""
+    name="customer[password_confirmation]"
+    size="30"
+    class="login__input"
+    />
+    </div>
+    <input type="submit" value="Create an Account" class="login__submit login__reset" />
+    
+    {% endform %}
+    <p class="login__create-account">Already have an account?</p>
+      <div  class="login__create-button" >
+        <a href="{{ routes.account_login_url }}" class="login__create">Log in</a>
+      </div>
+</div>

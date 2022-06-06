@@ -1,0 +1,56 @@
+{{ "style-cart.css" | asset_url | stylesheet_tag }}
+
+{% if cart.item_count > 0 %}
+<section class="cart">
+  <div class="cart__header">
+    <h4 class="cart__header-title">My Cart</h4>
+    <button class="cart__header-cancel">{% render "hamburger" %}</button>
+  </div>
+  <div class="cart__main">
+    {% for item in cart.items %}
+    <div class="cart__checkout">
+      <a href="{{ item.url | within: collections.all }}"  class="cart__checkout-image">
+        <img
+          src="{{ item | img_url }}"
+          alt="{{ item.title | escape }}"
+          class="cart__checkout-img"
+        />
+      </a>
+      <a class="cart__checkout-title" href="{{ item.url }}">{{ item.title }}</a>
+      <p class="cart__checkout-variant">{{ item.variant.title }}</p>
+      {{item.variant.id}}
+      <p class="cart__checkout-price">{{ item.price | money }}</p>
+      <a
+        class="cart__checkout-remove"
+        href="/cart/change?line={{ forloop.index }}&amp;quantity=0"
+      >
+        {% render "remove" %}
+      </a>
+      <input
+        type="number"
+        id="updates_{{ item.key }}"
+        value="{{ item.quantity }}"
+        min="0"
+        class="cart__checkout-quantity"
+      />
+    </div>
+    {% endfor %}
+  </div>
+  <div class="cart__footer">
+      <div class="cart__footer-top">
+          <h4 class="cart__footer-title">Subtotal</h4>
+          <p class="cart__footer-total">{{ cart.total_price | money }}</p>
+      </div>
+    <p class="cart__footer-subtitle">Tax and shipping calculates at checkout.</p>
+    <div class="cart__footer-desc">
+        {% render "sponsor" %}
+        <p class="cart__footer-text">pay as low as 56/mo</p>
+        <a href="#" class="cart__footer-link">Learn More</a>
+    </div>
+    <button class="cart__footer-button">Continue to Checkout</button>
+  </div>
+</section>
+{% else %}
+<h2>Your Cart is Empty</h2>
+{% endif %}
+

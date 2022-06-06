@@ -1,0 +1,251 @@
+.customer {
+  display: flex;
+}
+.customer__sidebar {
+  width: 28%;
+  background: #fbfbfb;
+  padding-top: 7.8rem;
+  padding-left: 3.4rem;
+}
+.customer__content {
+  width: 72%;
+}
+.customer__sidebar-title {
+  font-size: 2.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4rem;
+}
+.customer__sidebar-item {
+  list-style: none;
+  margin-bottom: 1.6rem;
+}
+.customer__sidebar-link {
+  font-size: 1.4rem;
+  color: black;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+.customer__sidebar-link--active,
+.customer__sidebar-link:hover {
+  border-bottom: 1px solid #c2a578;
+}
+.customer__content {
+  padding-left: 12.5rem;
+  padding-top: 7.8rem;
+  padding-bottom: 14.6rem;
+}
+.customer__orders-title {
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2.7rem;
+}
+.orders__table {
+  width: 80%;
+  border-spacing: 0;
+}
+th {
+  border-bottom: 1px solid #c4c4c4;
+  text-align: left;
+  padding-bottom: 0.8rem;
+  font-weight: normal;
+}
+td {
+  border-bottom: 1px solid #c4c4c4;
+  padding-top: 1.6rem;
+  padding-bottom: 2.3rem;
+}
+.row:hover{
+  background: #fbfbfb;
+  cursor: pointer;
+}
+th:last-child,
+td:last-child {
+  text-align: right;
+}
+.order__table-pagination {
+  text-align: center;
+  width: 80%;
+  margin-top: 2.3rem;
+  margin-bottom: 4rem;
+}
+.order__table-pagination span a {
+  color: black;
+}
+.order__table-pagination .next {
+  text-align: right;
+}
+.address__title {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+}
+.customer__name {
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-top: 2.4rem;
+  margin-bottom: 1.2rem;
+}
+.customer__address {
+  width: 15%;
+  font-size: 1.4rem;
+  line-height: 2.4rem;
+  margin-bottom: 4rem;
+}
+.customer__addresses {
+  color: black;
+}
+.order__name a {
+  color: black;
+  text-decoration: none;
+}
+.order__content {
+  display: flex;
+  align-items: center;
+}
+.order__desc {
+  width: 70%;
+}
+.order__image {
+  margin-right: 1.6rem;
+}
+.order__desc-title {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+.customer__order-id {
+  margin-bottom: 2.4rem;
+}
+.customer__addresses {
+  display: flex;
+  margin-top: 8.3rem;
+}
+.customer__addresses-method {
+  font-size: 1.6rem;
+}
+.customer__address-billing,
+.customer__address-shipping {
+  width: 24%;
+}
+.customer__address-billing {
+  margin-right: 18rem;
+}
+.order__status {
+  margin-top: 0.8rem;
+  margin-bottom: 0.9rem;
+}
+.orders__total {
+  width: 80%;
+  display: flex;
+  justify-content: end;
+  margin-top: 2.4rem;
+}
+.order__total-wrapper {
+  width: 45%;
+}
+.order__total-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+.order__subtotal {
+  margin-top: 1.6rem;
+}
+.order__subtotal-text {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+}
+.order__table-pagination {
+  width: 80%;
+  position: relative;
+}
+.order__table-pagination a {
+  text-decoration: none;
+}
+.order__table-pagination .current {
+  text-decoration: underline;
+}
+.order__table-pagination .page {
+  margin-right: 0.5rem;
+}
+.order__table-pagination .next {
+  position: absolute;
+  right: 0;
+}
+.order__table-pagination .prev {
+  position: absolute;
+  left: 0;
+}
+.address__change {
+  display: flex;
+  margin-top: -2.4rem;
+  align-items: center;
+  margin-bottom: 3.6rem;
+}
+.address__change p {
+  margin: 0 0.4rem;
+}
+.address__change button {
+  font-size: 1.2rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.address__add {
+  text-decoration: none;
+  text-align: center;
+  color: #fff;
+  background: #000;
+  letter-spacing: 0.175em;
+  text-transform: uppercase;
+  padding: 1.4rem 3.5rem;
+  transition: 0.3s ease;
+  border: 1px solid #000;
+}
+.address__add:hover {
+  background: #fff;
+  color: #000;
+}
+#AddAddress {
+  display: none;
+}
+
+#AddAddress:target {
+  display: block;
+}
+
+#AddAddress:target ~ #defaultAddress,
+#AddAddress:target ~ #defaultAddress + div {
+  display: none;
+}
+.addAddress{
+    width: 44.2rem;
+}
+.address{
+  width: 33%;
+}
+.address__submit{
+    margin-top: 4rem;
+}
+.address__submit .address__add{
+    margin-right: 1.6rem;
+}
+.address__cancel{
+    color: black;
+}
+.address__list{ 
+  display: flex;
+  flex-wrap: wrap;
+}
+.address .customer__address{
+  width: 50%;
+}
+.address__change .btn__edit{
+  border: 2px solid red;
+  display: flex;
+}
+.hidden{
+  display: none;
+}

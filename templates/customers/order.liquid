@@ -1,32 +1,95 @@
 <!-- /templates/customers/order.liquid -->
+{{ "style-account-overview.css" | asset_url  | stylesheet_tag }}
 
-<h2>Billing Address</h2>
-<p><span>Payment Status:</span> <span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span></p>
-<p>{{ order.billing_address.name }}</p>
-<p>{{ order.billing_address.company }}</p>
-<p>{{ order.billing_address.street }}</p>
-<p>{{ order.billing_address.city }}, {{ order.billing_address.province }}</p>
-<p>{{ order.billing_address.country }} {{ order.billing_address.zip }}</p>
-<p>{{ order.billing_address.phone }}</p>
+<div class="customer container">
+  <div class="customer__sidebar">
+    <h5 class="customer__sidebar-title">My Account</h5>
+    <li class="customer__sidebar-item"><a class="customer__sidebar-link" href="{{ routes.account_url }}">Account Overview</a></li>
+    <li class="customer__sidebar-item"><a class="customer__sidebar-link customer__sidebar-link--active" href="{{customer.orders[0].customer_url}}">Order Details</a></li>
+    <li class="customer__sidebar-item"><a class="customer__sidebar-link" href="{{ routes.account_addresses_url }}">Address Book</a></li>
+  </div>
+  <div class="customer__content">
+    <div id="customer_orders" class="customer__orders">
+      <h5 class="customer__orders-title">Order Details</h5>
+      <p class="customer__order-id">Order {{order.name}}</p>
+      <table class="orders__table">
+        <tr class="orders__table-main">
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Total</th>
+        </tr>
+        {% for line_item in order.line_items %}
+        <tr class="row">
+          <td class="order__name order__content">
+            <div class="order__image">
+              {{ line_item | image_url: width: 120, height: 150 | image_tag: srcset: nil }} 
+            </div>
+            <div class="order__desc">
+              <h3 class="order__desc-title">{{ line_item.product.title | link_to: line_item.product.url }}</h3>
+              {% unless line_item.product.has_only_default_variant %}
+                {% for option in line_item.options_with_values %}
+                  <p class="order__desc-option">{{ option.value }}</p>
+                {% endfor %}
+            {% endunless %}
+            </div>
+            </td>
+          <td class="order__quantity">{{ line_item.quantity }}</td>
+          <td>{{ line_item.line_price | money }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div class="orders__total">
+      <div class="order__total-wrapper">
+        <div class="order__total-info">
+         <p>Total</p> 
+         <p>{{order.total_net_amount | money }}</p>
+        </div>
+        <div class="order__total-info">
+          <p>Shipping</p>
+          <p>
+            {% if  order.shipping_method.title %}
+            {{ order.shipping_method.title }}
+              {% else %}
+              FREE
+            {% endif %}
+          </p>
+         </div>
+        <div class="order__total-info">
+          <p>Tax</p>
+          <p>
+            {{order.tax_price | money}}
+          </p>
+          </div>
+        <div class="order__total-info order__subtotal">
+          <p class="order__subtotal-text">Subtotal</p>
+          <p class="order__subtotal-price">{{order.total_price | money }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="customer__addresses">
+      <div class="customer__address-billing">
+        <h3 class="customer__addresses-method">Billing Address</h3>
+        <p class="order__status"><span>Payment Status:</span> <span class="status_{{ order.financial_status }}"> {{ order.financial_status | capitalize }}</span></p>
+        <p>{{ order.billing_address.name }}</p>
+        <p>{{ order.billing_address.company }}</p>
+        <p>{{ order.billing_address.street }}</p>
+        <p>{{ order.billing_address.city }}, {{ order.billing_address.province }}</p>
+        <p>{{ order.billing_address.country }} {{ order.billing_address.zip }}</p>
+        <p>{{ order.billing_address.phone }}</p>
+      </div>
+      <div class="customer__address-shipping">
+        <h3 class="customer__addresses-method">Shipping Address</h3>
+        <p class="order__status"><span>Fulfillment Status:</span> <span class="status_{{ order.fulfillment_status }}"> {{ order.fulfillment_status | capitalize }}</span></p>
+        <p>{{ order.shipping_address.name }}</p>
+        <p>{{ order.shipping_address.company }}</p>
+        <p>{{ order.shipping_address.street }}</p>
+        <p>{{ order.shipping_address.city }}, {{ order.shipping_address.province }}</p>
+        <p>{{ order.shipping_address.country }} {{ order.shipping_address.zip }}</p>
+        <p>{{ order.shipping_address.phone }}</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h2>Shipping Address</h2>
-<p><span>Fulfillment Status:</span><span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status }}</span></p>
-<p>{{ order.shipping_address.name }}</p>
-<p>{{ order.shipping_address.company }}</p>
-<p>{{ order.shipping_address.street }}</p>
-<p>{{ order.shipping_address.city }}, {{ order.shipping_address.province }}</p>
-<p>{{ order.shipping_address.country }} {{ order.shipping_address.zip }}</p>
-<p>{{ order.shipping_address.phone }}</p>
 
-<h2>Order Items</h2>
-<table>
-  {% for line_item in order.line_items %}
-  <tr>
-    <td>{{ line_item.title | link_to: line_item.product.url }}</td>
-    <td>{{ line_item.sku }}</td>
-    <td>{{ line_item.original_price | money }}</td>
-    <td>{{ line_item.quantity }}</td>
-    <td>{{ line_item.line_price | money }}</td>
-  </tr>
-  {% endfor %}
-</table>

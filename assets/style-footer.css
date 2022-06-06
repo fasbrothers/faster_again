@@ -4,6 +4,9 @@
     padding: 8rem 4rem 2.4rem 0;
     margin-top: 4rem;
 }
+.templete-account .footer, .templete-order .footer, .templete-addresses .footer{
+    margin-top: 0;
+}
 .footer__wrapper {
     display: flex;
 }

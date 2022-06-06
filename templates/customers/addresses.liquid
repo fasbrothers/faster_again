@@ -1,39 +1,160 @@
-<!-- /templates/customers/addresses.liquid -->
+{{ "style-account-overview.css" | asset_url | stylesheet_tag }}
+{{ "style-account.css" | asset_url | stylesheet_tag }}
 
-<h2>New Address</h2>
-{% form 'customer_address', customer.new_address %}
 
-{{ form.errors | default_errors }}
+<section class="addresses container customer">
+    <div class="customer__sidebar addresses__sidebar">
+        <h5 class="customer__sidebar-title">My Account</h5>
+        <li class="customer__sidebar-item"><a class="customer__sidebar-link" href="{{ routes.account_url }}">Account Overview</a></li>
+        <li class="customer__sidebar-item"><a class="customer__sidebar-link" href="{{customer.orders[0].customer_url}}">Order Details</a></li>
+        <li class="customer__sidebar-item"><a class="customer__sidebar-link customer__sidebar-link--active" href="{{ routes.account_addresses_url }}">Address Book</a></li>
+    </div>
+      <div class="addresses__all customer__content">
+          
+         <div class="addAddress" id="AddAddress">
+            <p class="login__heading">Add New Address</p>
+           {% form 'customer_address', customer.new_address %}
+           
+           {{ form.errors | default_errors }}
+           <div class="register-two-inputs">
+            <div class="login__inputs">
+                <label class="login__label" for="first_name">First Name</label>
+                <input class="login__input" type="text" value="" name="address[first_name]" size="30" />
+            </div>
+            <div class="login__inputs">
+                <label class="login__label" for="last_name">Last Name</label>
+                <input class="login__input" type="text" value="" name="address[last_name]" size="30" />
+            </div>
+           </div>
+           <div class="login__inputs">
+                <label class="login__label"  for="address1">Address 1</label>
+                <input class="login__input" type="text" value="" name="address[address1]" />
+           </div>
+           <div class="login__inputs">
+                <label class="login__label"  for="address2">Address 2</label>
+                <input class="login__input" type="text" value="" name="address[address2]" />
+           </div>
+           <div class="register-two-inputs register-two-inputs--second">
+            <div class="login__inputs">
+                <label class="login__label"  for="city">City</label>
+                <input class="login__input" type="text" value="" name="address[city]" />
+            </div>
+            <div class="login__inputs">
+                <label class="login__label"  for="country">Country</label>
+                <input class="login__input" type="text" value="" name="address[country]" />
+            </div>
+           </div>
+           <div class="address__submit">
+               <button type="submit" class="address__add">Add New Address</button>
+               <a class="address__cancel" href="{{ routes.account_addresses_url }}">Cancel</a>
+           </div>
+           {% endform %}
+            </div>
+            
+            <div id="defaultAddress">      
+                <div class="address__list">
+                {% for address in customer.addresses %}
+                    <div class="address" id="address">
+                        {% if address == customer.default_address %}
+                        <h5 class="address__title">Default Address</h5>
+                        {% else %}
+                        <h5 class="address__title">Address {{ forloop.index }}</h5>
+                        {% endif %}     
+                        <p class="customer__name">
+                            {{address.name}}
+                        </p>
+                        <p class="customer__address">{{ address.address1}}, {{ address.address2}}, {{ address.country}}, {{ address.city}}, {{ address.zip}}</p> 
+                    <div class="address__change">
+                       <button id="EditFormButton_{{ address.id }}"
+                              type="button"
+                              class="btn btn--small address-edit-toggle"
+                              data-form-id="{{ address.id }}"
+                              aria-owns="EditAddress_{{ address.id }}"
+                              aria-expanded="false">
+                        Edit 
+                        </button>
+                        <p>|</p>
+                        <form class="address-delete-form"
+                            method="post"
+                            action="/account/addresses/{{ address.id }}"
+                        >
+                          <input type="hidden" name="_method" value="delete">
+                          <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                    </div>
+                {% endfor %}
+              </div>
+              <a class="address__add" href="#AddAddress">
+                  Add New Address
+              </a>
+        </div>
+        <div id="edit-address-form" class="edit-address__form hidden">
+        {% for address in customer.addresses %}
+          <div id="EditAddress_{{ address.id }}" class="hidden addAddress">
+            {%- form 'customer_address', address -%}      
+            <p class="login__heading">Edit Address</p>
 
-<label for="first_name">First Name</label>
-<input type="text" value="" name="address[first_name]" size="30" />
+             <div class="register-two-inputs">
+              <div class="login__inputs">
+                <label class="login__label" for="AddressFirstName_{{ form.id }}">First Name</label>
+                <input class="login__input" type="text" id="AddressFirstName_{{ form.id }}" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" >
 
-<label for="last_name">Last Name</label>
-<input type="text" value="" name="address[last_name]" size="30" />
+              </div>
+              <div class="login__inputs">
+                <label class="login__label" for="AddressLastName_{{ form.id }}">Last Name</label>
+                <input class="login__input" type="text" id="AddressLastName_{{ form.id }}" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" >
+              </div>
+             </div>
+              <div class="login__inputs">
+                <label class="login__label" for="AddressAddress1_{{ form.id }}">Address 1</label>
+                <input class="login__input" type="text" id="AddressAddress1_{{ form.id }}" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" >
+              </div>
+              <div class="login__inputs">
+                <label class="login__label" for="AddressAddress2_{{ form.id }}">Address 2</label>
+                <input class="login__input" type="text" id="AddressAddress2_{{ form.id }}" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2" >
+              </div>
+             <div class="register-two-inputs register-two-inputs--second">
+               <div class="login__inputs">
+                 <label class="login__label" for="AddressCity_{{ form.id }}">City</label>
+                 <input class="login__input" type="text" id="AddressCity_{{ form.id }}" name="address[city]" value="{{ form.city }}" autocomplete="address-level2">
+               </div>
+               <div class="login__inputs">
+                 <label class="login__label" for="AddressCity_{{ form.id }}">Country</label>
+                 <input class="login__input" type="text" id="AddressCity_{{ form.id }}" name="address[country]" value="{{ form.country }}" autocomplete="address-level2">
+               </div>
+              </div>
+              <div class="address__submit">
+                <button type="submit" class="address__add">Update Address</button>
+                <a href="{{ routes.account_addresses_url }}" class="address__cancel">Cancel</a>
+              </div>
+            {%- endform -%}
+        </div>
+        {% endfor %}
+      </div>
+      </div>
+</div>
 
-<label for="company">Company</label>
-<input type="text" value="" name="address[company]" />
+<script>
+ let editButtons =  document.querySelectorAll(".address-edit-toggle")
+ 
+ editButtons.forEach(btn =>{
+    btn.addEventListener('click', function(e){
+      
+      let formId = e.target.dataset.formId
+      let formContainer = document.getElementById("edit-address-form")
+      let editButton = document.getElementById(`EditFormButton_${formId}`)
+      let editForm = document.getElementById(`EditAddress_${formId}`)
+      let buttonArea = editButton.getAttribute('aria-expanded') == "true"
+      let addressContainer = document.getElementById("defaultAddress")
+      
+      addressContainer.classList.toggle("hidden")
+      formContainer.classList.toggle('hidden')
+      editForm.classList.toggle('hidden')
+      editButton.setAttribute('aria-expanded', !buttonArea)
 
-<label for="address1">Address 1</label>
-<input type="text" value="" name="address[address1]" />
+    })
+ })
 
-<label for="address2">Address 2</label>
-<input type="text" value="" name="address[address2]" />
 
-<label for="city">City</label>
-<input type="text" value="" name="address[city]" />
-
-<!-- See docs for @shopify/theme-addresses to support Country and Province -->
-<label for="country">Country</label>
-<select name="address[country]" /></select>
-
-<label for="province">Province</label>
-<select name="address[province]" /></select>
-
-<label for="zip">Zip/Post Code</label>
-<input type="text" value="" name="address[zip]" />
-
-<label for="phone">Phone Number</label>
-<input type="tel" value="" name="address[phone]" />
-
-{% endform %}
+</script>

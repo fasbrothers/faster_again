@@ -1,42 +1,234 @@
 {{
   "style-header.css" | asset_url | stylesheet_tag
 }}
+{{ "style-cart.css" | asset_url | stylesheet_tag }}
 
-    <div class="header__container">
-      <div class="header__left">
-       <a href="#" class="header__left-logo {% if template.name != "index" %} header__left-logo-black {% endif %}">
-         {% render 'logo' %}
-        </a>
-      </div>
-      <div class="header__center">
-        {% for link in linklists.main-menu.links %} 
+<div class="header__container">
+  <div class="header__left">
+    <a href="{{ routes.root_url }}" class="header__left-logo {% if template.name != "index" %} header__left-logo-black {% endif %}">
+      {% render 'logo' %}
+    </a>
+  </div>
+  <div class="header__center">
+    {% for link in linklists.main-menu.links %} 
          {% assign child_list_handle =link.title | handleize %} 
           {% if linklists[child_list_handle].links != blank %}
           <a class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}" href="{{ link.url }}">{{ link.title }}</a>
-        [{% for childlink in linklists[child_list_handle].links %}
-        <a class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+          [{% for childlink in linklists[child_list_handle].links %}
+          <a class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
         {% endfor %}] 
         {% else %}
-          <a class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+        <a class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}" href="{{ link.url }}">{{ link.title }}</a>
         {% endif %} {% endfor %}
       </div>
       <div class="header__right">
-        <a href="#" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
-          {% render 'search' %}
-        </a>
-        <a href="#" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
-          {% render 'account' %}
-        </a>
-        <a href="#" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
-          {% render 'bag' %}
-        </a>
+       {% if shop.customer_accounts_enabled %} 
+     {% if customer %}
+      <a href="{{ routes.account_url }}" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
+        {% render 'search' %}
+      </a>
+      <div class="dropdown">
+        <button class="dropbtn header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">{% render 'account' %}</button>
+        <div class="dropdown-content">
+          <a href="{{ routes.account_url }}">Account</a>
+          <a href="{{ routes.account_logout_url }}">Log Out</a>
+        </div>
       </div>
-</div>
+    {% else %}
+      <a href="#" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
+        {% render 'search' %}
+      </a>
+      <div class="dropdown">
+        <button class="dropbtn header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">{% render 'account' %}</button>
+        <div class="dropdown-content">
+          <a href="{{ routes.account_login_url }}">Log In</a>
+        </div>
+      </div>
+      {% endif %} 
+      {% endif %}
+      <a href="#" class="header__right-icon header__bag{% if template.name != "index" %} header__right-black {% endif %}">
+        {% render 'bag' %}
+      </a>
+    </div>
+    </div> 
+      <div class="cart">
+        <div class="cart__header">
+          <h4 class="cart__header-title">My Cart</h4>
+          <button class="cart__header-cancel">{% render "hamburger" %}</button>
+        </div>
+        <div class="cart__main">  
+        </div>
+        <div class="cart__footer">
+            <div class="cart__footer-top">
+                <h4 class="cart__footer-title">Subtotal</h4>
+                <p class="cart__footer-total"></p>
+            </div>
+          <p class="cart__footer-subtitle">Tax and shipping calculates at checkout.</p>
+          <div class="cart__footer-desc">
+              {% render "sponsor" %}
+              <p class="cart__footer-text">pay as low as 56/mo</p>
+              <a href="#" class="cart__footer-link">Learn More</a>
+          </div>
+          <button class="cart__footer-button">Continue to Checkout</button>
+        </div>
+      </div>
 
-{% schema %} 
+    <script>    
+      const toggleNav = () => {
+        document.querySelector('.cart').classList.toggle("cart__open");
+      };
+      document.querySelector(".cart__header-cancel").addEventListener("click", toggleNav);
+    
+      document.querySelector(".header__bag").addEventListener("click", ()=>{
+        getData();
+        toggleNav();
+      });
+
+  document.querySelector(".cart__main").addEventListener("click", (e)=>{
+  if(e.target.classList.contains("cart__checkout-remove")){
+    removeItem(e.target.getAttribute("data-key"), e.target.parentElement)
+  } else if(e.target.classList.contains("btn-increase")){
+    updateCartValue("+", e.target)
+    }
+    else if(e.target.classList.contains("btn-decrease")){
+      updateCartValue("-", e.target)
+    }
+
+  })
+  function removeItem(key, select){
+    let formData = {
+            "id": key,
+            "quantity": 0,
+  };
+    fetch(window.Shopify.routes.root + 'cart/change.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(data=>{
+      document.querySelector(".cart__footer-total").textContent = '$' + ((data.total_price) / 100 ).toFixed(2);
+      select.remove();
+      if(!data.item_count){ empty_cart();  return }
+
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    })
+  }
+  function updateCartValue(symbol, select){
+    let item = select.parentElement.parentElement;
+    let key = item.querySelector(".cart__checkout-remove").getAttribute("data-key");
+    let quantity = null;
+
+    if(symbol == "+"){
+      quantity = Number(select.previousElementSibling.textContent) + 1;
+    }else{
+      if(Number(select.nextElementSibling.textContent) > 1){
+        quantity = Number(select.nextElementSibling.textContent) - 1;
+      }else{
+        removeItem(key, item)
+         return;
+      }
+    }
+    let formData = {
+            "id": key,
+            "quantity": quantity,
+    };
+    fetch(window.Shopify.routes.root + 'cart/change.js', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(res=>{
+            res.json().then((changed)=>{
+              document.querySelector(".cart__footer-total").textContent = `$${(changed.items_subtotal_price/100).toFixed(2)}`;
+              let current = changed.items.find((item)=>item.key === key);
+              if(!changed.item_count){ console.log("empty"); empty_cart(); return }
+                if(quantity <= current.quantity){
+                  select.classList.remove("not_allowed")
+                    if (symbol==="+"){
+                      select.previousElementSibling.textContent = quantity;
+                    } else{
+                      select.nextElementSibling.textContent = quantity;
+                    } 
+                    item.querySelector(".cart__checkout-price").textContent = `$${(current.original_line_price/100).toFixed(2)}`;
+                }else{
+                  return false
+                }
+            })
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+  }
+  function empty_cart() {
+    document.querySelector(".cart__main").innerHTML = `
+    <div class="empty_cart">
+                <p>Your Cart is Empty</p>
+                <a href="{{ routes.all_products_collection_url }}">Shop Best Sellers</a>
+                </div>
+                `;
+      return
+    }
+
+    function getData(){
+    let result =  fetch(window.Shopify.routes.root + 'cart.js', {
+    method: 'GET',
+  })
+    .then(response => {
+      return response.json();
+    }).then(data => {
+      console.log(data);
+      document.querySelector(".cart__main").innerHTML = "";
+      document.querySelector(".cart__footer-total").textContent = '$' + ((data.total_price)/100).toFixed(2);
+      if(!data.item_count){ empty_cart(); return }
+      document.querySelector(".cart__main").insertAdjacentHTML('afterbegin', data.items.map(item => {
+        return `
+        <div class="cart__checkout">
+          <a href="${item.url}" class="cart__checkout-image">
+            <img
+              src="${item.featured_image.url}"
+              alt="${item.product_title}"
+              class="cart__checkout-img"
+            />
+          </a>
+          <a class="cart__checkout-title" href="${item.url}">${item.title}</a>
+          <p class="cart__checkout-variant">${item.variant_title}</p>
+          <p class="cart__checkout-price">$${(item.properties._bundle_price / 100).toFixed(2)}</p>
+          <button
+              class="cart__checkout-remove"
+              data-key="${item.key}"
+            >
+              {% render "remove" %} 
+            </button>
+          <div class="cart__checkout-quantity">
+            <button type="button" class="btn-decrease ">{% render "minus" %}</button>
+             <span  class= "cart__checkout-input">${item.quantity}</span>
+            <button type="button" class="btn-increase ">{% render "plus" %}</button>    
+          </div>
+        </div>
+        `
+      }).join(''));
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+    return result;
+  }
+
+    </script>
+
+  {% schema %} 
   { "name": "Header", 
   "class": "header",
   "settings": 
   [] 
 }
- {% endschema %}
+  {% endschema %}

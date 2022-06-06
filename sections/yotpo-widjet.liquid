@@ -1,0 +1,103 @@
+{{ "style-yotpo-widget.css" | asset_url  | stylesheet_tag }}
+
+<section class="yotpo-widjet container">
+    <h5 class="yotpo-widjet__heading">{{section.settings.yotpo__heading}}</h5>
+    <div class="reviews">
+        <h1 class="yotpo-widjet__score"></h1>
+        <div class="reviews__bars">
+            <div class="review__bar">
+                <p class="review review__1">5 stars</p>
+                <div class="reviews__progress-bar">
+                    <div class="reviews__progress-percentage"></div>
+                </div>
+                <p class="review__count-1 ">0</p>
+            </div>
+            <div class="review__bar">
+                <p class=" review__1">4 stars</p>
+                <div class="reviews__progress-bar">
+                    <div class="reviews__progress-percentage"></div>
+                </div>
+                <p class="review__count-4 ">0</p>
+            </div>
+            <div class="review__bar">
+                <p class=" review__1">3 stars</p>
+                <div class="reviews__progress-bar">
+                    <div class="reviews__progress-percentage"></div>
+                </div>
+                <p class="review__count-3 ">0</p>
+            </div>
+            <div class="review__bar">
+                <p class=" review__1">2 stars</p>
+                <div class="reviews__progress-bar">
+                    <div class="reviews__progress-percentage"></div>
+                </div>
+                <p class="review__count-2 ">0</p>
+            </div>
+            <div class="review__bar">
+                <p class=" review__1">1 stars</p>
+                <div class="reviews__progress-bar">
+                    <div class="reviews__progress-percentage"></div>
+                </div>
+                <p class="review__count-1 ">0</p>
+            </div>
+        </div>
+        <div class="review__buttons">
+            <div class="review__buttons-write">Write a review</div>
+            <div class="review__buttons-ask">Ask a question</div>
+        </div>
+
+    </div>
+    <div class="yotpo yotpo-main-widget"
+    data-product-id="{{ product.id }}"
+    data-name="{{ product.title | escape }}"
+    data-url="{{ shop.url }}{{ product.url }}"
+    data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+    data-price="{{ variant.price | money_without_currency }}"
+    data-currency="{{ shop.currency }}"
+    data-description="{{ product.description | escape }}">
+    </div>
+</section>
+
+<script>
+      // Yotpo review 
+  
+    const url = 'https://api-cdn.yotpo.com/v1/widget/uuyAGUxoTzSdnVNd5PtQ13FWnqGhgqP5ThUMFdzm/products/{{product.id}}/reviews.json';
+    const options = {
+        method: 'GET',
+        headers: {Accept: 'application/json', 'Content-Type': 'application/json'}
+    };
+
+    let yotpo_average = 0;
+    fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            document.querySelector(".yotpo-widjet__score").textContent = json.response.bottomline.average_score > 0 ? (json.response.bottomline.average_score).toFixed(1) : ""
+            let reviews = json.response.reviews
+            reviews.forEach(review => {
+                console.log(review);
+                let oldNumber = document.querySelector(`.review__count-${review.score}`).textContent
+                document.querySelector(`.review__count-${review.score}`).textContent = Number(oldNumber) + 1
+                let percentage = (Number(oldNumber) + 1) / json.response.bottomline.total_review * 100
+                document.querySelector(`.review__count-${review.score}`).parentElement.querySelector('.reviews__progress-percentage').style.width = `${percentage}%`
+            })            
+        })
+        .catch(err => console.log(err));
+        document.querySelector(".review__buttons-write").addEventListener("click", e => {
+        document.querySelector(".write-review-wrapper.write-form").classList.add("visible", "active");
+        })  
+    </script>
+
+{% schema %}
+{
+    "name": "Yotpo Widget Review",
+    "settings": [
+    {
+       "type": "text",
+       "id": "yotpo__heading",
+       "label": "Review Heading",
+      "default": "Reviews"
+   } 
+  ]
+}
+{% endschema %}

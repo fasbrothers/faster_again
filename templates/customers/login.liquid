@@ -1,28 +1,86 @@
-<!-- /templates/customers/login.liquid -->
+{{"style-account.css" | asset_url | stylesheet_tag }}
 
-<h2>Login</h2>
-{% form 'customer_login' %}
+<div class="login container">
+  
+  <h5 id="recover" class="login__heading">
+    Reset Password
+  </h5>
+  <div>
+    <p class="login__subheading">
+        Enter your email below to receive an email to reset your password.
+    </p>
 
-{{ form.errors | default_errors }}
+    {%- form 'recover_customer_password' -%}
+      {% assign recover_success = form.posted_successfully? %}
+      <div class="login__inputs">
+          <label for="RecoverEmail" class="login__label">
+            Email
+          </label>
+        <input type="email"
+          class="login__input"
+          value=""
+          name="email"
+          id="RecoverEmail"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          {% if form.errors %}
+            aria-invalid="true"
+            aria-describedby="RecoverEmail-email-error"
+            autofocus
+          {% endif %}
+        >
+      </div>
+      {%- if form.errors -%}
+        <small id="RecoverEmail-email-error" class="form__message">
+          <svg aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 13 13">
+            <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+            <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+            <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+            <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+          </svg>
+          {{ form.errors.messages['form'] }}
+        </small>
+      {%- endif -%}
 
-<label for="customer_email">Email Address</label>
-<input type="email" name="customer[email]" />
+      <button type="submit" class="login__submit login__reset">
+        Reset Password
+      </button>
 
-<label for="customer_password">Password</label>
-<input type="password" name="customer[password]" />
+    {%- endform -%}
 
-<input type="submit" value="Sign In" />
+  </div>
+    <h5 id="login" class="login__heading">Log In</h5>
+    
+    <div>
+      {% form 'customer_login' %}
+  
+      
+      <div class="login__inputs login__inputs-top">
+          <label class="login__label" for="customer_email">Email</label>
+          <input class="login__input" type="email" name="customer[email]" />
+        </div>
+        
+        <div class="login__inputs">
+          <label for="customer_password" class="login__label">Password</label>
+          <input type="password" class="login__input" name="customer[password]" />
+        </div>
+        
+        
+        <div class="login__forget">
+          <a href="#recover" class="login__forget-link">Forgot password?</a>
+      </div>
 
-{% endform %}
+      <div class="form__errors">{{ form.errors | default_errors }}</div>
 
-<h2>Forgot Password</h2>
-{% form 'recover_customer_password' %}
+      <input type="submit" value="Log in" class="login__submit" />
+  
+      {% endform %}
+  
+      <p class="login__create-account">Don’t have an account yet?</p>
+      <div  class="login__create-button" >
+        <a href="{{ routes.account_register_url }}" class="login__create">Create an account</a>
+      </div>
 
-{{ form.errors | default_errors }}
-
-<label for="customer_email">Email Address</label>
-<input type="email" name="email" />
-
-<input type="submit" value="Submit" />
-
-{% endform %}
+    </div>
+</div>

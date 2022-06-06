@@ -34,19 +34,14 @@
     {{
       "application.css" | asset_url | stylesheet_tag
     }}
+    <script type="text/javascript">
+      (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/uuyAGUxoTzSdnVNd5PtQ13FWnqGhgqP5ThUMFdzm/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+    </script>
   </head>
   <body class="templete-{{ template.name }}">
     {% section 'announcement-bar' %} 
 
     {% section 'header' %}
-    <!-- {% if shop.customer_accounts_enabled %} 
-     {% if customer %}
-    <a href="/account">account</a>
-    {{ "log out" | customer_logout_link }}
-    {% else %}
-    {{ "log in " | customer_login_link }}
-    {{ "register" | customer_register_link }}
-    {% endif %} {% endif %} -->
     <main role="main">
       {{ content_for_layout }}
     </main>

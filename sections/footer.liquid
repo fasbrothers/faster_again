@@ -7,8 +7,7 @@
             <h5 class="footer__heading">
                 {{section.settings.footer__heading_one}}
             </h5>
-            {% form 'contact' %}
-                {{ form.errors | default_errors }}
+            {% form 'customer' %}
                 <div class="footer__inputs">
                     <input type="email" name="contact[email]" id="email" placeholder="Enter your email" class="footer__input">
                     <button class="footer__arrow" type="submit">
@@ -37,10 +36,10 @@
         </h5>
         {% for link in linklists.footer.links %} 
         <div class="footer__navigation-first">
-        {% assign child_list_handle =link.title | handleize %} 
+        {% assign child_list_handle = link.title | handleize %} 
          {% if linklists[child_list_handle].links != blank %}
          <a class="footer-nav" href="{{ link.url }}">{{ link.title }}</a>
-       [{% for childlink in linklists[child_list_handle].links %}
+       {% for childlink in linklists[child_list_handle].links %}
        <a class="header__center-nav" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
        {% endfor %}] 
        {% else %}
@@ -58,7 +57,7 @@
         {% assign child_list_handle =link.title | handleize %} 
          {% if linklists[child_list_handle].links != blank %}
          <a class="footer-nav" href="{{ link.url }}">{{ link.title }}</a>
-       [{% for childlink in linklists[child_list_handle].links %}
+       {% for childlink in linklists[child_list_handle].links %}
        <a class="footer-nav" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
        {% endfor %}] 
        {% else %}

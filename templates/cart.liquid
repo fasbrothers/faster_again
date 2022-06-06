@@ -1,6 +1,11 @@
+{% capture bb_checkout_link %}{% render 'bb', type: 'bb_checkout_link' %}{% endcapture %}
+
+{% capture bb_total_price %}{% render 'bb', type: 'bb_total_price' %}{% endcapture %}{% assign bb_total_price = bb_total_price | plus: 0 %}
+
 {% if cart.item_count > 0 %}
 <h1>cart</h1>
-<form action="/cart" method="post" novalidate>
+<form action="{% if bb_checkout_link != blank %}{{ bb_checkout_link }}{% else %}/cart{% endif %}" method="post" novalidate>
+{% render 'bb', type: 'cart' %}
   <table>
     <thead>
       <th colspan="2">Product</th>
@@ -10,6 +15,9 @@
     </thead>
     <tbody>
       {% for item in cart.items %}
+      {% capture bb_price %}{% render 'bb', type: 'bb_price', item: item %}{% endcapture %}{% assign bb_price = bb_price | plus: 0 %}
+      {% capture bb_original_line_price %}{% render 'bb', type: 'bb_original_line_price', item: item %}{% endcapture %}{% assign bb_original_line_price = bb_original_line_price | plus: 0 %}
+      {% capture bb_line_price %}{% render 'bb', type: 'bb_line_price', item: item %}{% endcapture %}{% assign bb_line_price = bb_line_price | plus: 0 %}
       <tr>
         <td>
           <a href="{{ item.url | within: collections.all }}">
@@ -26,7 +34,7 @@
             >remove</a
           >
         </td>
-        <td>{{ item.price | money }}</td>
+        <td>{{ bb_price | money }}</td>
         <td>
           <input
             type="number"
@@ -37,10 +45,10 @@
           />
         </td>
         <td>
-          {% if item.original_line_price != item.line_price %}
-          {{ item.original_line_price | money }}
+          {% if bb_original_line_price != bb_line_price %}
+          {{ bb_original_line_price | money }}
           {% endif %}
-          {{ item.line_price | money }}
+          {{ bb_line_price | money }}
           {% for discount in item.discounts %}
           {{ discount.title }}
           {% endfor %}
@@ -50,7 +58,7 @@
     </tbody>
   </table>
   <div>
-    <p>sub total : {{ cart.total_price | money }}</p>
+    <p>sub total : {{ bb_total_price | money }}</p>
     <button name="update" type="submit">Update</button>
     <button name="checkout" type="submit">Checkout</button>
   </div>

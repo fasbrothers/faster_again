@@ -4,9 +4,15 @@
         "type": "product",
         "settings": {
         }
+      },
+      "yotpo-widjet": {
+        "type": "yotpo-widjet",
+        "settings": {
+        }
       }
     },
     "order": [
-      "product"
+      "product",
+      "yotpo-widjet"
     ]
   }

@@ -18,10 +18,10 @@
 
     </div>
     <div class="products__list">
-    {% for product in collection.products %}
-        <div class="goods">
+      {% for product in collection.products %}
+      <div class="goods">
           <a class="goods__image {% unless product.available %} goods__opacity {% endunless %}" href="{{ product.url | within: collection }}">
-            <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+            <img class="goods_img" src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
           </a>
           
           {% unless product.available %}
@@ -30,26 +30,19 @@
           </p>
           {% endunless %}
           <a class="goods__title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
-          <div class="goods__ratings">
+          <div class="yotpo bottomLine"
+            data-product-id="{{ product.id }}">
+            </div>
+          <!-- <div class="goods__ratings">
             {% assign rating = product.metafields.my_fields.ratings.value | split:"." %}
             {% if rating %}
               {% for item in (1..rating[0]) %}
                 {% render "star" %}
               {% endfor %}
             {% endif %}
-          </div>
-          {% if product.price_varies and template == 'collection' %}
-          <p class="goods__price">{{ product.price_min | money }}-{{ product.price_max | money }}</p>
-          {% elsif product.compare_at_price %}
-          <p class="goods__price"> <span class="goods__price--cross">{{product.compare_at_price | money}}</span> {{product.price | money}}</p>
-          {% else %}
-          <p class="goods__price {% unless product.available %} goods__price--line {% endunless %}">{{ product.price | money }}</p>
-         {% endif %}
+          </div> -->
           <div class="goods__tags">
             {% for tag in product.tags %}
-              {% if tag contains 'sale' %}     
-                    <span class="goods__sale  goods__tag">{{tag}}</span>    
-              {% endif %}
               {% if tag contains 'free shipping' %}     
                     <span class="goods__free-shipping goods__tag">{{tag}}</span>
               {% endif %}
@@ -61,9 +54,20 @@
               {% endif %}
             {% endfor %}  
           </div>
+          {% if product.price_varies and template == 'collection' %}
+          <p class="goods__price">{{ product.price_min | money }}-{{ product.price_max | money }}</p>
+          {% elsif product.compare_at_price %}
+          <div class="goods__tags">
+            <span class="goods__sale  goods__tag">Sale</span> 
+          </div>
+          <p class="goods__price"> <span class="goods__price--cross">{{product.compare_at_price | money}}</span> {{product.price | money}}</p>
+          {% else %}
+          <p class="goods__price {% unless product.available %} goods__price--line {% endunless %}">{{ product.price | money }}</p>
+         {% endif %}
+          
         </div>
         {% else %}
-        <p>no matches</p>
+        <h3 class="not__available">Not available product</h3>
         {% endfor %}
       </div>
     {% if paginate.pages > 1 %}
