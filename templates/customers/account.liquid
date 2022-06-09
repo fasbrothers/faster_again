@@ -50,7 +50,15 @@
     <p class="customer__name">
       {{customer.name}}
     </p>
-    <p class="customer__address">{{ customer.default_address.address1 }},{{ customer.default_address.city }}, {{ customer.default_address.country }}, {{ customer.default_address.zip }}</p>
+    <p class="customer__address">
+      {% if customer.default_address.address1 %}
+        {{ customer.default_address.address1 }},
+      {% elsif  customer.default_address.country  %}
+        {{ customer.default_address.country }} 
+      {% elsif customer.default_address.zip %}
+        {{ customer.default_address.zip }}
+      {% endif %}
+      </p>
     
     <a class="customer__addresses" href="{{ routes.account_addresses_url }}">View Addresses</a>
     {% endif %}

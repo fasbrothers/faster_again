@@ -63,7 +63,19 @@
                         <p class="customer__name">
                             {{address.name}}
                         </p>
-                        <p class="customer__address">{{ address.address1}}, {{ address.address2}}, {{ address.country}}, {{ address.city}}, {{ address.zip}}</p> 
+                        <p class="customer__address">
+                          {% if address.address1 %}
+                          {{ address.address1 }},
+                        {% elsif  address.address2  %}
+                          {{ address.address2 }} 
+                        {% elsif address.country %}
+                          {{ address.country}}
+                        {% elsif address.city %}
+                          {{ address.city}},
+                        {% elsif address.zip %}
+                          {{ address.zip }}.
+                        {% endif %}
+                        </p> 
                     <div class="address__change">
                        <button id="EditFormButton_{{ address.id }}"
                               type="button"

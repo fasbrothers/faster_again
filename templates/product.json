@@ -5,6 +5,11 @@
         "settings": {
         }
       },
+      "predefined-bundle": {
+        "type": "predefined-bundle",
+        "settings": {
+        }
+      },
       "yotpo-widjet": {
         "type": "yotpo-widjet",
         "settings": {
@@ -13,6 +18,7 @@
     },
     "order": [
       "product",
+      "predefined-bundle",
       "yotpo-widjet"
     ]
   }
