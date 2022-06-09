@@ -50,7 +50,7 @@
         {% render 'bag' %}
       </a>
     </div>
-    </div> 
+    </div>
       <div class="cart">
         <div class="cart__header">
           <h4 class="cart__header-title">My Cart</h4>
@@ -69,20 +69,20 @@
               <p class="cart__footer-text">pay as low as 56/mo</p>
               <a href="#" class="cart__footer-link">Learn More</a>
           </div>
-          <button class="cart__footer-button">Continue to Checkout</button>
+          <button class="cart__footer-button" type="submit">Continue to Checkout</button>
         </div>
       </div>
+    <script>   
 
-    <script>    
-      const toggleNav = () => {
-        document.querySelector('.cart').classList.toggle("cart__open");
-      };
-      document.querySelector(".cart__header-cancel").addEventListener("click", toggleNav);
-    
-      document.querySelector(".header__bag").addEventListener("click", ()=>{
-        getData();
-        toggleNav();
-      });
+    const toggleNav = () => {
+      document.querySelector('.cart').classList.toggle("cart__open");
+    };
+    document.querySelector(".cart__header-cancel").addEventListener("click", toggleNav);
+  
+    document.querySelector(".header__bag").addEventListener("click", ()=>{
+      getData();
+      toggleNav();
+    });
 
   document.querySelector(".cart__main").addEventListener("click", (e)=>{
   if(e.target.classList.contains("cart__checkout-remove")){
@@ -111,7 +111,18 @@
       return response.json();
     })
     .then(data=>{
-      document.querySelector(".cart__footer-total").textContent = '$' + ((data.total_price) / 100 ).toFixed(2);
+      let totalValue = 0;
+      data.items.forEach(element => {
+        if(element.properties == null){
+          totalValue+= element.original_price * element.quantity
+        }
+        else if(element.properties._bundle_price){
+          totalValue+= element.properties._bundle_price * element.quantity
+        }else{
+          totalValue += element.original_price * element.quantity
+        }
+      });
+      document.querySelector(".cart__footer-total").textContent = '$' + (totalValue / 100 ).toFixed(2);
       select.remove();
       if(!data.item_count){ empty_cart();  return }
 
@@ -148,7 +159,18 @@
         })
         .then(res=>{
             res.json().then((changed)=>{
-              document.querySelector(".cart__footer-total").textContent = `$${(changed.items_subtotal_price/100).toFixed(2)}`;
+              let totalValue = 0;
+              changed.items.forEach(element => {
+                if(element.properties == null){
+                  totalValue+= element.original_price * element.quantity
+                }
+                else if(element.properties._bundle_price){
+                  totalValue+= element.properties._bundle_price * element.quantity
+                }else{
+                  totalValue += element.original_price * element.quantity
+                }
+              });
+              document.querySelector(".cart__footer-total").textContent = `$${(totalValue/100).toFixed(2)}`;
               let current = changed.items.find((item)=>item.key === key);
               if(!changed.item_count){ console.log("empty"); empty_cart(); return }
                 if(quantity <= current.quantity){
@@ -177,7 +199,6 @@
                 `;
       return
     }
-
     function getData(){
     let result =  fetch(window.Shopify.routes.root + 'cart.js', {
     method: 'GET',
@@ -185,11 +206,22 @@
     .then(response => {
       return response.json();
     }).then(data => {
-      console.log(data);
+      let totalValue = 0;
+      data.items.forEach(element => {
+        if(element.properties == null){
+          totalValue+= element.original_price * element.quantity
+        }
+        else if(element.properties._bundle_price){
+          totalValue+= element.properties._bundle_price * element.quantity
+        }else{
+          totalValue += element.original_price * element.quantity
+        }
+      });
       document.querySelector(".cart__main").innerHTML = "";
-      document.querySelector(".cart__footer-total").textContent = '$' + ((data.total_price)/100).toFixed(2);
+      document.querySelector(".cart__footer-total").textContent = '$' + (totalValue/100).toFixed(2);
       if(!data.item_count){ empty_cart(); return }
       document.querySelector(".cart__main").insertAdjacentHTML('afterbegin', data.items.map(item => {
+        console.log(item);
         return `
         <div class="cart__checkout">
           <a href="${item.url}" class="cart__checkout-image">
@@ -201,7 +233,7 @@
           </a>
           <a class="cart__checkout-title" href="${item.url}">${item.title}</a>
           <p class="cart__checkout-variant">${item.variant_title}</p>
-          <p class="cart__checkout-price">$${(item.properties._bundle_price / 100).toFixed(2)}</p>
+          <p class="cart__checkout-price">$${ item.properties == null ? (item.final_line_price / 100).toFixed(2) : item.properties._bundle_price ? (item.properties._bundle_price / 100).toFixed(2) : (item.final_line_price / 100).toFixed(2)}</p>
           <button
               class="cart__checkout-remove"
               data-key="${item.key}"

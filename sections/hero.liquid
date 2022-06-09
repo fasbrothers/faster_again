@@ -1,5 +1,12 @@
 {{ "style-hero.css" | asset_url | stylesheet_tag }}
 
+<style>
+    .hero{
+    background-image: url("{{ section.settings.hero_bg | image_url }}");
+    background-color: {{ section.settings.background }};
+    }
+</style>
+
 <div class="hero__wrapper container">
     <h1 class="hero__heading">
         {{section.settings.hero__heading}}
@@ -19,15 +26,15 @@
      "settings": 
     [ 
         { 
-            "id":"hero_bg",
             "type":"image_picker",
+            "id":"hero_bg",
             "label":"Your Image" 
         },
         {
             "type": "color_background",
-            "id": "hero_background",
-            "label": "Background color ",
-            "default": "#000"
+            "id": "background",
+            "label": "Background color",
+            "default": "#000000"
         },
         {
             "type": "text",
@@ -36,7 +43,7 @@
             "default": "Team barbell"
         },
         {
-            "type": "text",
+            "type": "textarea",
             "id": "hero__text",
             "label": "Hero text",
             "default": "Team Barbell was to design a piece of equipment that matches the performance and quality of other elite level competition bars."

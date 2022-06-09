@@ -33,14 +33,6 @@
           <div class="yotpo bottomLine"
             data-product-id="{{ product.id }}">
             </div>
-          <!-- <div class="goods__ratings">
-            {% assign rating = product.metafields.my_fields.ratings.value | split:"." %}
-            {% if rating %}
-              {% for item in (1..rating[0]) %}
-                {% render "star" %}
-              {% endfor %}
-            {% endif %}
-          </div> -->
           <div class="goods__tags">
             {% for tag in product.tags %}
               {% if tag contains 'free shipping' %}     

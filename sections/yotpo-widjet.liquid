@@ -71,11 +71,11 @@
     fetch(url, options)
         .then(res => res.json())
         .then(json => {
-            console.log(json);
+            // console.log(json);
             document.querySelector(".yotpo-widjet__score").textContent = json.response.bottomline.average_score > 0 ? (json.response.bottomline.average_score).toFixed(1) : ""
             let reviews = json.response.reviews
             reviews.forEach(review => {
-                console.log(review);
+                // console.log(review);
                 let oldNumber = document.querySelector(`.review__count-${review.score}`).textContent
                 document.querySelector(`.review__count-${review.score}`).textContent = Number(oldNumber) + 1
                 let percentage = (Number(oldNumber) + 1) / json.response.bottomline.total_review * 100

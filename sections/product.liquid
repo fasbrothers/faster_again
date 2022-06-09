@@ -27,19 +27,6 @@
       <div class="yotpo bottomLine"
       data-product-id="{{ product.id }}">
       </div>
-
-      <!-- <div class="product__ratings">
-        {% assign rating = product.metafields.my_fields.ratings.value | split:"." %} 
-          {% if rating %} 
-            {% for item in (1..rating[0]) %} 
-              {% render "star" %} 
-            {% endfor %} 
-          {% endif %} 
-        {% assign review = product.metafields.accentuate.review %} 
-        {% if review %}
-        <p class="product__review">{{ review }} reviews</p>
-        {% endif %}
-      </div> -->
       <p class="product__description">{{ product.description }}</p>
       <form
         action="/cart/add"
@@ -51,11 +38,10 @@
       <fieldset class="product-form__input">
         {% for variant in product.variants %} 
             <input type="radio" value="{{variant.id}}" id="{{variant.id}}" name="{{product.options[0]}}" price="{{variant.price}}">
-            <label for="{{variant.id}}"class="product-form__item {% unless variant.available %} product-form__sold-out {% endunless %}">{{ variant.title }}</label>
+            <label for="{{variant.id}}" class="product-form__item {% unless variant.available %} product-form__sold-out {% endunless %}">{{ variant.title }}</label>
         {% endfor %}
       </fieldset>
 
-      <!-- this is for form submit to work -->
       
       <input id="product_size_master" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" selected="selected">
       <input id="product_qty_master" type="hidden" name="quantity" min="1" value="1">
@@ -175,7 +161,7 @@
           <p class="cart__footer-text">pay as low as 56/mo</p>
           <a href="#" class="cart__footer-link">Learn More</a>
       </div>
-      <button class="cart__footer-button">Continue to Checkout</button>
+      <button class="cart__footer-button" type="submit">Continue to Checkout</button>
     </div>
   </div>
 
@@ -214,7 +200,18 @@
       return response.json();
     })
     .then(data=>{
-      document.querySelector(".cart__footer-total").textContent = '$' + ((data.total_price) / 100 ).toFixed(2);
+      let totalValue = 0;
+      data.items.forEach(element => {
+        if(element.properties == null){
+          totalValue+= element.original_price * element.quantity
+        }
+        else if(element.properties._bundle_price){
+          totalValue+= element.properties._bundle_price * element.quantity
+        }else{
+          totalValue += element.original_price * element.quantity
+        }
+      });
+      document.querySelector(".cart__footer-total").textContent = '$' + (totalValue / 100 ).toFixed(2);
       select.remove();
       if(!data.item_count){ empty_cart();  return }
     })
@@ -253,7 +250,18 @@
         })
         .then(res=>{
             res.json().then((changed)=>{
-              document.querySelector(".cart__footer-total").textContent = `$${(changed.items_subtotal_price/100).toFixed(2)}`;
+              let totalValue = 0;
+              changed.items.forEach(element => {
+                if(element.properties == null){
+                  totalValue+= element.original_price * element.quantity
+                }
+                else if(element.properties._bundle_price){
+                  totalValue+= element.properties._bundle_price * element.quantity
+                }else{
+                  totalValue += element.original_price * element.quantity
+                }
+              });
+              document.querySelector(".cart__footer-total").textContent = `$${(totalValue /100).toFixed(2)}`;
 
               let current = changed.items.find((item)=>item.key === key);
 
@@ -291,8 +299,19 @@
     .then(response => {
       return response.json();
     }).then(data => {
+      let totalValue = 0;
+      data.items.forEach(element => {
+        if(element.properties == null){
+          totalValue+= element.original_price * element.quantity
+        }
+        else if(element.properties._bundle_price){
+          totalValue+= element.properties._bundle_price * element.quantity
+        }else{
+          totalValue += element.original_price * element.quantity
+        }
+      });
       document.querySelector(".cart__main").innerHTML = "";
-      document.querySelector(".cart__footer-total").textContent = '$' + ((data.total_price)/100).toFixed(2);
+      document.querySelector(".cart__footer-total").textContent = '$' + (totalValue/100).toFixed(2);
       if(!data.item_count){ empty_cart(); return }
       document.querySelector(".cart__main").insertAdjacentHTML('afterbegin', data.items.map(item => {
         return `
@@ -306,7 +325,7 @@
           </a>
           <a class="cart__checkout-title" href="${item.url}">${item.title}</a>
           <p class="cart__checkout-variant">${item.variant_title}</p>
-          <p class="cart__checkout-price">$${(item.final_line_price / 100).toFixed(2)}</p>
+          <p class="cart__checkout-price">$${ item.properties == null ? (item.final_line_price / 100).toFixed(2) : item.properties._bundle_price ? (item.properties._bundle_price / 100).toFixed(2) : (item.final_line_price / 100).toFixed(2)}</p>
           <button
               class="cart__checkout-remove"
               data-key="${item.key}"

@@ -1,26 +1,6 @@
 {{ "style-homepage-products.css" | asset_url | stylesheet_tag }}
 
-<div class="featured">
-  <div class="swiper swiperProducts container">
-    <div class="swiper-wrapper">
-      {% for block in section.blocks %}
-      <div class="featured__item swiper-slide">
-        <a class="featured__img" href="{{ block.settings.collection.url}}">
-          <img
-          src="{{ block.settings.collection.featured_image.src | image_url }}"
-          alt="{{ block.settings.collection.alt | escape }}"
-          />
-        </a>
-        <a class="featured__title" href="{{ block.settings.collection.url}}">
-          <p>{{ block.settings.collection.title }}</p>
-          <span class="arrow">{% render "arrow_right" %}</span>
-        </a>
-      </div>
-      {% endfor %}
-    </div>
-    <div class="swiper-scrollbar"></div>
-  </div>
-</div>
+{% include 'homepage-products-snip' %}
 
 {{ "script-homepage-products.js" | asset_url | script_tag }}
 
