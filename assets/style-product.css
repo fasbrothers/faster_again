@@ -266,6 +266,9 @@
     margin-top: 8rem;
 }
 .predefined__bundle{
-    width: 60%;
+    width: 50%;
     margin: 0 auto;
+}
+.th_pb_section .th_pb_addtocart_section .th_pb_add_to_cart, .th_pb_custom_bundle .th_pb_addtocart_section .th_pb_add_to_cart {
+    width: 50%;
 }
