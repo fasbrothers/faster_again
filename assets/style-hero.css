@@ -1,12 +1,11 @@
 .hero {
-    background-image: url("{%- if section.settings.hero_bg != blank -%} {{ section.settings.hero_bg | image_url }} {%- else -%} {{ 'image-hero_bg.jpg' | asset_url}} {%- endif -%}");
     background-position: 0 25%;
     height: calc(100vh - 4rem);
     width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     padding-left: 4rem;
-    background-color: {{section.settings.hero_background}};
+    /* background-color: rgb(88, 88, 88); */
 }
 .hero__wrapper{
     height: 100%;
