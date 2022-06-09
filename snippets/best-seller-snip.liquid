@@ -1,0 +1,20 @@
+<div class="best-seller__wrapper container">
+    <div class="best-seller__left">
+        <img src="{{ section.settings["best-seller__image-1"] | image_url }}" alt="" class="best-seller__left-img">
+    </div>
+    <div class="best-seller__right">
+        <img src="{{ section.settings["best-seller__image-2"] | image_url }}" alt="" class="best-seller__right-img">
+        <p class="best-seller__subheading">
+            {{section.settings["best-seller__subheading"]}}
+        </p>
+        <h3 class="best-seller__heading">
+            {{section.settings['best-seller__heading']}}
+        </h3>
+        <p class="best-seller__text">
+            {{section.settings['best-seller__text']}}
+        </p>
+        <a href="{{section.settings.galery__button_url}}" class="best-seller__button">
+            {{section.settings['best-seller__button']}}
+        </a>
+    </div>
+</div>
