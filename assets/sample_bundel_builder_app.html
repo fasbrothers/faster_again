@@ -1,0 +1,336 @@
+<style type="text/css">
+    .grid__item {
+     background: #F1F1F1;
+     margin-bottom: 12px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 19px 26px 21px;
+     border-radius: 8px;
+     position:relative;
+     }
+   .grid__item-left {
+     display: flex;
+     align-items: center;
+     gap: 26px;
+     }
+    .grid__item-img img, .grid__item__image-container img {
+     height: 9rem;
+     width:6rem;
+     object-fit: cover;
+     }
+       .grid__item__image-container img{
+       height: 8.3rem;
+       width: 8.3rem;
+    }
+   .grid__item-heading {
+     font-weight: 600;
+     font-size: 24px;
+     line-height: 19px;
+     text-transform: uppercase;
+     color: #3F3C38;
+     }
+   .grid__item-product-name{
+     font-weight: 400;
+     font-size: 16px;
+     line-height: 22px;
+     color: #3F3C38;
+     margin-top: 8px;
+        font-style: italic;
+   }
+   .grid__item-submit{
+     width: 140px;
+     background: #000;
+     border-radius: 6.85714px;
+     border: none;
+     color: white;
+     font-size: 32px;
+     padding: 12px 0;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 20px;
+     position:absolute;
+     right:3.4rem;
+     cursor:pointer;
+     top:3.5rem;
+   }
+   .products__heading{
+     margin-bottom:0.8rem;
+     font-weight: 700;
+     font-size: 28px;
+     line-height: 38px;
+     color:#3F3C38;
+     text-transform: capitalize;
+     margin-left:3rem;
+   }
+   .product-box{
+     margin-bottom: 3.6rem;
+     margin-left:3rem;
+   }
+   .products{
+     display:flex;
+   }
+   .products__content{
+     width:84rem;
+   }
+   .bundle-content{
+     width:44rem;
+     margin-left:8rem;
+     height: 100vh;
+     background:#F1F1F1;
+     padding: 60px 40px 0;
+     position: sticky;
+     top:0;
+   }
+   .bundle-builder--add-to-cart-form {
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     width: 100%;
+     }
+   .add-to-cart__bottom-wrapper {
+     display: grid;
+     grid-template-columns: 47px 1fr;
+     margin: 50px 0 0;
+     box-shadow: 0px -4px 10px rgb(0 0 0 / 6%);
+   }
+   .add-to-cart__bottom-counter {
+     background: #000;
+     color: #fff;
+     text-align: center;
+     font-weight: 500;
+     font-size: 22px;
+     line-height: 18px;
+     letter-spacing: 0.03em;
+     text-transform: uppercase;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+    }
+   .add-to-cart__bottom-button {
+     background: #000;
+     padding: 30px 0;
+     color: #fff;
+     font-weight: 500;
+     font-size: 22px;
+     line-height: 18px;
+     text-transform: uppercase;
+     text-align: center;
+     cursor:pointer;
+   }
+   .btn {
+     background: none;
+     border: none;
+     cursor: pointer;
+     font-size: 2.4rem;
+     color: #fff;
+     margin:0 0.5rem;
+     }
+   .grid__item-count{
+     font-size: 2.4rem;
+     font-style: initial;
+   }
+   .bundle__added-product__title {
+     font-family: 'Open Sans';
+     font-style: normal;
+     font-weight: 700;
+     font-size: 32px;
+     line-height: 44px;
+     text-transform: uppercase;
+   }
+   .bundle-freeshiping__text {
+     font-family: 'Open Sans';
+     font-style: italic;
+     font-weight: 300;
+     font-size: 14px;
+     line-height: 19px;
+     text-transform: uppercase;
+     color: #3F3C38;
+   }
+   .bundle__grid {
+     position: absolute;
+     display: grid;
+     grid-template-columns: 1fr 1fr 1fr 1fr;
+     gap: 15px;
+     top: 200px;
+     left: 30px;
+   }
+   .bundle__product-item {
+     width: 82px;
+     height: 82px;
+     border-radius: 8px;
+     background: white;
+   }
+   .products-added__num {
+     background: #F1F1F1;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border: 1px solid black;
+     font-size: 20px;
+     font-family: 'Open Sans';
+     font-style: normal;
+     border-radius: 10px;
+     font-weight: 600;
+   }
+   .bundle__product-img {
+     width: 82px;
+     height: 82px;
+     object-fit: cover;
+     border:1px solid black;
+     border-radius: 10px;
+   }
+   .bundle__error{
+     color:red;
+   }
+   .products__content button:disabled {
+   cursor: not-allowed;
+   pointer-events: all !important;
+     }
+  .bundle-content__actions {
+    height: 95px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    z-index: 10;
+    
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .bundle-content__actions span {
+    width: 5rem;
+    height: 100%;
+    font-size: 2rem;
+    background-color: #3F3C38;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .bundle-content__actions button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #3F3C38;
+    color: #fff;
+    font-size: 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .bundle-content__actions .btn-allowed {
+    background-color: #000;
+  }
+ </style>
+ 
+ {% if bundle.published %}
+ 
+     <div class="products container">
+        <div class="products__content">
+     {% for section in bundle.sections %}
+     <h1 class="products__heading">{{ section.name }}</h1>
+     <div class="product-box">
+         {% for product in section.products %}
+             <div class="product grid__item">
+                 <div class="grid__item-left">
+                     <div class="grid__item-img">
+                         <img src="{{ product.image.src }}" />
+                     </div>
+                     <div class="grid__item-content">
+                         <h2 class="grid__item-heading">{{ product.title }}</h2>
+                       <div class="grid__item-product-name">
+                         {% add_to_bundle_form section %}
+                             {% if product.available_variants.size > 1 %}
+                                 <select name="variant" id="select-{{ section.index }}-{{ product.id }}">
+                                     {% for variant in product.available_variants %}
+                                         <option value="{{ variant.id }}" data-price={{ variant.price | money }}>
+                                             {{ variant.title }}
+                                         </option>
+                                     {% endfor %}
+                                 </select>
+                             {% else %}
+                                 <input type="hidden" name="variant" value="{{ product.available_variants[0].id }}" />
+                                  {{ product.available_variants[0].title }}
+                             {% endif %}
+                             | <span class="variant-price">{{ product.available_variants[0].price | money }}</span>
+                           <button {% unless bundle.content.items.size < 12 %} disabled {% endunless %} class="grid__item-submit" type="submit">+</button>
+                         {% end_add_to_bundle_form %}
+                     {% for variant in product.variants_in_bundle %}
+                      <div class="grid__item-submit">                  
+                         
+                       {% change_quantity_form %}
+                           <input type="hidden" name="variant" value="{{ variant.id }}" />
+                           <input type="hidden" name="section" value="{{ section.index }}" />
+                           <button type="submit" class="btn" name="remove">-</button>
+                        <span class="grid__item-count">{{ variant.count }}</span>
+                           <button {% unless bundle.content.items.size < 12 %} disabled {% endunless %} type="submit" class="btn" name="add"> + </button>
+                       {% end_change_quantity_form %}
+                     </div>   
+                    {% endfor %}
+                       </div>
+                     </div>
+ 
+                 </div>
+             </div>
+         {% endfor %}
+     </div>
+       {% endfor %}
+       </div>
+ 
+ 
+          <div class="bundle-content">
+         <h2 class="bundle__added-product__title">YOUR PACK</h2>
+         <p class="bundle-freeshiping__text">add 8 or more for free shipping</p>
+           {% if bundle.errors.size > 0 %}
+             <ul>
+                 {% for error in bundle.errors %}
+                     <p class="bundle__error">{{ error }}</p>
+                 {% endfor %}
+             </ul>
+          {% endif %}
+         <div class="bundle__grid">
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item products-added__num">4</div>
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item products-added__num">8</div>
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item"></div>
+           <div class="bundle__product-item products-added__num">12</div>
+         </div>
+         <div>
+             <div class="bundle__grid">
+              {% for item in bundle.content.items limit:12 %}
+                <div class="bundle__product-item">
+                        <img class="bundle__product-img" src="{{item.variant.product.image.src}}" alt="">
+                </div>
+                {% endfor %}
+             </div>
+         </div>
+         <div class="add-to-cart__bottom">
+             {% add_to_cart_form %}
+            <div class="bundle-content__actions">
+                {% assign modulo = bundle.content.items.size | modulo:4 %}
+                {% assign count = bundle.content.items.size %}
+                <span>{{ bundle.content.items.size }}</span>
+                <button {% if modulo != 0 %} disabled {% else %} class="btn-allowed" {% endif %} >
+                  {% if bundle.adding_to_cart %} Processing... {% elsif modulo == 0 %} Add to cart {{ bundle.content.price | money }} {% elsif count < 4 %} Add {{ 4 | minus:count }} more items {% elsif count < 8 %} Add {{ 8 | minus:count }} more items {% else %} Add {{ 12 | minus:count }} more items {% endif %}
+                </button>
+            </div>
+        {% end_add_to_cart_form %}
+      </div>
+ </div>
+ </div>
+ {% else %}
+     <p>Sorry, this bundle is currently unavailable.</p>
+ {% endif %}
