@@ -2,6 +2,60 @@
 
 {% capture bb_total_price %}{% render 'bb', type: 'bb_total_price' %}{% endcapture %}{% assign bb_total_price = bb_total_price | plus: 0 %}
 
+<style>
+  .table__row img{
+    width: 150px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 1rem 0;
+  }
+  thead{
+    font-size: 2rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  .cart__info{
+    display: flex;
+    flex-direction: column;
+    margin-top: 4rem;
+    width: 150px;
+  }
+  .cart__info a{
+    color: black;
+    text-decoration: none;
+  }
+  .cart__name{
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  .cart__info p{
+    margin: 1rem 0;
+  }
+  .cart__remove{
+    text-transform: capitalize;
+  }
+  .cart__price{
+    font-size: 1.7rem;
+    font-weight: 500;
+  }
+  .cart__quantity{
+    width: 50px;
+  }
+  .cart__image{
+    width: 250px;
+  }
+  .cart__price--highlight{
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+  .cart__total{
+    text-align: right;
+  }
+  .cart__quant{
+    width: 117px;
+  }
+</style>
+
 {% if cart.item_count > 0 %}
   <h1 class="cart__heading">Cart</h1>
   <form  action="{% if bb_checkout_link != blank %}{{ bb_checkout_link }}{% else %}/cart{% endif %}" method="post" novalidate>
@@ -11,15 +65,15 @@
         <th colspan="2">Product</th>
         <th>Price</th>
         <th>Quantity</th>
-        <th>Total</th>
+        <th class="cart__total">Total</th>
       </thead>
       <tbody>
         {% for item in cart.items %}
         {% capture bb_price %}{% render 'bb', type: 'bb_price', item: item %}{% endcapture %}{% assign bb_price = bb_price | plus: 0 %}
         {% capture bb_original_line_price %}{% render 'bb', type: 'bb_original_line_price', item: item %}{% endcapture %}{% assign bb_original_line_price = bb_original_line_price | plus: 0 %}
         {% capture bb_line_price %}{% render 'bb', type: 'bb_line_price', item: item %}{% endcapture %}{% assign bb_line_price = bb_line_price | plus: 0 %}
-        <tr>
-          <td>
+        <tr class="table__row">
+          <td class="cart__image">
             <a href="{{ item.url | within: collections.all }}">
               <img
                 src="{{ item | img_url: 'medium' }}"
@@ -27,28 +81,29 @@
               />
             </a>
           </td>
-          <td>
-            <a href="{{ item.url }}">{{ item.product.title }}</a>
-            {{ item.variant.title }}
-            <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0"
+          <td class="cart__info">
+            <a class="cart__name" href="{{ item.url }}">{{ item.product.title }}</a>
+            <p>{{ item.variant.title }}</p>
+            <a class="cart__remove" href="/cart/change?line={{ forloop.index }}&amp;quantity=0"
               >remove</a
             >
           </td>
-          <td>{{ bb_price | money }}</td>
-          <td>
+          <td class="cart__price">{{ bb_price | money }}</td>
+          <td class="cart__quant">
             <input
               type="number"
               name="updates[]"
               id="updates_{{ item.key }}"
               value="{{ item.quantity }}"
               min="0"
+              class="cart__quantity"
             />
           </td>
-          <td>
+          <td class="cart__total">
             {% if bb_original_line_price != bb_line_price %}
-            {{ bb_original_line_price | money }}
+            <p class="cart__price cart__price--highlight">{{ bb_original_line_price | money }}</p>
             {% endif %}
-            {{ bb_line_price | money }}
+           <p class="cart__price">{{ bb_line_price | money }}</p> 
             {% for discount in item.discounts %}
             {{ discount.title }}
             {% endfor %}
@@ -58,12 +113,14 @@
       </tbody>
     </table>
     <div class="cart__buttom">
-      <p>Sub total : {{ bb_total_price | money }}</p>
+      <p>Subtotal : {{ bb_total_price | money }}</p>
       <button name="update" type="submit">Update</button>
       <button name="checkout" type="submit">Checkout</button>
     </div>
   </form>
   {% else %}
-  <h2>cart</h2>
-  Cart is empty 
+  <div class="cart_empty container" style="text-align: center">
+    <h2>CART</h2>
+    Cart is empty 
+  </div>
   {% endif %}
