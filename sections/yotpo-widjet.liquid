@@ -3,6 +3,9 @@
 <section class="yotpo-widjet container">
     <h5 class="yotpo-widjet__heading">{{section.settings.yotpo__heading}}</h5>
     <div class="reviews">
+        {%- comment -%}
+                this is my comment
+        {%- endcomment -%}  
         <h1 class="yotpo-widjet__score"></h1>
         <div class="reviews__bars">
             <div class="review__bar">
@@ -10,7 +13,7 @@
                 <div class="reviews__progress-bar">
                     <div class="reviews__progress-percentage"></div>
                 </div>
-                <p class="review__count-1 ">0</p>
+                <p class="review__count-5">0</p>
             </div>
             <div class="review__bar">
                 <p class=" review__1">4 stars</p>
@@ -86,7 +89,7 @@
         document.querySelector(".review__buttons-write").addEventListener("click", e => {
         document.querySelector(".write-review-wrapper.write-form").classList.add("visible", "active");
         })  
-    </script>
+</script>
 
 {% schema %}
 {
