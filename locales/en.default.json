@@ -3,6 +3,25 @@
     "404": {
       "title": "Not found",
       "subtext_html": "The page you were looking for does not exist"
+    },
+    "cart_total": {
+      "title": "Subtotal",
+      "cart__footer-subtitle": "Tax and shipping calculates at checkout.",
+      "cart__footer-text": "pay as low as 56/mo",
+      "cart__footer-button": "Continue to Checkout",
+      "cart__footer-link": "Learn More",
+      "cart-empty": "Your cart is empty",
+      "cart-title"  : "My Cart"
+    },
+    "header": {
+      "header__account": "Account",
+      "header__logIn" : "Log In",
+      "header__logOut" : "Log Out"
+    },
+    "product":{
+      "product__soldOut_html": "<strong>Sold Out</strong> - Get notified when back in stock",
+      "product__notAvailable": "Not available product"
     }
+
   }
 }
