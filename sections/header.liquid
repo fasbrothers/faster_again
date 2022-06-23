@@ -10,16 +10,11 @@
     </a>
   </div>
   <div class="header__center">
-    {% for link in linklists.main-menu.links %} 
-         {% assign child_list_handle =link.title | handleize %} 
-          {% if linklists[child_list_handle].links != blank %}
-          <a class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}" href="{{ link.url }}">{{ link.title }}</a>
-          [{% for childlink in linklists[child_list_handle].links %}
-          <a class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
-        {% endfor %}] 
-        {% else %}
-        <a class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}" href="{{ link.url }}">{{ link.title }}</a>
-        {% endif %} {% endfor %}
+      {% for block in section.blocks %}
+            {% for link in block.settings.header_link_list.links %}
+              <a href="{{ link.url }}" class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}">{{ link.title }}</a>
+            {% endfor %}
+      {% endfor %}
       </div>
       <div class="header__right">
        {% if shop.customer_accounts_enabled %} 
@@ -30,18 +25,20 @@
       <div class="dropdown">
         <button class="dropbtn header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">{% render 'account' %}</button>
         <div class="dropdown-content">
-          <a href="{{ routes.account_url }}">Account</a>
-          <a href="{{ routes.account_logout_url }}">Log Out</a>
+          <a href="{{ routes.account_url }}">{{ 'general.header.header__account' | t }}</a>
+          <a href="{{ routes.account_logout_url }}">{{ 'general.header.header__logOut' | t }}</a>
         </div>
       </div>
     {% else %}
-      <a href="#" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
-        {% render 'search' %}
-      </a>
+    {% if section.settings.show_search %}
+    <a href="#" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
+      {% render 'search' %}
+    </a>
+    {% endif %}
       <div class="dropdown">
         <button class="dropbtn header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">{% render 'account' %}</button>
         <div class="dropdown-content">
-          <a href="{{ routes.account_login_url }}">Log In</a>
+          <a href="{{ routes.account_login_url }}">{{ 'general.header.header__logIn' | t }}</a>
         </div>
       </div>
       {% endif %} 
@@ -51,41 +48,49 @@
       </a>
     </div>
     </div>
+    <form action="/cart" method="post" novalidate>
       <div class="cart">
         <div class="cart__header">
-          <h4 class="cart__header-title">My Cart</h4>
+          <h4 class="cart__header-title">{{ 'general.cart_total.cart-title' | t }}</h4>
           <button class="cart__header-cancel">{% render "hamburger" %}</button>
         </div>
         <div class="cart__main">  
         </div>
         <div class="cart__footer">
-            <div class="cart__footer-top">
-                <h4 class="cart__footer-title">Subtotal</h4>
-                <p class="cart__footer-total"></p>
-            </div>
-          <p class="cart__footer-subtitle">Tax and shipping calculates at checkout.</p>
-          <div class="cart__footer-desc">
-              {% render "sponsor" %}
-              <p class="cart__footer-text">pay as low as 56/mo</p>
-              <a href="#" class="cart__footer-link">Learn More</a>
+          <div class="cart__footer-top">
+              <h4 class="cart__footer-title">{{ 'general.cart_total.title' | t }}</h4>
+              <p class="cart__footer-total"></p>
           </div>
-          <button class="cart__footer-button" type="submit">Continue to Checkout</button>
+        <p class="cart__footer-subtitle">{{ 'general.cart_total.cart__footer-subtitle' | t }}</p>
+        <div class="cart__footer-desc">
+            {% render "sponsor" %}
+            <p class="cart__footer-text">{{ 'general.cart_total.cart__footer-text' | t }}</p>
+            <a href="#" class="cart__footer-link">{{ 'general.cart_total.cart__footer-link' | t }}</a>
         </div>
+        <button type="submit" name="checkout" class="cart__footer-button">{{ 'general.cart_total.cart__footer-button' | t }}</button>
       </div>
+      </div>
+    </form>
     <script>   
 
-    const toggleNav = () => {
-      document.querySelector('.cart').classList.toggle("cart__open");
-    };
-    document.querySelector(".cart__header-cancel").addEventListener("click", toggleNav);
-  
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        document.querySelector(".cart").classList.remove("cart__open");
+      }
+    });
+    document.querySelector(".cart__header-cancel").addEventListener("click", (e) => {
+      e.preventDefault()
+      document.querySelector('.cart').classList.remove("cart__open");
+    });
+    
     document.querySelector(".header__bag").addEventListener("click", ()=>{
       getData();
-      toggleNav();
+      document.querySelector('.cart').classList.add("cart__open");
     });
 
   document.querySelector(".cart__main").addEventListener("click", (e)=>{
   if(e.target.classList.contains("cart__checkout-remove")){
+    e.preventDefault();
     removeItem(e.target.getAttribute("data-key"), e.target.parentElement)
   } else if(e.target.classList.contains("btn-increase")){
     updateCartValue("+", e.target)
@@ -258,9 +263,30 @@
     </script>
 
   {% schema %} 
-  { "name": "Header", 
+  { 
+  "name": "Header", 
   "class": "header",
-  "settings": 
-  [] 
+ "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show Search",
+      "default": true
+    }
+ ],
+  "max_blocks": 1,
+  "blocks": [
+      {
+        "type": "list",
+        "name": "Header list",
+        "settings": [
+          {
+            "type": "link_list",
+            "id": "header_link_list",
+            "label": "Header list"
+          }
+        ]
+      }
+    ]  
 }
   {% endschema %}

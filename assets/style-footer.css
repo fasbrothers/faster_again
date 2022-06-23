@@ -75,11 +75,24 @@
     left: 0;
     z-index: 0;
 }
-.footer__links{
+.footer__left .footer__links{
     display: flex;
-    align-items: center;
     margin-top: 2.6rem;
+    align-items: center;
 }
-.footer__link{
+.footer__left .footer__link{
     margin-right: 1.6rem;
+}
+.footer__lists .footer__links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+.footer__lists .footer__links li {
+    margin-bottom: 1.2rem;
+    font-size: 1.4rem;
+}
+.footer__lists {
+    display: flex;
+    column-gap: 4rem;
 }

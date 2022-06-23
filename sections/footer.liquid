@@ -34,18 +34,6 @@
     },
     {
         "type": "text",
-        "id": "footer__heading_two",
-        "label": "Footer Heading Two",
-        "default": "Again Faster"
-    },
-    {
-        "type": "text",
-        "id": "footer__heading_three",
-        "label": "Footer Heading Three",
-        "default": "Get Help"
-    },
-    {
-        "type": "text",
         "id": "footer__input",
         "label": "Footer Input",
         "default": "Enter your email"
@@ -56,6 +44,19 @@
         "label": "Footer text",
         "default": "©2020 Again Faster. All Rights Reserved"
     }
-  ] 
+  ],
+  "blocks": [
+      {
+        "type": "list",
+        "name": "Footer list",
+        "settings": [
+          {
+            "type": "link_list",
+            "id": "footer_link_list",
+            "label": "Footer list"
+          }
+        ]
+      }
+    ] 
 }
  {% endschema %}
