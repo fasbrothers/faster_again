@@ -3,7 +3,7 @@
 {% assign param = collection.handle %}
 
 <div class="products container">
-    {% paginate collection.products by 20 %}
+    {% paginate collection.products by section.settings.products_per_page %}
     <h1 class="products__title">{{ collection.title }}</h1>
     <div class="products__navigation">
       {% for collection in collections %}
@@ -17,6 +17,7 @@
       {% endfor %}
 
     </div>
+    {% render 'collection-filter' %}
     <div class="products__list">
       {% for product in collection.products %}
       <div class="goods">
@@ -26,13 +27,13 @@
           
           {% unless product.available %}
           <p class="goods__sold-out">
-            Sold Out - Get notified when back in stock
+            {{'general.product.product__soldOut_html' | t | upcase }}
           </p>
           {% endunless %}
           <a class="goods__title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
           <div class="yotpo bottomLine"
             data-product-id="{{ product.id }}">
-            </div>
+          </div>
           <div class="goods__tags">
             {% for tag in product.tags %}
               {% if tag contains 'free shipping' %}     
@@ -59,7 +60,7 @@
           
         </div>
         {% else %}
-        <h3 class="not__available">Not available product</h3>
+        <h3 class="not__available">{{'general.product.product__notAvailable' | t}}</h3>
         {% endfor %}
       </div>
     {% if paginate.pages > 1 %}
@@ -68,3 +69,24 @@
   {% endpaginate %}
 </div>
 
+{% schema %}
+{
+ "name": "collection",
+ "settings": [
+  {
+    "type": "header",
+    "content": "Collection"
+  },
+  {
+    "type": "paragraph",
+    "content": "Sample information about the collection"
+  },
+    {
+      "type": "number",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "default": 20
+    }
+  ]
+}
+{% endschema %}
