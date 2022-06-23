@@ -85,6 +85,7 @@
                               aria-expanded="false">
                         Edit 
                         </button>
+                        {% unless address == customer.default_address %}
                         <p>|</p>
                         <form class="address-delete-form"
                             method="post"
@@ -93,6 +94,7 @@
                           <input type="hidden" name="_method" value="delete">
                           <button type="submit">Delete</button>
                         </form>
+                        {% endunless %}
                     </div>
                     </div>
                 {% endfor %}
