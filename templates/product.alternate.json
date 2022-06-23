@@ -1,0 +1,19 @@
+{
+  "wrapper": ".product__alternate",
+    "sections": {
+      "product_alternate": {
+        "type": "product",
+        "settings": {
+        }
+      },
+      "predefined-bundle": {
+        "type": "predefined-bundle",
+        "settings": {
+        }
+      }
+    },
+    "order": [
+      "product_alternate",
+      "predefined-bundle"
+    ]
+}
