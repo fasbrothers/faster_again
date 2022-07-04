@@ -1,0 +1,10 @@
+<div class="footer__lists">
+    {% for block in section.blocks %}
+      <ul class="footer__links footer__links--first">
+          <h3 class="footer__heading">{{ block.settings.footer_link_list.title}}</h3>
+          {% for link in block.settings.footer_link_list.links %}
+            <li><a href="{{ link.url }}" class="footer-nav">{{ link.title }}</a></li>
+          {% endfor %}
+      </ul>
+    {% endfor %}
+  </div>

@@ -1,5 +1,4 @@
-{% assign collectionArray = collection.metafields.accentuate.collections_wrapper | split: "|" %} 
-{% for collectionItem in collectionArray %}
+{% for collectionItem in collection-master-2 limit: limit_count %}
 <div class="master__collection">
     <a
       href="{{ collections[collectionItem].url }}"

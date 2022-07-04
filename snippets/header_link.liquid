@@ -1,0 +1,3 @@
+{% for link in section.settings.header_link_list.links %}
+    <a href="{{ link.url }}" class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}">{{ link.title }}</a>
+{% endfor %}

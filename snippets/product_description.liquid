@@ -1,0 +1,29 @@
+<div class="product__right-wrapper">
+    <h2 class="product__title">{{ product.title }}</h2>
+    <p class="product__price">{{ current_variant.price | money }}</p>
+    <div class="yotpo bottomLine"
+    data-product-id="{{ product.id }}">
+    </div>
+    <p class="product__description">{{ product.description }}</p>
+<form
+    action="/cart/add"
+    method="post"
+    enctype="multipart/form-data"
+    id="AddToCartForm"
+    class="product__form"
+>
+<fieldset class="product-form__input">
+    {% for variant in product.variants %} 
+        <input type="radio" value="{{variant.id}}" id="{{variant.id}}" name="{{product.options[0]}}" price="{{variant.price}}">
+        <label for="{{variant.id}}" class="product-form__item {% unless variant.available %} product-form__sold-out {% endunless %}">{{ variant.title }}</label>
+    {% endfor %}
+</fieldset>
+    <input id="product_size_master" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" selected="selected">
+    <input id="product_qty_master" type="hidden" name="quantity" min="1" value="1">
+    <p class="free-shipping">{{ section.settings.free_shipping_text }}</p>
+    <button type="submit" name="add" class="product__button" {% if product.selected_or_first_available_variant.available==false %}disabled{% endif %}>
+        {{ section.settings.submit_btn_text }}
+    </button>
+</form>
+    {% render "product_metafield" %}
+</div>

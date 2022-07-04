@@ -1,0 +1,24 @@
+{% if product.metafields.accentuate.frequent != blank %} {% assign frequently =
+product.metafields.accentuate.frequent | split: "|" %}
+<h2 class="product-frequent__title">
+    {{ section.settings.product-freq__title }}
+</h2>
+<div class="product__frequents">
+    {% for productItem in frequently %}
+    <div class="product__frequent">
+        <div class="product__frequent-left">
+            <img class="product__frequent-image" src="{{ all_products[productItem].images[0].src | img_url: 'large' }}"
+                alt="{{ all_products[productItem].image.alt | escape }}" />
+        </div>
+        <div class="product__frequent-right">
+            <p class="product__frequent-heading">
+                {{ all_products[productItem].title }}
+            </p>
+            <a class="product__frequent-link" href="{{ all_products[productItem].url }}">
+                {{ section.settings.submit_btn_text }}
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}

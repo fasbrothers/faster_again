@@ -1,25 +1,12 @@
 <form class="filter-form" name="formSubmit">
     {%- for filter in collection.filters -%}
-      <details class="filter-group">
         <summary class="filter-group-summary">
           <div>
             <span>{{ filter.label }}</span>
-  
-            {%- if filter.active_values.size > 0 -%}
-              <span>({{ filter.active_values.size }})</span>
-            {%- endif -%}
           </div>
         </summary>
   
         <div class="filter-group-display">
-          <div class="filter-group-display__header">
-            <span class="filter-group-display__header-selected">{{ filter.active_values.size }} selected</span>
-  
-            {%- if filter.active_values.size > 0 -%}
-              <a href="{{ filter.url_to_remove }}" class="filter-group-display__header-reset">Reset</a>
-            {%- endif -%}
-          </div>
-  
           {%- case filter.type -%}
             {%- when 'boolean' or 'list' -%}
               <ul class="filter-group-display__list">
@@ -78,11 +65,12 @@
               </div>
           {%- endcase -%}
         </div>
-      </details>
     {%- endfor -%}
   
     <div class="active-filters">
+      {% if collection.filters != blank %}
       <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="active-filters__clear">Clear all</a>
+      {% endif %}
   
       {%- for filter in collection.filters -%}
         {%- if filter.type == "price_range" -%}
