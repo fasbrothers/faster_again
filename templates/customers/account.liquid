@@ -1,12 +1,7 @@
 {{ "style-account-overview.css" | asset_url  | stylesheet_tag }}
 
 <div class="customer container">
-  <div class="customer__sidebar">
-    <h5 class="customer__sidebar-title">My Account</h5>
-    <li class="customer__sidebar-item"><a class="customer__sidebar-link customer__sidebar-link--active" href="{{ routes.account_url }}">Account Overview</a></li>
-    <li class="customer__sidebar-item"><a class="customer__sidebar-link" href="{{customer.orders[0].customer_url}}">Order Details</a></li>
-    <li class="customer__sidebar-item"><a class="customer__sidebar-link" href="{{ routes.account_addresses_url }}">Address Book</a></li>
-  </div>
+  {% render 'sidebar_admin'%}
   <div class="customer__content">
     <div id="customer_orders" class="customer__orders">
       <h5 class="customer__orders-title">Order Details</h5>
