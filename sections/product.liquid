@@ -6,22 +6,7 @@
 
 
 <div class="product container">
-  <div class="product__left">
-      <div class="swiper pdpSwiper">
-        <div class="swiper-wrapper">
-          
-          {% for image in product.images %}
-          <div class="swiper-slide">
-            <img
-              src="{{ image.src | img_url: 'large' }}"
-              alt="{{ image.alt | escape }}"
-            />
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-      <div class="swiper-pagination"></div>
-  </div>
+  {% render "product_images" %}
   <div class="product__right">
     <div class="product__right-wrapper">
       <h2 class="product__title">{{ product.title }}</h2>
@@ -40,7 +25,8 @@
       <fieldset class="product-form__input">
         {% for variant in product.variants %} 
             <input type="radio" value="{{variant.id}}" id="{{variant.id}}" name="{{product.options[0]}}" price="{{variant.price}}">
-            <label for="{{variant.id}}" class="product-form__item {% unless variant.available %} product-form__sold-out {% endunless %}">{{ variant.title }}</label>
+            <label for="{{variant.id}}" class="product-form__item {% unless variant.available %} product-form__sold-out {% endunless %}">{{ variant.title }}
+            </label>
         {% endfor %}
       </fieldset>
 
@@ -52,138 +38,28 @@
         {{ section.settings.submit_btn_text }}
       </button>
     </form>
-    {% if  product.metafields.accentuate.frequent != blank %}
-    {% assign frequently = product.metafields.accentuate.frequent | split: "|" %} 
-    <h2 class="product-frequent__title">{{section.settings.product-freq__title}}</h2>
-      <div class="product__frequents">
-          {% for productItem in frequently %}
-          <div class="product__frequent">
-            <div class="product__frequent-left">
-              <img
-                class="product__frequent-image"
-                src="{{ all_products[productItem].images[0].src | img_url: 'large' }}"
-                alt="{{ all_products[productItem].image.alt | escape }}"
-              />
-            </div>
-            <div class="product__frequent-right">
-              <p class="product__frequent-heading">
-                {{ all_products[productItem].title }}
-              </p>
-              <a class="product__frequent-link" href="{{all_products[productItem].url}}"> {{ section.settings.submit_btn_text }}</a>
-            </div>
-          </div>
-          {% endfor %}
-      </div>     
-  {% endif %}
+    {% render "product_metafield" %}
     </div>
   </div> 
 </div>
 
-<div class="product__details">
-  <div class="product__details-wrapper container">
-    {% for html in product.metafields.accentuate.presentaion_text %}
-    <div class="product__detail">
-      <div class="product__detail-info">
-        {{ product.metafields.accentuate[html.metafield][html.index] }}
-      </div>
-      <div class="product__detail-image">
-        <img src="{{ product.metafields.accentuate.presentaion_image[forloop.index0][0].src }}" alt="">
-      </div>
-    </div>
-    {% endfor %}
-      <div class="product__detail-line product__detail-line-1"></div>
-      <div class="product__detail-line product__detail-line-2"></div>
-      <div class="product__detail-line product__detail-line-3"></div>
-  </div>
-</div>
 
-<div class="goods__recommendation container">
-  <p class="goods__recommendation-title">{{section.settings["goods__recommendation-title"]}}</p>
-  <div class="goods__recommendation-list">
-    {% for block in section.blocks %}
-    <div class="goods">
-      <a class="goods__image {% unless block.settings.product.available %} goods__opacity {% endunless %}" href="{{ block.settings.product.url | within: collection }}">
-        <img src="{{ block.settings.product.featured_image.src | image_url }}"  alt="{{ block.settings.product.alt | escape }}">
-      </a>
-      {% unless block.settings.product.available %}
-      <p class="goods__sold-out">
-       {{'general.product.product__soldOut' | t}}
-      </p>
-      {% endunless %}
-      <a class="goods__title" href="{{ product.url | within: collection }}">{{ block.settings.product.title }}</a>
-      <div class="goods__ratings">
-        {% assign rating = block.settings.product.metafields.my_fields.ratings.value | split:"." %}
-        {% if rating %}
-          {% for item in (1..rating[0]) %}
-            {% render "star" %}
-          {% endfor %}
-        {% endif %}
-      </div>
-      {% if product.price_varies and template == 'collection' %}
-      <p class="goods__price">{{ block.settings.product.price_min | money }}-{{ block.settings.product.price_max | money }}</p>
-      {% elsif product.compare_at_price %}
-      <p class="goods__price"> <span class="goods__price--cross">{{block.settings.product.compare_at_price | money}}</span> {{block.settings.product.price | money}}</p>
-      {% else %}
-      <p class="goods__price {% unless block.settings.product.available %} goods__price--line {% endunless %}">{{ block.settings.product.price | money }}</p>
-     {% endif %}
-      <div class="goods__tags">
-        {% for tag in block.settings.product.tags %}
-          {% if tag contains 'free shipping' %}     
-                <span class="goods__free-shipping goods__tag">{{tag}}</span>
-          {% endif %}
-          {% if tag contains 'best seller' %}
-                  <span class="goods__best-seller goods__tag">{{tag}}r</span>
-          {% endif %}
-          {% if tag contains 'pre-order' %}
-                  <span class="goods__pre-order goods__tag">{{tag}}</span>
-          {% endif %}
-        {% endfor %}
-  
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</div>
-  <div class="cart">
-    <div class="cart__header">
-      <h4 class="cart__header-title">{{ 'general.cart_total.cart-title' | t }}</h4>
-      <button class="cart__header-cancel">{% render "hamburger" %}</button>
-    </div>
-    <div class="cart__main">  
-    </div>
-    <div class="cart__footer">
-      <div class="cart__footer-top">
-          <h4 class="cart__footer-title">{{ 'general.cart_total.title' | t }}</h4>
-          <p class="cart__footer-total"></p>
-      </div>
-    <p class="cart__footer-subtitle">{{ 'general.cart_total.cart__footer-subtitle' | t }}</p>
-    <div class="cart__footer-desc">
-        {% render "sponsor" %}
-        <p class="cart__footer-text">{{ 'general.cart_total.cart__footer-text' | t }}</p>
-        <a href="#" class="cart__footer-link">{{ 'general.cart_total.cart__footer-link' | t }}</a>
-    </div>
-    <button class="cart__footer-button">{{ 'general.cart_total.cart__footer-button' | t }}</button>
-  </div>
-  </div>
+{% render "cart_ajax" %}
 
 {{ "script-pdp.js" | asset_url | script_tag }}
 
 <script>
-
   // function to remove the product from the cart, and update the cart qunatity
-
   document.querySelector(".cart__main").addEventListener("click", (e)=>{
-  if(e.target.classList.contains("cart__checkout-remove")){
-    removeItem(e.target.getAttribute("data-key"), e.target.parentElement)
-  } else if(e.target.classList.contains("btn-increase")){
-    updateCartValue("+", e.target)
+    if(e.target.classList.contains("cart__checkout-remove")){
+      removeItem(e.target.getAttribute("data-key"), e.target.parentElement)
+    } else if(e.target.classList.contains("btn-increase")){
+      updateCartValue("+", e.target)
     }
     else if(e.target.classList.contains("btn-decrease")){
       updateCartValue("-", e.target)
     }
-
   })
-
   // function to remove the product from the cart
   function removeItem(key, select){
     let formData = {
@@ -220,14 +96,11 @@
       console.error('Error:', error);
     })
   }
-
   // function to update the cart quantity
-
   function updateCartValue(symbol, select){
     let item = select.parentElement.parentElement;
     let key = item.querySelector(".cart__checkout-remove").getAttribute("data-key");
     let quantity = null;
-
     if(symbol == "+"){
       quantity = Number(select.previousElementSibling.textContent) + 1;
     }else{
@@ -263,9 +136,7 @@
                 }
               });
               document.querySelector(".cart__footer-total").textContent = `$${(totalValue /100).toFixed(2)}`;
-
               let current = changed.items.find((item)=>item.key === key);
-
               
                 if(quantity <= current.quantity){
                     if (symbol==="+"){
@@ -292,7 +163,6 @@
                 `;
       return
     }
-
   function getData(){
     let result =  fetch(window.Shopify.routes.root + 'cart.js', {
     method: 'GET',
@@ -347,8 +217,6 @@
     });
     return result;
   }
-
-
 function postData (){
   let addToCartForm = document.querySelector('form[action$="/cart/add"]');
   let formData = new FormData(addToCartForm);
@@ -363,58 +231,35 @@ function postData (){
     console.error('Error:', error);
   }); 
 }
-
   document.querySelector('.product__button').addEventListener("click", (e)=>{
   e.preventDefault();
   document.querySelector('.cart').classList.add("cart__open");
   postData();
   });
-
 </script>
-
 
 {% schema %}
 {
     "name": "product",
-    "max_blocks": 4,
-  "settings": [
-  {
-      "type": "text",
-      "id": "product-freq__title",
-      "label": "Title",
-      "default": "Frequently bought with"
-  },
-  {
-    "type": "text",
-    "id": "free_shipping_text",
-    "label": " Free shipping text",
-    "default": "Available for Free shipping!"
-  },    
-  {
-    "type": "text",
-    "id": "submit_btn_text",
-    "label": "Button text",
-    "default": "Add to Cart"
-  },    
-  {
-    "type": "text",
-    "id": "goods__recommendation-title",
-    "label": " Recommendation title",
-    "default": "You might also like"
-  }    
-  ],
-  "blocks": [
-  {
-    "name": "Product",
-    "type": "product",
     "settings": [
-      {
-        "type": "product",
-        "id": "product",
-        "label": "Products"
-      }
+    {
+        "type": "text",
+        "id": "product-freq__title",
+        "label": "Title",
+        "default": "Frequently bought with"
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_text",
+      "label": " Free shipping text",
+      "default": "Available for Free shipping!"
+    },    
+    {
+      "type": "text",
+      "id": "submit_btn_text",
+      "label": "Button text",
+      "default": "Add to Cart"
+    }
     ]
-  }
-]
 }
 {% endschema %}

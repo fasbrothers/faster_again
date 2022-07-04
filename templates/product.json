@@ -1,23 +1,25 @@
 {
     "sections": {
       "product": {
-        "type": "product",
-        "settings": {
-        }
+        "type": "product"
+      },
+      "product_metafields": {
+        "type": "product-metafields"
+      },
+      "recommendation": {
+        "type": "product-recommendation"
       },
       "predefined-bundle": {
-        "type": "predefined-bundle",
-        "settings": {
-        }
+        "type": "predefined-bundle"
       },
       "yotpo-widjet": {
-        "type": "yotpo-widjet",
-        "settings": {
-        }
+        "type": "yotpo-widjet"
       }
     },
     "order": [
       "product",
+      "product_metafields",
+      "recommendation",
       "predefined-bundle",
       "yotpo-widjet"
     ]
