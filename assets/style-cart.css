@@ -80,6 +80,8 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
+    margin-top: -2rem;
+    transform: rotate(90deg);
 }
 .cart__checkout-remove svg{
     pointer-events: none;
