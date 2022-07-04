@@ -7,7 +7,7 @@
     <h1 class="products__title">{{ collection.title }}</h1>
     <div class="products__navigation">
       {% for collection in collections %}
-      {% if collection.handle != "metafields-collection" %}
+      {% if collection.handle != "metafields-collection" and collection.handle != "all_products" %}
         <li class="products__item">
             <a href="{{ collection.url }}" class="products__nav {% if param == collection.handle %}
                 products__nav--active
@@ -17,7 +17,7 @@
       {% endfor %}
 
     </div>
-    {% render 'collection-filter' %}
+    <!-- {% render 'collection-filter' %} -->
     <div class="products__list">
       {% for product in collection.products %}
       <div class="goods">

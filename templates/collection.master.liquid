@@ -5,6 +5,7 @@
     {% render "collection-master-1" %}
   </div>
   <div class="master__collections">
-    {% render "collection-master-2" %}
+    {% assign collectionArray = collection.metafields.accentuate.collections_wrapper | split: "|" %} 
+    {% render "collection-master-2" with collectionArray, limit_count: 8 %}
   </div>
 </div>

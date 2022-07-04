@@ -1,6 +1,15 @@
 {{ "style-footer.css" | asset_url | stylesheet_tag }}
 
-{% include 'footer-snip' %}
+<div class="footer">
+  <div class="footer__wrapper container">
+      {% render  "footer-signup"%}
+
+      {% render  "footer_link"%}
+  </div>
+  <p class="footer__bottom">
+      {{section.settings.footer__bottom}}
+  </p>
+</div>
 
 {% schema %} 
   { "name": "Footer", 

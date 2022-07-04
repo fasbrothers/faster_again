@@ -4,289 +4,31 @@
 {{ "style-cart.css" | asset_url | stylesheet_tag }}
 
 <div class="header__container">
-  <div class="header__left">
-    <a href="{{ routes.root_url }}" class="header__left-logo {% if template.name != "index" %} header__left-logo-black {% endif %}">
-      {% render 'logo' %}
-    </a>
-  </div>
-  <div class="header__center">
-      {% for block in section.blocks %}
-            {% for link in block.settings.header_link_list.links %}
-              <a href="{{ link.url }}" class="header__center-nav {% if template.name != "index" %} header__center-black {% endif %}">{{ link.title }}</a>
-            {% endfor %}
-      {% endfor %}
+      <div class="header__left">
+        {% render "header__logo" %}
+      </div>
+      <div class="header__center">
+        {% render "header_link" %}
       </div>
       <div class="header__right">
-       {% if shop.customer_accounts_enabled %} 
-     {% if customer %}
-      <a href="{{ routes.account_url }}" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
-        {% render 'search' %}
-      </a>
-      <div class="dropdown">
-        <button class="dropbtn header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">{% render 'account' %}</button>
-        <div class="dropdown-content">
-          <a href="{{ routes.account_url }}">{{ 'general.header.header__account' | t }}</a>
-          <a href="{{ routes.account_logout_url }}">{{ 'general.header.header__logOut' | t }}</a>
-        </div>
+        {% render "header_icons" %}
       </div>
-    {% else %}
-    {% if section.settings.show_search %}
-    <a href="#" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
-      {% render 'search' %}
-    </a>
-    {% endif %}
-      <div class="dropdown">
-        <button class="dropbtn header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">{% render 'account' %}</button>
-        <div class="dropdown-content">
-          <a href="{{ routes.account_login_url }}">{{ 'general.header.header__logIn' | t }}</a>
-        </div>
-      </div>
-      {% endif %} 
-      {% endif %}
-      <a href="#" class="header__right-icon header__bag{% if template.name != "index" %} header__right-black {% endif %}">
-        {% render 'bag' %}
-      </a>
-    </div>
-    </div>
-    <form action="/cart" method="post" novalidate>
-      <div class="cart">
-        <div class="cart__header">
-          <h4 class="cart__header-title">{{ 'general.cart_total.cart-title' | t }}</h4>
-          <button class="cart__header-cancel">{% render "hamburger" %}</button>
-        </div>
-        <div class="cart__main">  
-        </div>
-        <div class="cart__footer">
-          <div class="cart__footer-top">
-              <h4 class="cart__footer-title">{{ 'general.cart_total.title' | t }}</h4>
-              <p class="cart__footer-total"></p>
-          </div>
-        <p class="cart__footer-subtitle">{{ 'general.cart_total.cart__footer-subtitle' | t }}</p>
-        <div class="cart__footer-desc">
-            {% render "sponsor" %}
-            <p class="cart__footer-text">{{ 'general.cart_total.cart__footer-text' | t }}</p>
-            <a href="#" class="cart__footer-link">{{ 'general.cart_total.cart__footer-link' | t }}</a>
-        </div>
-        <button type="submit" name="checkout" class="cart__footer-button">{{ 'general.cart_total.cart__footer-button' | t }}</button>
-      </div>
-      </div>
-    </form>
-    <script>   
+</div>      
+  {% render "cart_ajax" %}
 
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
-        document.querySelector(".cart").classList.remove("cart__open");
-      }
-    });
-    document.querySelector(".cart__header-cancel").addEventListener("click", (e) => {
-      e.preventDefault()
-      document.querySelector('.cart').classList.remove("cart__open");
-    });
-    
-    document.querySelector(".header__bag").addEventListener("click", ()=>{
-      getData();
-      document.querySelector('.cart').classList.add("cart__open");
-    });
+  {{ "script-ajax.js" | asset_url | script_tag }}
 
-  document.querySelector(".cart__main").addEventListener("click", (e)=>{
-  if(e.target.classList.contains("cart__checkout-remove")){
-    e.preventDefault();
-    removeItem(e.target.getAttribute("data-key"), e.target.parentElement)
-  } else if(e.target.classList.contains("btn-increase")){
-    updateCartValue("+", e.target)
-    }
-    else if(e.target.classList.contains("btn-decrease")){
-      updateCartValue("-", e.target)
-    }
 
-  })
-  function removeItem(key, select){
-    let formData = {
-            "id": key,
-            "quantity": 0,
-  };
-    fetch(window.Shopify.routes.root + 'cart/change.js', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-      body: JSON.stringify(formData)
-    })
-    .then(response => {
-      return response.json();
-    })
-    .then(data=>{
-      let totalValue = 0;
-      data.items.forEach(element => {
-        if(element.properties == null){
-          totalValue+= element.original_price * element.quantity
-        }
-        else if(element.properties._bundle_price){
-          totalValue+= element.properties._bundle_price * element.quantity
-        }else{
-          totalValue += element.original_price * element.quantity
-        }
-      });
-      document.querySelector(".cart__footer-total").textContent = '$' + (totalValue / 100 ).toFixed(2);
-      select.remove();
-      if(!data.item_count){ empty_cart();  return }
-
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    })
-  }
-  function updateCartValue(symbol, select){
-    let item = select.parentElement.parentElement;
-    let key = item.querySelector(".cart__checkout-remove").getAttribute("data-key");
-    let quantity = null;
-
-    if(symbol == "+"){
-      quantity = Number(select.previousElementSibling.textContent) + 1;
-    }else{
-      if(Number(select.nextElementSibling.textContent) > 1){
-        quantity = Number(select.nextElementSibling.textContent) - 1;
-      }else{
-        removeItem(key, item)
-         return;
-      }
-    }
-    let formData = {
-            "id": key,
-            "quantity": quantity,
-    };
-    fetch(window.Shopify.routes.root + 'cart/change.js', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(res=>{
-            res.json().then((changed)=>{
-              let totalValue = 0;
-              changed.items.forEach(element => {
-                if(element.properties == null){
-                  totalValue+= element.original_price * element.quantity
-                }
-                else if(element.properties._bundle_price){
-                  totalValue+= element.properties._bundle_price * element.quantity
-                }else{
-                  totalValue += element.original_price * element.quantity
-                }
-              });
-              document.querySelector(".cart__footer-total").textContent = `$${(totalValue/100).toFixed(2)}`;
-              let current = changed.items.find((item)=>item.key === key);
-              if(!changed.item_count){ console.log("empty"); empty_cart(); return }
-                if(quantity <= current.quantity){
-                  select.classList.remove("not_allowed")
-                    if (symbol==="+"){
-                      select.previousElementSibling.textContent = quantity;
-                    } else{
-                      select.nextElementSibling.textContent = quantity;
-                    } 
-                    item.querySelector(".cart__checkout-price").textContent = `$${(current.original_line_price/100).toFixed(2)}`;
-                }else{
-                  return false
-                }
-            })
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-  }
-  function empty_cart() {
-    document.querySelector(".cart__main").innerHTML = `
-    <div class="empty_cart">
-                <p>Your Cart is Empty</p>
-                <a href="{{ routes.all_products_collection_url }}">Shop Best Sellers</a>
-                </div>
-                `;
-      return
-    }
-    function getData(){
-    let result =  fetch(window.Shopify.routes.root + 'cart.js', {
-    method: 'GET',
-  })
-    .then(response => {
-      return response.json();
-    }).then(data => {
-      let totalValue = 0;
-      data.items.forEach(element => {
-        if(element.properties == null){
-          totalValue+= element.original_price * element.quantity
-        }
-        else if(element.properties._bundle_price){
-          totalValue+= element.properties._bundle_price * element.quantity
-        }else{
-          totalValue += element.original_price * element.quantity
-        }
-      });
-      document.querySelector(".cart__main").innerHTML = "";
-      document.querySelector(".cart__footer-total").textContent = '$' + (totalValue/100).toFixed(2);
-      if(!data.item_count){ empty_cart(); return }
-      document.querySelector(".cart__main").insertAdjacentHTML('afterbegin', data.items.map(item => {
-        console.log(item);
-        return `
-        <div class="cart__checkout">
-          <a href="${item.url}" class="cart__checkout-image">
-            <img
-              src="${item.featured_image.url}"
-              alt="${item.product_title}"
-              class="cart__checkout-img"
-            />
-          </a>
-          <a class="cart__checkout-title" href="${item.url}">${item.title}</a>
-          <p class="cart__checkout-variant">${item.variant_title}</p>
-          <p class="cart__checkout-price">$${ item.properties == null ? (item.final_line_price / 100).toFixed(2) : item.properties._bundle_price ? (item.properties._bundle_price / 100).toFixed(2) : (item.final_line_price / 100).toFixed(2)}</p>
-          <button
-              class="cart__checkout-remove"
-              data-key="${item.key}"
-            >
-              {% render "remove" %} 
-            </button>
-          <div class="cart__checkout-quantity">
-            <button type="button" class="btn-decrease ">{% render "minus" %}</button>
-             <span  class= "cart__checkout-input">${item.quantity}</span>
-            <button type="button" class="btn-increase ">{% render "plus" %}</button>    
-          </div>
-        </div>
-        `
-      }).join(''));
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-    return result;
-  }
-
-    </script>
-
-  {% schema %} 
+{% schema %} 
   { 
   "name": "Header", 
   "class": "header",
- "settings": [
+  "settings": [
     {
-      "type": "checkbox",
-      "id": "show_search",
-      "label": "Show Search",
-      "default": true
+      "type": "link_list",
+      "id": "header_link_list",
+      "label": "Header list"
     }
- ],
-  "max_blocks": 1,
-  "blocks": [
-      {
-        "type": "list",
-        "name": "Header list",
-        "settings": [
-          {
-            "type": "link_list",
-            "id": "header_link_list",
-            "label": "Header list"
-          }
-        ]
-      }
-    ]  
+  ] 
 }
-  {% endschema %}
+{% endschema %}
