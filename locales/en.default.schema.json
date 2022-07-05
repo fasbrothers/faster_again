@@ -1,0 +1,128 @@
+{
+    "settings__schema": {
+      "global": {
+        "colors": {
+          "name": "Colors",
+          "settings": {
+            "colors__bg": "Background image colors",
+            "colors__btn": "Button color"
+          }
+        },
+        "text": {
+          "name": "Text Alignment",
+          "settings": {
+            "text__title": "Alignment of text",
+            "text_alignment": {
+              "options__1": {
+                "label": "Left"
+              },
+              "options__2": {
+                "label": "Center"
+              },
+              "options__3": {
+                "label": "Right"
+              }
+            }
+          }
+        }
+      }
+    },
+    "sections": {
+      "announcement": {
+        "name": "Announcement bar",
+        "settings": {
+          "announcement__title": "Show announcement",
+          "announcement__link": "Announcement link"
+        }
+      },
+      "best__seller": {
+        "name": "Best-seller",
+        "settings": {
+          "best-seller__image": "Select an image",
+          "best-seller__subheading": "Best-seller subheading",
+          "best-seller__heading": "Best-seller heading",
+          "best-seller__description": "Best-seller desctiption",
+          "best-seller__button": "Best-seller button name",
+          "best-seller__url": "Best-seller button url"
+        }
+      },
+      "footer": {
+        "name": "Footer",
+        "settings": {
+          "footer__logo": "Footer logo",
+          "footer__heading-one": "Footer Heading One",
+          "footer__facebook-link": "Facebook link",
+          "footer__instagram-link": "Instagram link",
+          "footer__mail-link": "Mail link",
+          "footer__input": "Footer Input",
+          "footer__text": "Footer text",
+          "block": {
+            "name": "Footer Link List",
+            "settings": {
+              "footer__link-list": "Footer List"
+            }
+          }
+
+        }
+      },
+      "header": {
+        "name": "Header",
+        "settings":{
+          "header__list": "Header list"
+        }
+      },
+      "hero": {
+        "name": "Hero",
+        "settings":{
+          "hero__image": "Select an image",
+          "hero__heading": "Hero heading",
+          "hero__text": "Hero description",
+          "hero__button": "Hero button name",
+          "hero__url": "Hero button url"
+        }
+      },
+      "homepage__products": {
+        "name": "Homepage products",
+        "blocks": {
+          "name": "Collection list",
+          "settings" : {
+            "homepage__products-title": "Collection"
+          }
+        }
+      },
+      "collection": {
+        "name": "Collection",
+        "settings": {
+          "collection__per-page": "Products per page",
+          "collection__header": "Collection",
+          "collection__paraghraph": "Sample information about the collection"
+        }
+      },
+      "product__recommendation": {
+        "name": "Product recommendation",
+        "settings": {
+          "recommendation__title": "Recommendation title",
+          "blocks": {
+            "name": "Product List",
+            "settings": {
+              "recommendation__block-title": "Product"
+            }
+          }
+        }
+      },
+      "product": {
+        "name": "Product",
+        "settings": {
+          "product__title": "Title",
+          "product__text": "Free shipping text",
+          "product__button": "Button text"
+        }
+      },
+      "yotpo": {
+        "name": "Yotpo Widget Review",
+        "settings": {
+          "yotpo__heading": "Review Heading"
+        }
+      }
+    }
+}
