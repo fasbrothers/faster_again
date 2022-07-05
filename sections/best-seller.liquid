@@ -4,68 +4,57 @@
 
 <style>
     .best-seller__left-img{
-        background-color: {{ section.settings.background_left }};
+        background-color: {{ settings.color_bg_image }};
     }
     .best-seller__right-img{
-        background-color: {{ section.settings.background_right }};
+        background-color: {{ settings.color_bg_image }};
     }
 </style>
 
 {% schema %} 
-    { "name": "best-seller",
-     "class": "best-seller",
-     "settings": 
+    { 
+        "name": "t:sections.best__seller.name",
+        "class": "best-seller",
+        "settings": 
     [ 
         { 
             "id":"best-seller__image-1",
             "type":"image_picker",
-            "label":"Select an image" 
+            "label":"t:sections.best__seller.settings.best-seller__image" 
         },
         { 
             "id":"best-seller__image-2",
             "type":"image_picker",
-            "label":"Select an image" 
-        },
-        {
-            "type": "color_background",
-            "id": "background_left",
-            "label": "Background color left image",
-            "default": "#e5e5e5"
-        },
-        {
-            "type": "color_background",
-            "id": "background_right",
-            "label": "Background color right image",
-            "default": "#e5e5e5"
+            "label":"t:sections.best__seller.settings.best-seller__image" 
         },
         {
             "type": "text",
             "id": "best-seller__subheading",
-            "label": "best-seller subheading",
+            "label":"t:sections.best__seller.settings.best-seller__subheading", 
             "default": "Best seller"
         },
         {
             "type": "text",
             "id": "best-seller__heading",
-            "label": "best-seller heading",
-            "default": "TRULY, AN ALL IN ONE BARBELL"
+            "default": "TRULY, AN ALL IN ONE BARBELL",
+            "label":"t:sections.best__seller.settings.best-seller__heading"
         },
         {
             "type": "text",
             "id": "best-seller__text",
-            "label": "best-seller desctiption",
-            "default": "Design that matches the performance and quality of other elite level competition bars"
+            "default": "Design that matches the performance and quality of other elite level competition bars",
+            "label":"t:sections.best__seller.settings.best-seller__description"
         },
         {
             "type": "text",
             "id": "best-seller__button",
-            "label": "best-seller button name",
+            "label":"t:sections.best__seller.settings.best-seller__button", 
             "default": "Shop weights"
         },
         {
             "type": "url",
             "id": "best-seller__button_url",
-            "label": "best-seller button url"
+            "label":"t:sections.best__seller.settings.best-seller__url" 
         }
 
     ] 

@@ -1,24 +1,24 @@
 <form action="/cart" method="post" novalidate>
     <div class="cart">
         <div class="cart__header">
-            <h4 class="cart__header-title">{{ 'general.cart_total.cart-title' | t }}</h4>
+            <h4 class="cart__header-title">{{ 'cart.cart_total.cart-title' | t }}</h4>
             <button class="cart__header-cancel">{% render "hamburger" %}</button>
         </div>
         <div class="cart__main">
         </div>
         <div class="cart__footer">
             <div class="cart__footer-top">
-                <h4 class="cart__footer-title">{{ 'general.cart_total.title' | t }}</h4>
+                <h4 class="cart__footer-title">{{ 'cart.cart_total.title' | t }}</h4>
                 <p class="cart__footer-total"></p>
             </div>
-            <p class="cart__footer-subtitle">{{ 'general.cart_total.cart__footer-subtitle' | t }}</p>
+            <p class="cart__footer-subtitle">{{ 'cart.cart_total.cart__footer-subtitle' | t }}</p>
             <div class="cart__footer-desc">
                 {% render "sponsor" %}
-                <p class="cart__footer-text">{{ 'general.cart_total.cart__footer-text' | t }}</p>
-                <a href="#" class="cart__footer-link">{{ 'general.cart_total.cart__footer-link' | t }}</a>
+                <p class="cart__footer-text">{{ 'cart.cart_total.cart__footer-text' | t }}</p>
+                <a href="#" class="cart__footer-link">{{ 'cart.cart_total.cart__footer-link' | t }}</a>
             </div>
             <button type="submit" name="checkout" class="cart__footer-button">{{
-                'general.cart_total.cart__footer-button' | t }}</button>
+                'cart.cart_total.cart__footer-button' | t }}</button>
         </div>
     </div>
 </form>

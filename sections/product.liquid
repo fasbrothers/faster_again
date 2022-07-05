@@ -240,26 +240,26 @@ function postData (){
 
 {% schema %}
 {
-    "name": "product",
-    "settings": [
+  "name": "t:sections.product.name",
+  "settings": [
     {
         "type": "text",
         "id": "product-freq__title",
-        "label": "Title",
+        "label": "t:sections.product.settings.product__title",
         "default": "Frequently bought with"
     },
     {
       "type": "text",
       "id": "free_shipping_text",
-      "label": " Free shipping text",
+      "label": "t:sections.product.settings.product__text",
       "default": "Available for Free shipping!"
     },    
     {
       "type": "text",
       "id": "submit_btn_text",
-      "label": "Button text",
+      "label": "t:sections.product.settings.product__button",
       "default": "Add to Cart"
     }
-    ]
+  ]
 }
 {% endschema %}

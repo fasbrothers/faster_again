@@ -3,7 +3,10 @@
 <style>
     .hero{
     background-image: url("{{ section.settings.hero_bg | image_url }}");
-    background-color: {{ section.settings.background }};
+    background-color: {{ settings.color_bg_image }};
+    }
+    .hero__button{
+        background-color: {{ settings.color_buttom}}
     }
 </style>
 
@@ -21,51 +24,46 @@
 </div>
 
 {% schema %} 
-    { "name": "Hero",
+    { 
+     "name": "t:sections.hero.name",
      "class": "hero",
      "settings": 
     [ 
         { 
             "type":"image_picker",
             "id":"hero_bg",
-            "label":"Your Image" 
-        },
-        {
-            "type": "color_background",
-            "id": "background",
-            "label": "Background color",
-            "default": "#000000"
+            "label":"t:sections.hero.settings.hero__image" 
         },
         {
             "type": "text",
             "id": "hero__heading",
-            "label": "Hero heading",
+            "label": "t:sections.hero.settings.hero__heading",
             "default": "Team barbell"
         },
         {
             "type": "textarea",
             "id": "hero__text",
-            "label": "Hero text",
+            "label": "t:sections.hero.settings.hero__text",
             "default": "Team Barbell was to design a piece of equipment that matches the performance and quality of other elite level competition bars."
         },
         {
             "type": "text",
             "id": "hero__button_text",
-            "label": "Hero button name",
+            "label": "t:sections.hero.settings.hero__button",
             "default": "Explore"
         },
         {
             "type": "url",
             "id": "hero__button_url",
-            "label": "Hero button url"
+            "label": "t:sections.hero.settings.hero__url"
         }
     ],
-    "presets":[
-    {
-      "name": "Hero",
-      "settings": {
+      "presets":[
+          {
+          "name": "Hero",
+          "settings": {
+          }
       }
-    }
     ]
-    }
+  }
  {% endschema %}

@@ -1,3 +1,9 @@
+<style>
+  .goods{
+    text-align: {{settings.text_alignment}}
+  }
+</style>
+
 <div class="goods__recommendation container">
     <p class="goods__recommendation-title">{{section.settings["goods__recommendation-title"]}}</p>
     <div class="goods__recommendation-list">
@@ -48,25 +54,25 @@
 
 {% schema %}
 {
-  "name": "product",
+  "name": "t:sections.product__recommendation.name",
   "max_blocks": 4,
   "settings": [
   {
     "type": "text",
     "id": "goods__recommendation-title",
-    "label": " Recommendation title",
+    "label": "t:sections.product__recommendation.settings.recommendation__title",
     "default": "You might also like"
   }    
   ],
   "blocks": [
   {
-    "name": "Product",
+    "name": "t:sections.product__recommendation.settings.blocks.name",
     "type": "product",
     "settings": [
       {
         "type": "product",
         "id": "product",
-        "label": "Products"
+        "label": "t:sections.product__recommendation.settings.blocks.settings.recommendation__block-title"
       }
     ]
   }

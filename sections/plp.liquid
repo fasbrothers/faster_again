@@ -27,7 +27,7 @@
           
           {% unless product.available %}
           <p class="goods__sold-out">
-            {{'general.product.product__soldOut_html' | t | upcase }}
+            {{'product.product-information.product__soldOut_html' | t | upcase }}
           </p>
           {% endunless %}
           <a class="goods__title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
@@ -60,7 +60,7 @@
           
         </div>
         {% else %}
-        <h3 class="not__available">{{'general.product.product__notAvailable' | t}}</h3>
+        <h3 class="not__available">{{'product.product__notAvailable.product__notAvailable' | t}}</h3>
         {% endfor %}
       </div>
     {% if paginate.pages > 1 %}
@@ -71,20 +71,20 @@
 
 {% schema %}
 {
- "name": "collection",
+ "name": "t:sections.collection.name",
  "settings": [
-  {
-    "type": "header",
-    "content": "Collection"
-  },
-  {
-    "type": "paragraph",
-    "content": "Sample information about the collection"
-  },
+    {
+      "type": "header",
+      "content": "t:sections.collection.settings.collection__header"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.collection.settings.collection__paraghraph"
+    },
     {
       "type": "number",
       "id": "products_per_page",
-      "label": "Products per page",
+      "label": "t:sections.collection.settings.collection__per-page",
       "default": 20
     }
   ]

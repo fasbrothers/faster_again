@@ -6,7 +6,7 @@
 
 {% schema %}
 {
-  "name": "Collection",
+  "name": "t:sections.homepage__products.name",
   "presets":[
     {
       "name": "Collection",
@@ -15,17 +15,17 @@
     }
     ],
   "blocks": [
-     {
-       "name": "Collection",
-       "type": "collection",
-       "settings": [
-         {
-           "type": "collection",
-           "id": "collection",
-           "label": "Collection"
-         }
-       ]
-     }
-   ]
+    {
+      "name": "t:sections.homepage__products.blocks.name",
+      "type": "collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.homepage__products.blocks.settings.homepage__products-title"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
