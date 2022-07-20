@@ -5,19 +5,29 @@
 </style>
 
 <div class="goods__recommendation container">
-    <p class="goods__recommendation-title">{{section.settings["goods__recommendation-title"]}}</p>
-    <div class="goods__recommendation-list">
-      {% for block in section.blocks %}
+  <p class="goods__recommendation-title">
+    {{ section.settings["goods__recommendation-title"] }}
+  </p>
+  <div class="goods__recommendation-list">
+    {% for block in section.blocks %}
       <div class="goods">
-        <a class="goods__image {% unless block.settings.product.available %} goods__opacity {% endunless %}" href="{{ block.settings.product.url | within: collection }}">
-          <img src="{{ block.settings.product.featured_image.src | image_url }}"  alt="{{ block.settings.product.alt | escape }}">
+        <a
+          class="goods__image {% unless block.settings.product.available %} goods__opacity {% endunless %}"
+          href="{{ block.settings.product.url | within: collection }}"
+        >
+          <img
+            src="{{ block.settings.product.featured_image.src | image_url }}"
+            alt="{{ block.settings.product.alt | escape }}"
+          >
         </a>
         {% unless block.settings.product.available %}
-        <p class="goods__sold-out">
-         {{'general.product.product__soldOut' | t}}
-        </p>
+          <p class="goods__sold-out">
+            {{ 'general.product.product__soldOut' | t }}
+          </p>
         {% endunless %}
-        <a class="goods__title" href="{{ product.url | within: collection }}">{{ block.settings.product.title }}</a>
+        <a class="goods__title" href="{{ product.url | within: collection }}">
+          {{- block.settings.product.title -}}
+        </a>
         <div class="goods__ratings">
           {% assign rating = block.settings.product.metafields.my_fields.ratings.value | split:"." %}
           {% if rating %}
@@ -27,55 +37,64 @@
           {% endif %}
         </div>
         {% if product.price_varies and template == 'collection' %}
-        <p class="goods__price">{{ block.settings.product.price_min | money }}-{{ block.settings.product.price_max | money }}</p>
+          <p class="goods__price">
+            {{ block.settings.product.price_min | money }}-
+            {{- block.settings.product.price_max | money }}
+          </p>
         {% elsif product.compare_at_price %}
-        <p class="goods__price"> <span class="goods__price--cross">{{block.settings.product.compare_at_price | money}}</span> {{block.settings.product.price | money}}</p>
+          <p class="goods__price">
+            <span class="goods__price--cross">
+              {{- block.settings.product.compare_at_price | money -}}
+            </span>
+            {{ block.settings.product.price | money }}
+          </p>
         {% else %}
-        <p class="goods__price {% unless block.settings.product.available %} goods__price--line {% endunless %}">{{ block.settings.product.price | money }}</p>
-       {% endif %}
+          <p class="goods__price {% unless block.settings.product.available %} goods__price--line {% endunless %}">
+            {{ block.settings.product.price | money }}
+          </p>
+        {% endif %}
         <div class="goods__tags">
           {% for tag in block.settings.product.tags %}
-            {% if tag contains 'free shipping' %}     
-                  <span class="goods__free-shipping goods__tag">{{tag}}</span>
+            {% if tag contains 'free shipping' %}
+              <span class="goods__free-shipping goods__tag">{{ tag }}</span>
             {% endif %}
             {% if tag contains 'best seller' %}
-                    <span class="goods__best-seller goods__tag">{{tag}}r</span>
+              <span class="goods__best-seller goods__tag">{{ tag }}r</span>
             {% endif %}
             {% if tag contains 'pre-order' %}
-                    <span class="goods__pre-order goods__tag">{{tag}}</span>
+              <span class="goods__pre-order goods__tag">{{ tag }}</span>
             {% endif %}
           {% endfor %}
-    
         </div>
       </div>
-      {% endfor %}
-    </div>
+    {% endfor %}
   </div>
+</div>
 
 {% schema %}
 {
   "name": "t:sections.product__recommendation.name",
   "max_blocks": 4,
   "settings": [
-  {
-    "type": "text",
-    "id": "goods__recommendation-title",
-    "label": "t:sections.product__recommendation.settings.recommendation__title",
-    "default": "You might also like"
-  }    
+    {
+      "type": "text",
+      "id": "goods__recommendation-title",
+      "label": "t:sections.product__recommendation.settings.recommendation__title",
+      "default": "You might also like"
+    }
   ],
   "blocks": [
-  {
-    "name": "t:sections.product__recommendation.settings.blocks.name",
-    "type": "product",
-    "settings": [
-      {
-        "type": "product",
-        "id": "product",
-        "label": "t:sections.product__recommendation.settings.blocks.settings.recommendation__block-title"
-      }
-    ]
-  }
-]
+    {
+      "name": "t:sections.product__recommendation.settings.blocks.name",
+      "type": "product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.product__recommendation.settings.blocks.settings.recommendation__block-title"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

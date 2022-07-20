@@ -2,71 +2,70 @@
 
 <div class="footer">
   <div class="footer__wrapper container">
-      {% render  "footer-signup"%}
+    {% render "footer-signup" %}
 
-      {% render  "footer_link"%}
+    {% render "footer_link" %}
   </div>
   <p class="footer__bottom">
-      {{section.settings.footer__bottom}}
+    {{ section.settings.footer__bottom }}
   </p>
 </div>
 
-{% schema %} 
-  {
-  "name": "t:sections.footer.name", 
-  "settings": 
-  [
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "settings": [
     {
-       "type": "image_picker",
-        "label": "t:sections.footer.settings.footer__logo",
-        "id": "logo__big"
+      "type": "image_picker",
+      "label": "t:sections.footer.settings.footer__logo",
+      "id": "logo__big"
     },
     {
-        "type": "text",
-        "id": "footer__heading_one",
-        "label": "t:sections.footer.settings.footer__heading-one",
-        "default": "Newsletter"
+      "type": "text",
+      "id": "footer__heading_one",
+      "label": "t:sections.footer.settings.footer__heading-one",
+      "default": "Newsletter"
     },
     {
-        "type": "url",
-        "id": "facebook",
-        "label": "t:sections.footer.settings.footer__facebook-link"
+      "type": "url",
+      "id": "facebook",
+      "label": "t:sections.footer.settings.footer__facebook-link"
     },
     {
-        "type": "url",
-        "id": "instagram",
-        "label": "t:sections.footer.settings.footer__instagram-link"
+      "type": "url",
+      "id": "instagram",
+      "label": "t:sections.footer.settings.footer__instagram-link"
     },
     {
-        "type": "url",
-        "id": "mail",
-        "label": "t:sections.footer.settings.footer__mail-link"
+      "type": "url",
+      "id": "mail",
+      "label": "t:sections.footer.settings.footer__mail-link"
     },
     {
-        "type": "text",
-        "id": "footer__input",
-        "label": "t:sections.footer.settings.footer__input",
-        "default": "Enter your email"
+      "type": "text",
+      "id": "footer__input",
+      "label": "t:sections.footer.settings.footer__input",
+      "default": "Enter your email"
     },
     {
-        "type": "text",
-        "id": "footer__bottom",
-        "label": "t:sections.footer.settings.footer__text",
-        "default": "©2022 Again Faster. All Rights Reserved"
+      "type": "text",
+      "id": "footer__bottom",
+      "label": "t:sections.footer.settings.footer__text",
+      "default": "©2022 Again Faster. All Rights Reserved"
     }
   ],
   "blocks": [
-      {
-        "type": "list",
-        "name": "t:sections.footer.settings.block.name",
-        "settings": [
-          {
-            "type": "link_list",
-            "id": "footer_link_list",
-            "label": "t:sections.footer.settings.block.settings.footer_link_list"
-          }
-        ]
-      }
-    ] 
+    {
+      "type": "list",
+      "name": "t:sections.footer.settings.block.name",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "footer_link_list",
+          "label": "t:sections.footer.settings.block.settings.footer_link_list"
+        }
+      ]
+    }
+  ]
 }
- {% endschema %}
+{% endschema %}

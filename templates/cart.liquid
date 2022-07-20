@@ -2,59 +2,6 @@
 
 {% capture bb_total_price %}{% render 'bb', type: 'bb_total_price' %}{% endcapture %}{% assign bb_total_price = bb_total_price | plus: 0 %}
 
-<style>
-  .table__row img{
-    width: 150px;
-    height: 200px;
-    border-radius: 10px;
-    margin: 1rem 0;
-  }
-  thead{
-    font-size: 2rem;
-    text-align: left;
-    font-weight: 600;
-  }
-  .cart__info{
-    display: flex;
-    flex-direction: column;
-    margin-top: 4rem;
-    width: 150px;
-  }
-  .cart__info a{
-    color: black;
-    text-decoration: none;
-  }
-  .cart__name{
-    font-size: 2rem;
-    font-weight: 500;
-  }
-  .cart__info p{
-    margin: 1rem 0;
-  }
-  .cart__remove{
-    text-transform: capitalize;
-  }
-  .cart__price{
-    font-size: 1.7rem;
-    font-weight: 500;
-  }
-  .cart__quantity{
-    width: 50px;
-  }
-  .cart__image{
-    width: 250px;
-  }
-  .cart__price--highlight{
-    text-decoration: line-through;
-    opacity: 0.7;
-  }
-  .cart__total{
-    text-align: right;
-  }
-  .cart__quant{
-    width: 117px;
-  }
-</style>
 
 {% if cart.item_count > 0 %}
   <h1 class="cart__heading">Cart</h1>
@@ -90,14 +37,17 @@
           </td>
           <td class="cart__price">{{ bb_price | money }}</td>
           <td class="cart__quant">
-            <input
-              type="number"
-              name="updates[]"
-              id="updates_{{ item.key }}"
-              value="{{ item.quantity }}"
-              min="0"
-              class="cart__quantity"
-            />
+            <div class="cart__quantityy">
+              <input
+                type="number"
+                name="updates[]"
+                id="updates_{{ item.key }}"
+                value="{{ item.quantity }}"
+                min="0"
+                class="cart__quantity"
+              />
+
+            </div>
           </td>
           <td class="cart__total">
             {% if bb_original_line_price != bb_line_price %}

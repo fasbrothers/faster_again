@@ -1,69 +1,67 @@
 {{ "style-hero.css" | asset_url | stylesheet_tag }}
 
 <style>
-    .hero{
-    background-image: url("{{ section.settings.hero_bg | image_url }}");
-    background-color: {{ settings.color_bg_image }};
-    }
-    .hero__button{
-        background-color: {{ settings.color_buttom}}
-    }
+  .hero{
+  background-image: url("{{ section.settings.hero_bg | image_url }}");
+  background-color: {{ settings.color_bg_image }};
+  }
+  .hero__button{
+      background-color: {{ settings.color_buttom}}
+  }
 </style>
 
 <div class="hero__wrapper container">
-    <h1 class="hero__heading">
-        {{section.settings.hero__heading}}
-    </h1>
-    <p class="hero__text">
-        {{section.settings.hero__text}}
-    </p>
-    <a href="{{section.settings.hero__button_url}}" class="hero__button">
-        {{section.settings.hero__button_text}}
-        {% render 'arrow_right' %}
-    </a>
+  <h1 class="hero__heading">
+    {{ section.settings.hero__heading }}
+  </h1>
+  <p class="hero__text">
+    {{ section.settings.hero__text }}
+  </p>
+  <a href="{{section.settings.hero__button_url}}" class="hero__button">
+    {{ section.settings.hero__button_text }}
+    {% render 'arrow_right' %}
+  </a>
 </div>
 
-{% schema %} 
-    { 
-     "name": "t:sections.hero.name",
-     "class": "hero",
-     "settings": 
-    [ 
-        { 
-            "type":"image_picker",
-            "id":"hero_bg",
-            "label":"t:sections.hero.settings.hero__image" 
-        },
-        {
-            "type": "text",
-            "id": "hero__heading",
-            "label": "t:sections.hero.settings.hero__heading",
-            "default": "Team barbell"
-        },
-        {
-            "type": "textarea",
-            "id": "hero__text",
-            "label": "t:sections.hero.settings.hero__text",
-            "default": "Team Barbell was to design a piece of equipment that matches the performance and quality of other elite level competition bars."
-        },
-        {
-            "type": "text",
-            "id": "hero__button_text",
-            "label": "t:sections.hero.settings.hero__button",
-            "default": "Explore"
-        },
-        {
-            "type": "url",
-            "id": "hero__button_url",
-            "label": "t:sections.hero.settings.hero__url"
-        }
-    ],
-      "presets":[
-          {
-          "name": "Hero",
-          "settings": {
-          }
-      }
-    ]
-  }
- {% endschema %}
+{% schema %}
+{
+  "name": "t:sections.hero.name",
+  "class": "hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_bg",
+      "label": "t:sections.hero.settings.hero__image"
+    },
+    {
+      "type": "text",
+      "id": "hero__heading",
+      "label": "t:sections.hero.settings.hero__heading",
+      "default": "Team barbell"
+    },
+    {
+      "type": "textarea",
+      "id": "hero__text",
+      "label": "t:sections.hero.settings.hero__text",
+      "default": "Team Barbell was to design a piece of equipment that matches the performance and quality of other elite level competition bars."
+    },
+    {
+      "type": "text",
+      "id": "hero__button_text",
+      "label": "t:sections.hero.settings.hero__button",
+      "default": "Explore"
+    },
+    {
+      "type": "url",
+      "id": "hero__button_url",
+      "label": "t:sections.hero.settings.hero__url"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

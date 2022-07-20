@@ -3,60 +3,58 @@
 {% include 'best-seller-snip' %}
 
 <style>
-    .best-seller__left-img{
-        background-color: {{ settings.color_bg_image }};
-    }
-    .best-seller__right-img{
-        background-color: {{ settings.color_bg_image }};
-    }
+  .best-seller__left-img{
+      background-color: {{ settings.color_bg_image }};
+  }
+  .best-seller__right-img{
+      background-color: {{ settings.color_bg_image }};
+  }
 </style>
 
-{% schema %} 
-    { 
-        "name": "t:sections.best__seller.name",
-        "class": "best-seller",
-        "settings": 
-    [ 
-        { 
-            "id":"best-seller__image-1",
-            "type":"image_picker",
-            "label":"t:sections.best__seller.settings.best-seller__image" 
-        },
-        { 
-            "id":"best-seller__image-2",
-            "type":"image_picker",
-            "label":"t:sections.best__seller.settings.best-seller__image" 
-        },
-        {
-            "type": "text",
-            "id": "best-seller__subheading",
-            "label":"t:sections.best__seller.settings.best-seller__subheading", 
-            "default": "Best seller"
-        },
-        {
-            "type": "text",
-            "id": "best-seller__heading",
-            "default": "TRULY, AN ALL IN ONE BARBELL",
-            "label":"t:sections.best__seller.settings.best-seller__heading"
-        },
-        {
-            "type": "text",
-            "id": "best-seller__text",
-            "default": "Design that matches the performance and quality of other elite level competition bars",
-            "label":"t:sections.best__seller.settings.best-seller__description"
-        },
-        {
-            "type": "text",
-            "id": "best-seller__button",
-            "label":"t:sections.best__seller.settings.best-seller__button", 
-            "default": "Shop weights"
-        },
-        {
-            "type": "url",
-            "id": "best-seller__button_url",
-            "label":"t:sections.best__seller.settings.best-seller__url" 
-        }
-
-    ] 
+{% schema %}
+{
+  "name": "t:sections.best__seller.name",
+  "class": "best-seller",
+  "settings": [
+    {
+      "id": "best-seller__image-1",
+      "type": "image_picker",
+      "label": "t:sections.best__seller.settings.best-seller__image"
+    },
+    {
+      "id": "best-seller__image-2",
+      "type": "image_picker",
+      "label": "t:sections.best__seller.settings.best-seller__image"
+    },
+    {
+      "type": "text",
+      "id": "best-seller__subheading",
+      "label": "t:sections.best__seller.settings.best-seller__subheading",
+      "default": "Best seller"
+    },
+    {
+      "type": "text",
+      "id": "best-seller__heading",
+      "default": "TRULY, AN ALL IN ONE BARBELL",
+      "label": "t:sections.best__seller.settings.best-seller__heading"
+    },
+    {
+      "type": "text",
+      "id": "best-seller__text",
+      "default": "Design that matches the performance and quality of other elite level competition bars",
+      "label": "t:sections.best__seller.settings.best-seller__description"
+    },
+    {
+      "type": "text",
+      "id": "best-seller__button",
+      "label": "t:sections.best__seller.settings.best-seller__button",
+      "default": "Shop weights"
+    },
+    {
+      "type": "url",
+      "id": "best-seller__button_url",
+      "label": "t:sections.best__seller.settings.best-seller__url"
     }
- {% endschema %}
+  ]
+}
+{% endschema %}

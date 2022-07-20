@@ -1,27 +1,24 @@
-{{
-  "style-header.css" | asset_url | stylesheet_tag
-}}
+{{ "style-header.css" | asset_url | stylesheet_tag }}
 {{ "style-cart.css" | asset_url | stylesheet_tag }}
 
 <div class="header__container">
-      <div class="header__left">
-        {% render "header__logo" %}
-      </div>
-      <div class="header__center">
-        {% render "header_link" %}
-      </div>
-      <div class="header__right">
-        {% render "header_icons" %}
-      </div>
-</div>      
-  {% render "cart_ajax" %}
+  <div class="header__left">
+    {% render "header__logo" %}
+  </div>
+  <div class="header__center">
+    {% render "header_link" %}
+  </div>
+  <div class="header__right">
+    {% render "header_icons" %}
+  </div>
+</div>
+{% render "cart_ajax" %}
 
-  {{ "script-ajax.js" | asset_url | script_tag }}
+{{ "script-ajax.js" | asset_url | script_tag }}
 
-
-{% schema %} 
-  { 
-  "name": "t:sections.header.name", 
+{% schema %}
+{
+  "name": "t:sections.header.name",
   "class": "header",
   "settings": [
     {
@@ -29,6 +26,6 @@
       "id": "header_link_list",
       "label": "t:sections.header.settings.header__list"
     }
-  ] 
+  ]
 }
 {% endschema %}

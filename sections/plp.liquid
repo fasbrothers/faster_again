@@ -3,66 +3,92 @@
 {% assign param = collection.handle %}
 
 <div class="products container">
-    {% paginate collection.products by section.settings.products_per_page %}
+  {% paginate collection.products by section.settings.products_per_page %}
     <h1 class="products__title">{{ collection.title }}</h1>
     <div class="products__navigation">
       {% for collection in collections %}
-      {% if collection.handle != "metafields-collection" and collection.handle != "all_products" %}
-        <li class="products__item">
-            <a href="{{ collection.url }}" class="products__nav {% if param == collection.handle %}
-                products__nav--active
-            {% endif %}">{{ collection.title}}</a>    
-        </li>
-      {% endif %}
+        {% if collection.handle != "metafields-collection" and collection.handle != "all_products" %}
+          <li class="products__item">
+            <a
+              href="{{ collection.url }}"
+              class="
+                products__nav {% if param == collection.handle %}
+                    products__nav--active
+                {% endif %}
+              "
+            >
+              {{- collection.title -}}
+            </a>
+          </li>
+        {% endif %}
       {% endfor %}
-
     </div>
-    <!-- {% render 'collection-filter' %} -->
+    {% render 'collection-filter' %}
     <div class="products__list">
       {% for product in collection.products %}
-      <div class="goods">
-          <a class="goods__image {% unless product.available %} goods__opacity {% endunless %}" href="{{ product.url | within: collection }}">
-            <img class="goods_img" src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+        <div class="goods">
+          <a
+            class="goods__image {% unless product.available %} goods__opacity {% endunless %}"
+            href="{{ product.url | within: collection }}"
+          >
+            <img
+              class="goods_img"
+              src="{{ product.featured_image.src | img_url: 'large' }}"
+              alt="{{ product.featured_image.alt | escape }}"
+            >
           </a>
-          
+
           {% unless product.available %}
-          <p class="goods__sold-out">
-            {{'product.product-information.product__soldOut_html' | t | upcase }}
-          </p>
+            <p class="goods__sold-out">
+              {{ 'product.product-information.product__soldOut_html' | t | upcase }}
+            </p>
           {% endunless %}
-          <a class="goods__title" href="{{ product.url | within: collection }}">{{ product.title }}</a>
-          <div class="yotpo bottomLine"
-            data-product-id="{{ product.id }}">
-          </div>
+          <a class="goods__title" href="{{ product.url | within: collection }}">
+            {{- product.title -}}
+          </a>
+          <div
+            class="yotpo bottomLine"
+            data-product-id="{{ product.id }}"
+          ></div>
           <div class="goods__tags">
             {% for tag in product.tags %}
-              {% if tag contains 'free shipping' %}     
-                    <span class="goods__free-shipping goods__tag">{{tag}}</span>
+              {% if tag contains 'free shipping' %}
+                <span class="goods__free-shipping goods__tag">{{ tag }}</span>
               {% endif %}
               {% if tag contains 'best seller' %}
-                      <span class="goods__best-seller goods__tag">{{tag}}</span>
+                <span class="goods__best-seller goods__tag">{{ tag }}</span>
               {% endif %}
               {% if tag contains 'pre-order' %}
-                      <span class="goods__pre-order goods__tag">{{tag}}</span>
+                <span class="goods__pre-order goods__tag">{{ tag }}</span>
               {% endif %}
-            {% endfor %}  
+            {% endfor %}
           </div>
           {% if product.price_varies and template == 'collection' %}
-          <p class="goods__price">{{ product.price_min | money }}-{{ product.price_max | money }}</p>
+            <p class="goods__price">
+              {{ product.price_min | money }}-{{ product.price_max | money }}
+            </p>
           {% elsif product.compare_at_price %}
-          <div class="goods__tags">
-            <span class="goods__sale  goods__tag">Sale</span> 
-          </div>
-          <p class="goods__price"> <span class="goods__price--cross">{{product.compare_at_price | money}}</span> {{product.price | money}}</p>
+            <div class="goods__tags">
+              <span class="goods__sale  goods__tag">Sale</span>
+            </div>
+            <p class="goods__price">
+              <span class="goods__price--cross">
+                {{- product.compare_at_price | money -}}
+              </span>
+              {{ product.price | money }}
+            </p>
           {% else %}
-          <p class="goods__price {% unless product.available %} goods__price--line {% endunless %}">{{ product.price | money }}</p>
-         {% endif %}
-          
+            <p class="goods__price {% unless product.available %} goods__price--line {% endunless %}">
+              {{ product.price | money }}
+            </p>
+          {% endif %}
         </div>
-        {% else %}
-        <h3 class="not__available">{{'product.product__notAvailable.product__notAvailable' | t}}</h3>
-        {% endfor %}
-      </div>
+      {% else %}
+        <h3 class="not__available">
+          {{ 'product.product__notAvailable.product__notAvailable' | t }}
+        </h3>
+      {% endfor %}
+    </div>
     {% if paginate.pages > 1 %}
       {{ paginate | default_pagination }}
     {% endif %}
@@ -71,8 +97,8 @@
 
 {% schema %}
 {
- "name": "t:sections.collection.name",
- "settings": [
+  "name": "t:sections.collection.name",
+  "settings": [
     {
       "type": "header",
       "content": "t:sections.collection.settings.collection__header"

@@ -1,17 +1,20 @@
 <div class="product__details">
-    <div class="product__details-wrapper container">
-      {% for html in product.metafields.accentuate.presentaion_text %}
+  <div class="product__details-wrapper container">
+    {% for html in product.metafields.accentuate.presentaion_text %}
       <div class="product__detail">
         <div class="product__detail-info">
           {{ product.metafields.accentuate[html.metafield][html.index] }}
         </div>
         <div class="product__detail-image">
-          <img src="{{ product.metafields.accentuate.presentaion_image[forloop.index0][0].src }}" alt="">
+          <img
+            src="{{ product.metafields.accentuate.presentaion_image[forloop.index0][0].src }}"
+            alt=""
+          >
         </div>
       </div>
-      {% endfor %}
-        <div class="product__detail-line product__detail-line-1"></div>
-        <div class="product__detail-line product__detail-line-2"></div>
-        <div class="product__detail-line product__detail-line-3"></div>
-    </div>
+    {% endfor %}
+    <div class="product__detail-line product__detail-line-1"></div>
+    <div class="product__detail-line product__detail-line-2"></div>
+    <div class="product__detail-line product__detail-line-3"></div>
   </div>
+</div>
