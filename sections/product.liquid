@@ -1,241 +1,432 @@
-{% assign current_variant = product.selected_or_first_available_variant %}
-
 {{ "style-collection.css" | asset_url | stylesheet_tag }}
 {{ "style-product.css" | asset_url | stylesheet_tag }}
 {{ "style-cart.css" | asset_url | stylesheet_tag }}
-
 
 <div class="product container">
   {% render "product_images" %}
   <div class="product__right">
     <div class="product__right-wrapper">
       <h2 class="product__title">{{ product.title }}</h2>
+      {% assign current_variant = product.selected_or_first_available_variant %}
       <p class="product__price">{{ current_variant.price | money }}</p>
-      <div class="yotpo bottomLine"
-      data-product-id="{{ product.id }}">
-      </div>
-      <p class="product__description">{{ product.description }}</p>
-      <form
-        action="/cart/add"
-        method="post"
-        enctype="multipart/form-data"
-        id="AddToCartForm"
-        class="product__form"
-      >
-      <fieldset class="product-form__input">
-        {% for variant in product.variants %} 
-            <input type="radio" value="{{variant.id}}" id="{{variant.id}}" name="{{product.options[0]}}" price="{{variant.price}}">
-            <label for="{{variant.id}}" class="product-form__item {% unless variant.available %} product-form__sold-out {% endunless %}">{{ variant.title }}
-            </label>
-        {% endfor %}
-      </fieldset>
+      <div
+        class="yotpo bottomLine"
+        data-product-id="{{ product.id }}"
+      ></div>
+      <p class="product__description">
+        {{ product.description | truncatewords: 40, '...' }}
+      </p>
+      <!-- product variant json -->
+      <script type="application/json" data-v="v">
+        {{ product.variants | json }}
+      </script>
 
-      
-      <input id="product_size_master" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" selected="selected">
-      <input id="product_qty_master" type="hidden" name="quantity" min="1" value="1">
-      <p class="free-shipping">{{ section.settings.free_shipping_text }}</p>
-      <button type="submit" name="add" class="product__button" {% if product.selected_or_first_available_variant.available==false %}disabled{% endif %}>
-        {{ section.settings.submit_btn_text }}
-      </button>
-    </form>
-    {% render "product_metafield" %}
+      <!-- product form -->
+      {%- form 'product', product, id: product_form_id, class: 'product__form', novalidate: 'novalidate', data-type: 'add-to-cart-form', data-url: product.url -%}
+        <!-- Master selectors -->
+        <input
+          id="product_variant_master"
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          selected="selected"
+        >
+        <input
+          id="product_qty_master"
+          type="hidden"
+          name="quantity"
+          min="1"
+          value="1"
+        >
+
+        <!-- product option 1 (radio) -->
+        {% if product.options_with_values[0] %}
+          <fieldset class="radios option1 product-form__input" name="metal">
+            {% assign option = product.options_with_values[0] %}
+            <p class="product-form__option">{{ option.name }}</p>
+            {% for value in option.values %}
+              <input
+                type="radio"
+                id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                name="{{ option.name }}"
+                value="{{ value | escape }}"
+                form="{{ product_form_id }}"
+                class="variant-input"
+                {% if option.selected_value == value %}
+                  checked
+                {% endif %}
+              >
+              <label
+                for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                class="product-form__item"
+              >
+                {{ value | capitalize }}
+              </label>
+            {% endfor %}
+          </fieldset>
+        {% endif %}
+
+        <!-- product option 2 (dropdown) size -->
+        {% if product.options_with_values[1] %}
+          <p class="product-form__option">
+            {{ product.options_with_values[1].name }}
+          </p>
+          <div class="product__dropdown option2">
+            {% assign option = product.options_with_values[1] %}
+            <select
+              class="dropdown__select"
+              name="{{ option.name | escape }}"
+              form="{{ product_form_id }}"
+            >
+              {%- for value in option.values -%}
+                <option
+                  value="{{ value | escape }}"
+                  {% if option.selected_value == value %}
+                    selected="selected"
+                  {% endif %}
+                >
+                  {{ value | capitalize }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {% endif %}
+        <!-- product option 3 (dropdown) -->
+        {% if product.options_with_values[2] %}
+          <p class="product-form__option">
+            {{ product.options_with_values[2].name }}
+          </p>
+          <div class="product__dropdown option3">
+            {% assign option = product.options_with_values[2] %}
+            <select
+              class="dropdown__select"
+              name="{{ option.name | escape }}"
+              form="{{ product_form_id }}"
+            >
+              {%- for value in option.values -%}
+                <option
+                  value="{{ value | escape }}"
+                  {% if option.selected_value == value %}
+                    selected="selected"
+                  {% endif %}
+                >
+                  {{ value | capitalize }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {% endif %}
+
+        <p class="free-shipping">{{ section.settings.free_shipping_text }}</p>
+
+        <button
+          type="submit"
+          class="form-btn  product__button product__form__submit"
+          name="add"
+          {%- unless product.selected_or_first_available_variant.available -%}
+            disabled="true"
+          {% endunless %}
+        >
+          {%- if product.selected_or_first_available_variant.available -%}
+            {{ section.settings.submit_btn_text }}
+          {%- else -%}
+            {{ 'product.product-information.product__notAvailable' | t }}
+          {%- endif -%}
+        </button>
+      {%- endform -%}
+      <!--
+        <form
+          action="/cart/add"
+          method="post"
+          enctype="multipart/form-data"
+          id="AddToCartForm"
+          class="product__form"
+        >
+          <fieldset class="product-form__input">
+            {% for variant in product.variants %}
+              <input
+                type="radio"
+                value="{{variant.id}}"
+                id="{{variant.id}}"
+                name="{{product.options[0]}}"
+                price="{{variant.price}}"
+              >
+              <label
+                for="{{variant.id}}"
+                class="product-form__item {% unless variant.available %} product-form__sold-out {% endunless %}"
+              >
+                {{- variant.title }}
+              </label>
+            {% endfor %}
+          </fieldset>
+
+          <input
+            id="product_size_master"
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+            selected="selected"
+          >
+          <input
+            id="product_qty_master"
+            type="hidden"
+            name="quantity"
+            min="1"
+            value="1"
+          >
+          <p class="free-shipping">{{ section.settings.free_shipping_text }}</p>
+          <button
+            type="submit"
+            name="add"
+            class="product__button"
+            {% if product.selected_or_first_available_variant.available==false %}
+              disabled
+            {% endif %}
+          >
+            {{ section.settings.submit_btn_text }}
+          </button>
+        </form>
+      -->
+      {% render "product_metafield" %}
     </div>
-  </div> 
+  </div>
 </div>
-
 
 {% render "cart_ajax" %}
 
 {{ "script-pdp.js" | asset_url | script_tag }}
 
 <script>
-  // function to remove the product from the cart, and update the cart qunatity
-  document.querySelector(".cart__main").addEventListener("click", (e)=>{
-    if(e.target.classList.contains("cart__checkout-remove")){
-      removeItem(e.target.getAttribute("data-key"), e.target.parentElement)
-    } else if(e.target.classList.contains("btn-increase")){
-      updateCartValue("+", e.target)
+    document.querySelector(".product__form").addEventListener("change", e => {
+    })
+    // Option selection
+    let productForm = document.querySelector(".product__form");
+    // Get variants
+    let variants = JSON.parse(document.querySelector('[data-v="v"]').textContent)
+    productForm.addEventListener("change", e=>{
+    // update options
+    let options = [];
+    if (productForm.querySelector('.option1')) {
+      options.push(productForm.querySelector('.option1 input:checked').value)
     }
-    else if(e.target.classList.contains("btn-decrease")){
-      updateCartValue("-", e.target)
+    if (productForm.querySelector(".option2")) {
+      options.push(productForm.querySelector(".option2 select").value)
     }
-  })
-  // function to remove the product from the cart
-  function removeItem(key, select){
-    let formData = {
-            "id": key,
-            "quantity": 0,
-  };
-    fetch(window.Shopify.routes.root + 'cart/change.js', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-      body: JSON.stringify(formData)
-    })
-    .then(response => {
-      return response.json();
-    })
-    .then(data=>{
-      let totalValue = 0;
-      data.items.forEach(element => {
-        if(element.properties == null){
-          totalValue+= element.original_price * element.quantity
-        }
-        else if(element.properties._bundle_price){
-          totalValue+= element.properties._bundle_price * element.quantity
-        }else{
-          totalValue += element.original_price * element.quantity
-        }
-      });
-      document.querySelector(".cart__footer-total").textContent = '$' + (totalValue / 100 ).toFixed(2);
-      select.remove();
-      if(!data.item_count){ empty_cart();  return }
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    })
-  }
-  // function to update the cart quantity
-  function updateCartValue(symbol, select){
-    let item = select.parentElement.parentElement;
-    let key = item.querySelector(".cart__checkout-remove").getAttribute("data-key");
-    let quantity = null;
-    if(symbol == "+"){
-      quantity = Number(select.previousElementSibling.textContent) + 1;
-    }else{
-      if(Number(select.nextElementSibling.textContent) > 1){
-        quantity = Number(select.nextElementSibling.textContent) - 1;
+    if (productForm.querySelector(".option3")) {
+      options.push(productForm.querySelector(".option3 select").value)
+    }
+    // update master id
+    let currentVariant = variants.find((variant) => {
+      return !variant.options.map((option, index) => {
+        return options[index] === option;
+      }).includes(false);
+    });
+
+    if(currentVariant){
+      // update url
+      window.history.replaceState({ }, '', `{{product.url}}?variant=${currentVariant.id}`);
+      // update master selector
+      productForm.querySelector('input[name="id"]').value = currentVariant.id;
+      // update master price
+      document.querySelector(".product__price").textContent = "$" + (currentVariant.price / 100).toFixed(2);
+      if(currentVariant.available){
+        // update UI
+        document.querySelector(".product__form__submit").removeAttribute("disabled")
+        document.querySelector(".product__form__submit").innerHTML = "{{ section.settings.submit_btn_text }}"
       }else{
-        removeItem(key, item)
-         return;
+        document.querySelector(".product__form__submit").setAttribute("disabled", true)
+        document.querySelector(".product__form__submit").innerHTML = "{{ 'product.product-information.product__notAvailable' | t }}"
       }
     }
-    let formData = {
-            "id": key,
-            "quantity": quantity,
-    };
-    fetch(window.Shopify.routes.root + 'cart/change.js', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(res=>{
-            res.json().then((changed)=>{
-              let totalValue = 0;
-              changed.items.forEach(element => {
-                if(element.properties == null){
-                  totalValue+= element.original_price * element.quantity
-                }
-                else if(element.properties._bundle_price){
-                  totalValue+= element.properties._bundle_price * element.quantity
-                }else{
-                  totalValue += element.original_price * element.quantity
-                }
-              });
-              document.querySelector(".cart__footer-total").textContent = `$${(totalValue /100).toFixed(2)}`;
-              let current = changed.items.find((item)=>item.key === key);
-              
-                if(quantity <= current.quantity){
-                    if (symbol==="+"){
-                      select.previousElementSibling.textContent = quantity;
-                    } else{
-                      select.nextElementSibling.textContent = quantity;
-                    } 
-                    item.querySelector(".cart__checkout-price").textContent = `$${(current.original_line_price/100).toFixed(2)}`;
-                }else{
-                  return false
-                }
-            })
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-  }
-  function empty_cart() {
-    document.querySelector(".cart__main").innerHTML = `
-    <div class="empty_cart">
-                <p>Your Cart is Empty</p>
-                <a href="{{ routes.all_products_collection_url }}">Shop Best Sellers</a>
-                </div>
-                `;
-      return
-    }
-  function getData(){
-    let result =  fetch(window.Shopify.routes.root + 'cart.js', {
-    method: 'GET',
   })
-    .then(response => {
-      return response.json();
-    }).then(data => {
-      let totalValue = 0;
-      data.items.forEach(element => {
-        if(element.properties == null){
-          totalValue+= element.original_price * element.quantity
-        }
-        else if(element.properties._bundle_price){
-          totalValue+= element.properties._bundle_price * element.quantity
+
+    // function to remove the product from the cart, and update the cart qunatity
+    document.querySelector(".cart__main").addEventListener("click", (e)=>{
+      if(e.target.classList.contains("cart__checkout-remove")){
+        removeItem(e.target.getAttribute("data-key"), e.target.parentElement)
+      } else if(e.target.classList.contains("btn-increase")){
+        updateCartValue("+", e.target)
+      }
+      else if(e.target.classList.contains("btn-decrease")){
+        updateCartValue("-", e.target)
+      }
+    })
+    // function to remove the product from the cart
+    function removeItem(key, select){
+      let formData = {
+              "id": key,
+              "quantity": 0,
+    };
+      fetch(window.Shopify.routes.root + 'cart/change.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify(formData)
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then(data=>{
+        let totalValue = 0;
+        data.items.forEach(element => {
+          if(element.properties == null){
+            totalValue+= element.original_price * element.quantity
+          }
+          else if(element.properties._bundle_price){
+            totalValue+= element.properties._bundle_price * element.quantity
+          }else{
+            totalValue += element.original_price * element.quantity
+          }
+        });
+        document.querySelector(".cart__footer-total").textContent = '$' + (totalValue / 100 ).toFixed(2);
+        select.remove();
+        if(!data.item_count){ empty_cart();  return }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      })
+    }
+    // function to update the cart quantity
+    function updateCartValue(symbol, select){
+      let item = select.parentElement.parentElement;
+      let key = item.querySelector(".cart__checkout-remove").getAttribute("data-key");
+      let quantity = null;
+      if(symbol == "+"){
+        quantity = Number(select.previousElementSibling.textContent) + 1;
+      }else{
+        if(Number(select.nextElementSibling.textContent) > 1){
+          quantity = Number(select.nextElementSibling.textContent) - 1;
         }else{
-          totalValue += element.original_price * element.quantity
+          removeItem(key, item)
+           return;
         }
-      });
-      document.querySelector(".cart__main").innerHTML = "";
-      document.querySelector(".cart__footer-total").textContent = '$' + (totalValue/100).toFixed(2);
-      if(!data.item_count){ empty_cart(); return }
-      document.querySelector(".cart__main").insertAdjacentHTML('afterbegin', data.items.map(item => {
-        return `
-        <div class="cart__checkout">
-          <a href="${item.url}" class="cart__checkout-image">
-            <img
-              src="${item.featured_image.url}"
-              alt="${item.product_title}"
-              class="cart__checkout-img"
-            />
-          </a>
-          <a class="cart__checkout-title" href="${item.url}">${item.title}</a>
-          <p class="cart__checkout-variant">${item.variant_title}</p>
-          <p class="cart__checkout-price">$${ item.properties == null ? (item.final_line_price / 100).toFixed(2) : item.properties._bundle_price ? (item.properties._bundle_price / 100).toFixed(2) : (item.final_line_price / 100).toFixed(2)}</p>
-          <button
-              class="cart__checkout-remove"
-              data-key="${item.key}"
-            >
-              {% render "remove" %} 
-            </button>
-          <div class="cart__checkout-quantity">
-            <button type="button" class="btn-decrease ">{% render "minus" %}</button>
-             <span  class= "cart__checkout-input">${item.quantity}</span>
-            <button type="button" class="btn-increase ">{% render "plus" %}</button>    
+      }
+      let formData = {
+              "id": key,
+              "quantity": quantity,
+      };
+      fetch(window.Shopify.routes.root + 'cart/change.js', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formData)
+          })
+          .then(res=>{
+              res.json().then((changed)=>{
+                let totalValue = 0;
+                changed.items.forEach(element => {
+                  if(element.properties == null){
+                    totalValue+= element.original_price * element.quantity
+                  }
+                  else if(element.properties._bundle_price){
+                    totalValue+= element.properties._bundle_price * element.quantity
+                  }else{
+                    totalValue += element.original_price * element.quantity
+                  }
+                });
+                document.querySelector(".cart__footer-total").textContent = `$${(totalValue /100).toFixed(2)}`;
+                let current = changed.items.find((item)=>item.key === key);
+
+                  if(quantity <= current.quantity){
+                      if (symbol==="+"){
+                        select.previousElementSibling.textContent = quantity;
+                      } else{
+                        select.nextElementSibling.textContent = quantity;
+                      }
+                      item.querySelector(".cart__checkout-price").textContent = `$${(current.original_line_price/100).toFixed(2)}`;
+                  }else{
+                    return false
+                  }
+              })
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
+    }
+    function empty_cart() {
+      document.querySelector(".cart__main").innerHTML = `
+      <div class="empty_cart">
+                  <p>Your Cart is Empty</p>
+                  <a href="{{ routes.all_products_collection_url }}">Shop Best Sellers</a>
+                  </div>
+                  `;
+        return
+      }
+    function getData(){
+      let result =  fetch(window.Shopify.routes.root + 'cart.js', {
+      method: 'GET',
+    })
+      .then(response => {
+        return response.json();
+      }).then(data => {
+        let totalValue = 0;
+        data.items.forEach(element => {
+          if(element.properties == null){
+            totalValue+= element.original_price * element.quantity
+          }
+          else if(element.properties._bundle_price){
+            totalValue+= element.properties._bundle_price * element.quantity
+          }else{
+            totalValue += element.original_price * element.quantity
+          }
+        });
+        document.querySelector(".cart__main").innerHTML = "";
+        document.querySelector(".cart__footer-total").textContent = '$' + (totalValue/100).toFixed(2);
+        if(!data.item_count){ empty_cart(); return }
+        document.querySelector(".cart__main").insertAdjacentHTML('afterbegin', data.items.map(item => {
+          return `
+          <div class="cart__checkout">
+            <a href="${item.url}" class="cart__checkout-image">
+              <img
+                src="${item.featured_image.url}"
+                alt="${item.product_title}"
+                class="cart__checkout-img"
+              />
+            </a>
+            <a class="cart__checkout-title" href="${item.url}">${item.title}</a>
+            <p class="cart__checkout-variant">${item.variant_title}</p>
+            <p class="cart__checkout-price">$${ item.properties == null ? (item.final_line_price / 100).toFixed(2) : item.properties._bundle_price ? (item.properties._bundle_price / 100).toFixed(2) : (item.final_line_price / 100).toFixed(2)}</p>
+            <button
+                class="cart__checkout-remove"
+                data-key="${item.key}"
+              >
+                {% render "remove" %}
+              </button>
+            <div class="cart__checkout-quantity">
+              <button type="button" class="btn-decrease ">{% render "minus" %}</button>
+               <span  class= "cart__checkout-input">${item.quantity}</span>
+              <button type="button" class="btn-increase ">{% render "plus" %}</button>
+            </div>
           </div>
-        </div>
-        `
-      }).join(''));
+          `
+        }).join(''));
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+      return result;
+    }
+  function postData (){
+    let addToCartForm = document.querySelector('form[action$="/cart/add"]');
+    let formData = new FormData(addToCartForm);
+    return fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      return getData();
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-    return result;
   }
-function postData (){
-  let addToCartForm = document.querySelector('form[action$="/cart/add"]');
-  let formData = new FormData(addToCartForm);
-  return fetch(window.Shopify.routes.root + 'cart/add.js', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => {
-    return getData();
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  }); 
-}
-  document.querySelector('.product__button').addEventListener("click", (e)=>{
-  e.preventDefault();
-  document.querySelector('.cart').classList.add("cart__open");
-  postData();
-  });
+    document.querySelector('.product__button').addEventListener("click", (e)=>{
+    e.preventDefault();
+    document.querySelector('.cart').classList.add("cart__open");
+    postData();
+    });
 </script>
 
 {% schema %}
@@ -243,17 +434,17 @@ function postData (){
   "name": "t:sections.product.name",
   "settings": [
     {
-        "type": "text",
-        "id": "product-freq__title",
-        "label": "t:sections.product.settings.product__title",
-        "default": "Frequently bought with"
+      "type": "text",
+      "id": "product-freq__title",
+      "label": "t:sections.product.settings.product__title",
+      "default": "Frequently bought with"
     },
     {
       "type": "text",
       "id": "free_shipping_text",
       "label": "t:sections.product.settings.product__text",
       "default": "Available for Free shipping!"
-    },    
+    },
     {
       "type": "text",
       "id": "submit_btn_text",
