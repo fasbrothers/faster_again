@@ -188,6 +188,12 @@ function getData() {
           ? (item.properties._bundle_price / 100).toFixed(2)
           : (item.final_line_price / 100).toFixed(2)
       }</p>
+      <p class="${
+        item.discounts.length !== 0
+          ? "cart__checkout-discount"
+          : "cart__checkout-discount-none"
+      }">${item.discounts.length !== 0 ? item.discounts[0].title : ""}</p>
+
       <button
           class="cart__checkout-remove"
           data-key="${item.key}"

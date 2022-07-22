@@ -55,6 +55,9 @@
               {% if tag contains 'free shipping' %}
                 <span class="goods__free-shipping goods__tag">{{ tag }}</span>
               {% endif %}
+              {% if tag contains 'discount' %}
+                <span class="goods__best-seller goods__tag">{{ tag }}</span>
+              {% endif %}
               {% if tag contains 'best seller' %}
                 <span class="goods__best-seller goods__tag">{{ tag }}</span>
               {% endif %}
