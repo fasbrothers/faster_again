@@ -1,6 +1,6 @@
 {% if shop.customer_accounts_enabled %}
     {% if customer %}
-    <a href="{{ routes.account_url }}" class="header__right-icon {% if template.name != "index" %} header__right-black {%
+    <a href="{{ routes.account_url }}" class="header__right-icon header__right-search {% if template.name != "index" %} header__right-black {%
         endif %}">
         {% render 'search' %}
     </a>
@@ -13,7 +13,7 @@
         </div>
     </div>
     {% else %}
-    <a href="#" class="header__right-icon {% if template.name != "index" %} header__right-black {% endif %}">
+    <a href="#" class="header__right-icon header__right-search {% if template.name != "index" %} header__right-black {% endif %}">
         {% render 'search' %}
     </a>
     <div class="dropdown">

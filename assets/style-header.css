@@ -1,80 +1,154 @@
-.templete-index .header{
-    height: 5.2rem;
-    width: 100%;
-    position: absolute;
-    top: 6rem;
-    left: 0;
-    padding-bottom: 3.9rem;
+.templete-index .header {
+  height: 5.2rem;
+  width: 100%;
+  position: absolute;
+  top: 6rem;
+  left: 0;
+  padding-bottom: 3.9rem;
 }
-.header{
-    margin-bottom: 5rem;
-    margin-top: 1.7rem;
+.header {
+  margin-bottom: 5rem;
+  margin-top: 1.7rem;
 }
-.templete-product .header, .templete-account .header, 
-.templete-order .header, .templete-addresses .header{
-    margin-bottom: 1rem;
+.templete-product .header,
+.templete-account .header,
+.templete-order .header,
+.templete-addresses .header {
+  margin-bottom: 1rem;
 }
-.header__container{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1440px;
-    margin: auto !important;
-    padding-left: 3.9rem;
-    padding-right: 4.2rem;
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1440px;
+  margin: auto !important;
+  padding-left: 3.9rem;
+  padding-right: 4.2rem;
 }
-.header__center{
-    display: flex;
+.header__center {
+  display: flex;
 }
-.header__center-nav{
-    color: white;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.175em;
-    font-size: 1.2rem;
-    margin-right: 4rem;
+.header__center-nav {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.175em;
+  font-size: 1.2rem;
+  margin-right: 4rem;
 }
-.header__center-black{
-    color: black;
+.header__center-black {
+  color: black;
 }
-.header__right-icon{
-    margin-left: 2rem;
-    text-decoration: none;
+.header__right-icon {
+  margin-left: 2rem;
+  text-decoration: none;
 }
-.header__left-logo-black svg *{
-    fill: black;
+.header__left-logo-black svg * {
+  fill: black;
 }
-.header__right-black svg *{
-    stroke: black;
+.header__right-black svg * {
+  stroke: black;
 }
 /* Dropdown Button */
 .dropbtn {
-    background-color: transparent;
-    color: white;
-    font-size: 1.4rem;
-    border: none;
-  }  
-  .dropdown {
-    position: relative;
-    display: inline-block;
+  background-color: transparent;
+  color: white;
+  font-size: 1.4rem;
+  border: none;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 9rem;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.navigation__menu {
+  display: none;
+}
+.nav__item {
+  list-style: none;
+}
+
+@media screen and (max-width: 1050px) {
+  .header__container {
+    padding: 0 1.6rem;
   }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 9rem;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  } 
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
+  .navigation__menu {
     display: block;
+    background: transparent;
+    border: none;
+    cursor: pointer;
   }
-  
-  .dropdown-content a:hover {background-color: #ddd;}
-  
-  .dropdown:hover .dropdown-content {display: block;}
-  
+  .header__center {
+    display: none;
+  }
+  .nav__item {
+    margin-top: 3rem;
+  }
+  .header__left {
+    flex-grow: 1;
+    text-align: center;
+  }
+  .header__right {
+    margin-right: 0.5rem;
+  }
+  .header__right-icon {
+    margin-left: 0;
+  }
+  .header__right-search {
+    display: none;
+  }
+  .dropdown {
+    margin-right: 0.5rem;
+  }
+  .dropdown-content {
+    min-width: 6rem;
+  }
+  .dropdown-content a {
+    padding: 0.6rem 0.8rem;
+  }
+  .header__center-nav {
+    color: black;
+  }
+}
+.show__nav {
+  position: fixed;
+  z-index: 9999999999;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+  background-color: white;
+  top: 0;
+  padding-left: 4rem;
+  left: 35%;
+}
+@media screen and (min-width:700px) and (max-width: 1050px) {
+  .show__nav {
+    left: 65%;
+  }
+}

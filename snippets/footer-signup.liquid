@@ -1,28 +1,40 @@
 <div class="footer__left">
-    <div class="footer__left-wrapper">
-        <h5 class="footer__heading">
-            {{section.settings.footer__heading_one}}
-        </h5>
-        {% form 'customer' %}
-            <div class="footer__inputs">
-                <input type="email" name="contact[email]" id="email" placeholder="Enter your email" class="footer__input">
-                <button class="footer__arrow" type="submit">
-                    {% render 'arrow_right' %}
-                </button>
-            </div>
-        {% endform %}
-        <div class="footer__links">
-            <a href="{{section.settings.facebook}}" class="footer__link">
-                {% render 'facebook'%}
-            </a>
-            <a href="{{section.settings.instagram}}" class="footer__link">
-                {% render 'instagram'%}
-            </a>
-            <a href="{{section.settings.mail}}" class="footer__link">
-                {% render 'mail'%}
-            </a>
-        </div>
+  <div class="footer__left-wrapper">
+    <h5 class="footer__heading">
+      {{ section.settings.footer__heading_one }}
+    </h5>
+    {% form 'customer' %}
+      <div class="footer__inputs">
+        <input
+          type="email"
+          name="contact[email]"
+          id="email"
+          placeholder="Enter your email"
+          class="footer__input"
+        >
+        <button class="footer__arrow" type="submit">
+          {% render 'arrow_right' %}
+        </button>
+      </div>
+    {% endform %}
+    <div class="footer__links">
+      <a href="{{section.settings.facebook}}" class="footer__link">
+        {% render 'facebook' %}
+      </a>
+      <a href="{{section.settings.instagram}}" class="footer__link">
+        {% render 'instagram' %}
+      </a>
+      <a href="{{section.settings.mail}}" class="footer__link">
+        {% render 'mail' %}
+      </a>
     </div>
-        <img {% if section.settings.logo__big != blank %} src="{{section.settings.logo__big | image_url}}" {% else %}
-            src="{{"image-logo_big.png" | asset_url}}" {% endif %} class="footor__logo">
+  </div>
+  <img
+    {% if section.settings.logo__big != blank %}
+      src="{{section.settings.logo__big | image_url}}"
+    {% else %}
+      src="{{"image-logo_big.png" | asset_url}}"
+    {% endif %}
+    class="footor__logo"
+  >
 </div>

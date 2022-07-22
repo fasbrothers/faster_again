@@ -11,8 +11,13 @@
   width: 47%;
   padding-left: 5rem;
 }
-.product__left img {
+.product__left img{
   height: calc(100vh - 8rem);
+  width: 72rem;
+  object-fit: contain;
+}
+.product__left iframe{
+  height: 70rem;
   width: 72rem;
   object-fit: contain;
 }

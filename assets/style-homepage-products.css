@@ -44,3 +44,9 @@
   height: 2px;
   width: 100%;
 }
+
+@media screen and (max-width: 768px) {
+  .featured{
+    padding: 4rem 1.6rem;
+  }
+}

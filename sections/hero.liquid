@@ -1,14 +1,14 @@
 {{ "style-hero.css" | asset_url | stylesheet_tag }}
 
-<style>
+{% style %}
   .hero{
-  background-image: url("{{ section.settings.hero_bg | image_url }}");
-  background-color: {{ settings.color_bg_image }};
-  }
-  .hero__button{
-      background-color: {{ settings.color_buttom}}
-  }
-</style>
+    background-image: url("{{ section.settings.hero_bg | image_url }}");
+    background-color: {{ settings.color_bg_image }};
+    }
+    .hero__button{
+        background-color: {{ settings.color_buttom}}
+    }
+{% endstyle %}
 
 <div class="hero__wrapper container">
   <h1 class="hero__heading">

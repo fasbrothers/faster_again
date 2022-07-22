@@ -5,7 +5,6 @@
     background-repeat: no-repeat;
     background-size: cover;
     padding-left: 4rem;
-    /* background-color: rgb(88, 88, 88); */
 }
 .hero__wrapper{
     height: 100%;
@@ -49,4 +48,31 @@
 }
 .hero__button:hover svg *{
     fill: black;
+}
+
+@media screen and (max-width:768px) {
+    .hero{
+        background-position: center;
+    }
+    .hero__wrapper{
+        margin-left: -2rem;
+    }
+    .hero__heading{
+        font-size: 4rem;
+        line-height: 5.2rem;
+    }
+    .hero__text{
+        margin-top: 2.4rem;
+        margin-bottom: 4rem;
+        line-height: 2.3rem;
+        width: 90%
+    }
+}
+@media screen and (min-width:769px) and (max-width:1024px) {
+    .hero{
+        background-position: center;
+    }
+    .hero__text{
+        width: 60%;
+    }
 }
