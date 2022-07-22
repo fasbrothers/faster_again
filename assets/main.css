@@ -6,7 +6,7 @@
   .filter-form .active-filters {
     margin-top: 2.5rem;
     display: flex; }
-    .filter-form .active-filters .active-filters__clear {
+    .filter-form .active-filters__clear {
       text-underline-offset: 0.3rem;
       text-decoration-thickness: 0.1rem;
       transition: text-decoration-thickness ease 0.1s;
@@ -38,11 +38,11 @@
       font-weight: 700;
       text-transform: capitalize;
       margin-bottom: 1rem; }
-    .filter-form .filter__groups .filter-group-display .filter-group-display__submit {
+    .filter-form .filter__groups .filter-group-display__submit {
       display: flex;
       justify-content: center;
       align-items: center; }
-      .filter-form .filter__groups .filter-group-display .filter-group-display__submit input {
+      .filter-form .filter__groups .filter-group-display__submit input {
         border: 1px solid #000;
         cursor: pointer;
         background: #fff;
@@ -53,7 +53,7 @@
         font-size: 1.4rem;
         font-weight: 500;
         transition: all ease 0.2s; }
-        .filter-form .filter__groups .filter-group-display .filter-group-display__submit input:hover {
+        .filter-form .filter__groups .filter-group-display__submit input:hover {
           background: #000;
           color: #fff; }
     .filter-form .filter__groups .filter-group-display .filter-group-display__price-range-from input,

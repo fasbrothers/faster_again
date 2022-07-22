@@ -3,6 +3,7 @@
     text-align: center;
     padding: 1rem 0;
     background: #FBFBFB;
+    width: 100%;
 }
 .announcement-bar__link{
     font-family: 'Oswald', sans-serif;

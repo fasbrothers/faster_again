@@ -6,7 +6,7 @@
   .active-filters {
     margin-top: 2.5rem;
     display: flex;
-    .active-filters__clear {
+    &__clear {
       text-underline-offset: 0.3rem;
       text-decoration-thickness: 0.1rem;
       transition: text-decoration-thickness ease 0.1s;
@@ -45,7 +45,7 @@
       margin-bottom: 1rem;
     }
     .filter-group-display {
-      .filter-group-display__submit {
+      &__submit {
         display: flex;
         justify-content: center;
         align-items: center;
