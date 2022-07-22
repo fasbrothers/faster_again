@@ -1,16 +1,24 @@
 <div class="product__left">
-    <div class="swiper pdpSwiper">
-      <div class="swiper-wrapper">
-        
-        {% for image in product.images %}
+  <div class="swiper pdpSwiper">
+    <div class="swiper-wrapper">
+      {% assign images = product.media | where: 'media_type', 'image' %}
+
+      {% for image in images %}
         <div class="swiper-slide">
           <img
             src="{{ image.src | img_url: 'large' }}"
             alt="{{ image.alt | escape }}"
-          />
+          >
         </div>
-        {% endfor %}
-      </div>
+      {% endfor %}
+      {% assign external_video = product.media | where: 'media_type', 'external_video' %}
+
+      {% for video in external_video %}
+        <div class="swiper-slide">
+          {{ video | external_video_url: color: 'white' | external_video_tag }}
+        </div>
+      {% endfor %}
     </div>
-    <div class="swiper-pagination"></div>
+  </div>
+  <div class="swiper-pagination"></div>
 </div>
