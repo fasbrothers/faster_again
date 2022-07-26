@@ -9,16 +9,14 @@
 .products__list {
   padding: 0 4rem;
   display: grid;
+  gap: 0 1.6rem;
   grid-template-columns: repeat(3, 1fr);
 }
 .goods {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-right: 1.6rem;
   margin-bottom: 3.4rem;
-  height: 64.4rem;
-  width: 44.3rem;
 }
 .goods:last-child {
   margin-right: 0;
@@ -141,4 +139,42 @@
 }
 .yotpo .text-m {
   display: none;
+}
+
+@media screen and (max-width:767px) {
+  .products__navigation-mobile{
+    display: none;
+  }
+  .products__list {
+    padding: 0 1.6rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .goods__tags{
+    flex-direction: column;
+  }
+  .goods__tag{
+    margin-right: 0;
+    margin-bottom: 0.8rem;
+  }
+  .products__title {
+    margin: 2.4rem 0;
+    font-size: 1.8rem;
+  }
+  .goods__price{
+    font-size: 1.2rem;
+  }
+  .goods__sold-out{
+    padding: 0;
+  }
+}
+@media screen and (min-width:768px) and (max-width:1250px) {
+  .products__navigation{
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+  }
+  .products__item{
+    margin-bottom: 0rem;
+  }
 }

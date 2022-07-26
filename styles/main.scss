@@ -84,3 +84,27 @@
     }
   }
 }
+
+@media screen and (max-width:900px) {
+  .filter-form{
+    padding: 0 3.6rem;
+    .active-filters{
+      align-items: center;
+      .active__filter{
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    .filter__groups{
+      width: 100%;
+      margin: 0;
+      flex-wrap: wrap;
+      .filter__group{
+        width: 15rem;
+      }
+      .filter-group-display__submit{
+        justify-content: flex-start;
+      }
+    }
+  }
+}
