@@ -1,3 +1,4 @@
+
 <style>
   .goods{
     text-align: {{settings.text_alignment}}
@@ -22,7 +23,7 @@
         </a>
         {% unless block.settings.product.available %}
           <p class="goods__sold-out">
-            {{ 'general.product.product__soldOut' | t }}
+            {{ 'product.product-information.product__soldOut_html' | t }}
           </p>
         {% endunless %}
         <a class="goods__title" href="{{ product.url | within: collection }}">

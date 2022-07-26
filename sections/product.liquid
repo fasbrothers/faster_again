@@ -4,12 +4,14 @@
 
 <div class="product container">
   <!-- if product has a video -->
-  <!-- {% assign images = product.media | where: 'media_type', 'external_video' %}
+  <!--
+    {% assign images = product.media | where: 'media_type', 'external_video' %}
 
-  {% for image in images %}
-    {{- image | video_tag }}
-  {% endfor %} -->
-  
+    {% for image in images %}
+      {{- image | video_tag }}
+    {% endfor %}
+  -->
+
   {% render "product_images" %}
   <div class="product__right">
     <div class="product__right-wrapper">
@@ -392,7 +394,7 @@
                 class="cart__checkout-img"
               />
             </a>
-            <a class="cart__checkout-title" href="${item.url}">${item.title}</a>
+            <a class="cart__checkout-title" href="${item.url}">${item.product_title}</a>
             <p class="cart__checkout-variant">${item.variant_title}</p>
             <p class="cart__checkout-price">$${ item.properties == null ? (item.final_line_price / 100).toFixed(2) : item.properties._bundle_price ? (item.properties._bundle_price / 100).toFixed(2) : (item.final_line_price / 100).toFixed(2)}</p>
             <p class="${item.discounts.length !== 0 ? "cart__checkout-discount" : "cart__checkout-discount-none"}">${item.discounts.length !== 0 ? item.discounts[0].title : ""}</p>
