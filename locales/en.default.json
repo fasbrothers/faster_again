@@ -6,13 +6,13 @@
     },
     "header": {
       "header__account": "Account",
-      "header__logIn" : "Log In",
-      "header__logOut" : "Log Out"
+      "header__logIn": "Log In",
+      "header__logOut": "Log Out"
     }
   },
   "product": {
-    "product-information":{
-      "product__soldOut_html": "<strong>Sold Out</strong> - Get notified when back in stock",
+    "product-information": {
+      "product__soldOut_html": "<strong>Sold Out</strong> - Get notified",
       "product__notAvailable": "Not available product"
     }
   },
@@ -24,7 +24,7 @@
       "cart__footer-button": "Continue to Checkout",
       "cart__footer-link": "Learn More",
       "cart-empty": "Your cart is empty",
-      "cart-title"  : "My Cart"
+      "cart-title": "My Cart"
     }
   }
 }

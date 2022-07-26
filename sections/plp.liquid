@@ -5,7 +5,7 @@
 <div class="products container">
   {% paginate collection.products by section.settings.products_per_page %}
     <h1 class="products__title">{{ collection.title }}</h1>
-    <div class="products__navigation">
+    <div class="products__navigation products__navigation-mobile">
       {% for collection in collections %}
         {% if collection.handle != "metafields-collection" and collection.handle != "all_products" %}
           <li class="products__item">
@@ -88,7 +88,7 @@
         </div>
       {% else %}
         <h3 class="not__available">
-          {{ 'product.product__notAvailable.product__notAvailable' | t }}
+          {{ 'product.product-information.product__notAvailable' | t }}
         </h3>
       {% endfor %}
     </div>
