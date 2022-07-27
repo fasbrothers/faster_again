@@ -289,3 +289,42 @@
 .yotpo .text-m {
   display: none;
 }
+
+@media screen and (max-width: 767px) {
+  .reviews{
+    flex-direction: column;
+    align-items: center;
+  }
+  .yotpo-widjet__heading {
+    font-size: 1.8rem;
+    margin-top: 4rem;
+    margin-bottom: 2.4rem;
+  }
+  .review__buttons{
+    margin-top: 8rem;
+  }
+  .yotpo-bottomline-box-1.yotpo-stars-and-sum-reviews {
+    margin: -20rem 8rem;
+    text-align: center !important;
+  }
+  .yotpo .yotpo-regular-box {
+    display: flex;
+    flex-direction: column;
+  }
+  .yotpo .yotpo-review .yotpo-header {
+    align-items: flex-start;
+    margin-bottom: -7rem;
+  }
+  .yotpo .yotpo-review .yotpo-footer {
+    bottom: inherit;
+  }
+  .yotpo-main-widget{
+    padding-bottom: 0;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 950px) {
+  .yotpo-widjet{
+    max-width: 75rem;
+  }
+}
