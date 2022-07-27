@@ -3,15 +3,6 @@
 {{ "style-cart.css" | asset_url | stylesheet_tag }}
 
 <div class="product container">
-  <!-- if product has a video -->
-  <!--
-    {% assign images = product.media | where: 'media_type', 'external_video' %}
-
-    {% for image in images %}
-      {{- image | video_tag }}
-    {% endfor %}
-  -->
-
   {% render "product_images" %}
   <div class="product__right">
     <div class="product__right-wrapper">
