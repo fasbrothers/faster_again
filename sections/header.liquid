@@ -12,6 +12,7 @@
     {% render "header__logo" %}
   </div>
   <div class="header__center">
+    <button class="header__left-close">{% render "remove" %}</button>
     {% render "header_link" %}
   </div>
   <div class="header__right">
@@ -23,11 +24,16 @@
 <script>
   // menu toggle
   const navToggle = document.querySelector(".navigation__menu");
+  const closeBtn = document.querySelector(".header__left-close");
 
   const links = document.querySelector(".header__center");
 
   navToggle.addEventListener("click", function () {
-    links.classList.toggle("show__nav");
+    links.classList.add("show__nav");
+    
+  });
+  closeBtn.addEventListener("click", function () {
+    links.classList.remove("show__nav");
   });
 
 
