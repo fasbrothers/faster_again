@@ -238,4 +238,10 @@
     grid-column: 3 / span 1;
     grid-row: 1 / span 1;
   }
+  .empty_cart a{
+    padding: 1.4rem 3.5rem;
+  }
+  .empty_cart{
+    height: 56vh;
+  }
 }

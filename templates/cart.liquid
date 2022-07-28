@@ -1,76 +1,113 @@
-{% capture bb_checkout_link %}{% render 'bb', type: 'bb_checkout_link' %}{% endcapture %}
+{% capture bb_checkout_link -%}
+  {%- render 'bb', type: 'bb_checkout_link' -%}
+{%- endcapture %}
 
-{% capture bb_total_price %}{% render 'bb', type: 'bb_total_price' %}{% endcapture %}{% assign bb_total_price = bb_total_price | plus: 0 %}
+{% capture bb_total_price -%}
+  {%- render 'bb', type: 'bb_total_price' -%}
+{%- endcapture -%}
+{%- assign bb_total_price = bb_total_price | plus: 0 %}
 
-
+<!-- Bags -->
 {% if cart.item_count > 0 %}
-  <h1 class="cart__heading">Cart</h1>
-  <form  action="{% if bb_checkout_link != blank %}{{ bb_checkout_link }}{% else %}/cart{% endif %}" method="post" novalidate>
-  {% render 'bb', type: 'cart' %}
-    <table class="container">
-      <thead>
-        <th colspan="2">Product</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th class="cart__total">Total</th>
-      </thead>
-      <tbody>
-        {% for item in cart.items %}
-        {% capture bb_price %}{% render 'bb', type: 'bb_price', item: item %}{% endcapture %}{% assign bb_price = bb_price | plus: 0 %}
-        {% capture bb_original_line_price %}{% render 'bb', type: 'bb_original_line_price', item: item %}{% endcapture %}{% assign bb_original_line_price = bb_original_line_price | plus: 0 %}
-        {% capture bb_line_price %}{% render 'bb', type: 'bb_line_price', item: item %}{% endcapture %}{% assign bb_line_price = bb_line_price | plus: 0 %}
-        <tr class="table__row">
-          <td class="cart__image">
-            <a href="{{ item.url | within: collections.all }}">
-              <img
-                src="{{ item | img_url: 'medium' }}"
-                alt="{{ item.title | escape }}"
-              />
-            </a>
-          </td>
-          <td class="cart__info">
-            <a class="cart__name" href="{{ item.url }}">{{ item.product.title }}</a>
-            <p>{{ item.variant.title }}</p>
-            <a class="cart__remove" href="/cart/change?line={{ forloop.index }}&amp;quantity=0"
-              >remove</a
+  <section class="bags container">
+    <h3 class="bags__title">Cart</h3>
+    <form
+    action="{% if bb_checkout_link != blank %}{{ bb_checkout_link }}{% else %}/cart{% endif %}"
+    method="post"
+    novalidate
+  >
+    {% render 'bb', type: 'cart' %}
+    <div class="bags__list">
+      <div class="bag__heading">
+        <h4 class="bag__title">Product</h4>
+        <h4 class="bag__price">Price</h4>
+        <h4 class="bag__quantity">QTY</h4>
+        <h4 class="bag__total">Total</h4>
+      </div>
+      {% for item in cart.items %}
+      <div class="bag__product">
+        {% capture bb_price -%}
+            {%- render 'bb', type: 'bb_price', item: item -%}
+          {%- endcapture -%}
+          {%- assign bb_price = bb_price | plus: 0 %}
+          {% capture bb_original_line_price -%}
+            {%- render 'bb', type: 'bb_original_line_price', item: item -%}
+          {%- endcapture -%}
+          {%- assign bb_original_line_price = bb_original_line_price | plus: 0 %}
+          {% capture bb_line_price -%}
+            {%- render 'bb', type: 'bb_line_price', item: item -%}
+          {%- endcapture -%}
+          {%- assign bb_line_price = bb_line_price | plus: 0 %}
+        <div class="bag__product-info">
+          <a href="{{ item.url | within: collections.all }}">
+            <img
+              src="{{ item | img_url: 'medium' }}"
+              alt="{{ item.title | escape }}"
+              class="bag__product-img"
+              loading="lazy"
             >
-          </td>
-          <td class="cart__price">{{ bb_price | money }}</td>
-          <td class="cart__quant">
-            <div class="cart__quantityy">
-              <input
-                type="number"
-                name="updates[]"
-                id="updates_{{ item.key }}"
-                value="{{ item.quantity }}"
-                min="0"
-                class="cart__quantity"
-              />
-
+          </a>
+          <div class="bag__product-desc">
+            <a class="bag__product-title" href="{{ item.url }}">
+              {{- item.product.title -}}
+            </a>
+            <div class="bag__product-delivery">
+              <p>{{ item.variant.title }}</p>
             </div>
-          </td>
-          <td class="cart__total">
-            {% if bb_original_line_price != bb_line_price %}
-            <p class="cart__price cart__price--highlight">{{ bb_original_line_price | money }}</p>
-            {% endif %}
-           <p class="cart__price">{{ bb_line_price | money }}</p> 
-            {% for discount in item.discounts %}
-            {{ discount.title }}
-            {% endfor %}
-          </td>
-        </tr>
+          </div>
+        </div>
+        <h3 class="bag__product-prices">{{ bb_price | money }}</h3>
+
+        <div class="bag__product-quantity">
+          <div class="cart__quantityy">
+            <input
+              type="number"
+              name="updates[]"
+              id="updates_{{ item.key }}"
+              value="{{ item.quantity }}"
+              min="0"
+              class="cart__quantity"
+            >
+          </div>
+        </div>
+        <div class="bag__product-total">
+          {% if bb_original_line_price != bb_line_price %}
+          <span class="bag__product-total cart__price--highlight">
+            {{ bb_original_line_price | money }}
+          </span>
+        {% endif %}
+        <span class="bag__product-total">{{ bb_line_price | money }}</span>
+        {% for discount in item.discounts %}
+         <p>{{ discount.title }}</p> 
         {% endfor %}
-      </tbody>
-    </table>
-    <div class="cart__buttom">
-      <p>Subtotal : {{ bb_total_price | money }}</p>
-      <button name="update" type="submit">Update</button>
-      <button name="checkout" type="submit">Checkout</button>
+        </div>
+        <div class="bag__product__links">
+          <a
+          class="bag__product-link"
+          href="/cart/change?line={{ forloop.index }}&amp;quantity=0"
+          >Remove</a
+        >
+        </div>
+      </div>
+      {% endfor %}
+      <div class="bags__bottom">
+        <div class="bags__checkout">
+          <div class="bags__checkout-total">
+            <h2 class="bags__checkout-total-title">Subtotal</h2>
+            <h2 class="bags__checkout-total-price">{{ bb_total_price | money }}</h2>
+          </div>
+          <p class="bags__checkout-title">
+            Tax and shipping calculates at checkout.
+          </p>
+          <button class="bags__checkout-button" name="checkout" type="submit">Checkout</button>
+        </div>
+      </div>
     </div>
-  </form>
-  {% else %}
+  </section>
+</form>
+{% else %}
   <div class="cart_empty container" style="text-align: center">
     <h2>CART</h2>
-    Cart is empty 
+    Cart is empty
   </div>
-  {% endif %}
+{% endif %}
