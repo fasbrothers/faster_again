@@ -51,29 +51,27 @@
             data-product-id="{{ product.id }}"
           ></div>
           <div class="goods__tags">
+            {% if product.compare_at_price %}
+              <span class="goods__sale  goods__tag">Sale</span>
+            {% endif %}
             {% for tag in product.tags %}
-              {% if tag contains 'free shipping' %}
-                <span class="goods__free-shipping goods__tag">{{ tag }}</span>
-              {% endif %}
-              {% if tag contains 'discount' %}
-                <span class="goods__best-seller goods__tag">{{ tag }}</span>
-              {% endif %}
-              {% if tag contains 'best seller' %}
-                <span class="goods__best-seller goods__tag">{{ tag }}</span>
-              {% endif %}
-              {% if tag contains 'pre-order' %}
-                <span class="goods__pre-order goods__tag">{{ tag }}</span>
-              {% endif %}
+              {% case tag %}
+                {% when 'free shipping' %}
+                  <span class="goods__free-shipping goods__tag">{{ tag }}</span>
+                {% when 'discount' %}
+                  <span class="goods__best-seller goods__tag">{{ tag }}</span>
+                {% when 'best seller' %}
+                  <span class="goods__best-seller goods__tag">{{ tag }}</span>
+                {% when 'pre-order' %}
+                  <span class="goods__pre-order goods__tag">{{ tag }}</span>
+              {% endcase %}
             {% endfor %}
           </div>
-          {% if product.price_varies and template == 'collection' %}
+          {% if product.price_varies %}
             <p class="goods__price">
               {{ product.price_min | money }}-{{ product.price_max | money }}
             </p>
           {% elsif product.compare_at_price %}
-            <div class="goods__tags">
-              <span class="goods__sale  goods__tag">Sale</span>
-            </div>
             <p class="goods__price">
               <span class="goods__price--cross">
                 {{- product.compare_at_price | money -}}

@@ -8,6 +8,7 @@
           <img
             src="{{ image.src | img_url: 'large' }}"
             alt="{{ image.alt | escape }}"
+            id="{{ image.id }}"
           >
         </div>
       {% endfor %}

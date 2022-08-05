@@ -49,8 +49,6 @@
                     min="0"
                     max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                   >
-
-                  
                 </div>
                 <div class="filter-group-display__price-range-to">
                   <span>{{ cart.currency.symbol }}</span>
@@ -66,8 +64,6 @@
                     min="0"
                     max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                   >
-
-                 
                 </div>
               </div>
 
@@ -91,7 +87,8 @@
             >
               {%- assign min_value = filter.min_value.value | default: 0 -%}
               {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
-              {{ min_value | money }} - {{ max_value | money }} <span>X</span>
+              {{ min_value | money }} - {{ max_value | money }}
+              <span>X</span>
             </a>
           {%- endif -%}
         {%- else -%}
@@ -100,7 +97,8 @@
               class="active-filters__remove-filter"
               href="{{ filter_value.url_to_remove }}"
             >
-              {{ filter.label }}: {{ filter_value.label }} <span>X</span>
+              {{ filter.label }}: {{ filter_value.label }}
+              <span>X</span>
             </a>
           {%- endfor -%}
         {%- endif %}
