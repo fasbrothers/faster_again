@@ -1,4 +1,4 @@
-{% paginate search.results by 10 %}
+{% paginate search.results by 1 %}
   <form action="/search" method="get" role="search">
     <input type="search" name="q" value="{{ search.terms | escape }}">
     <button type="submit">search</button>
